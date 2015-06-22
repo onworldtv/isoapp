@@ -19,4 +19,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "AFNetworking.h"
 #import "Bolts.h"
+#define MR_SHORTHAND
+#import "MagicalRecord.h"
+#import "YTDataManager.h"
+#import "YTNetWorkManager.h"
 #endif

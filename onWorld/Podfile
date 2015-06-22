@@ -9,6 +9,7 @@ xcodeproj 'OnWorld'
 
 pod "AFNetworking", "~> 2.0"
 pod "BFTask-Extras"
+pod "MagicalRecord"
 
 
 post_install do |installer|

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "YTNetWorkManager.h"
 @interface ViewController ()
 
 @end
@@ -17,6 +17,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [[YTNetWorkManager shareNetworkManager] loginWithUserName:@"onworldtv1234@yopmail.com"
+                                                     passWord:@"123456"
+                                                 successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                                                     
+                                                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                     
+                                                 }];
+
 }
 
 - (void)didReceiveMemoryWarning {
