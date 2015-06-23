@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="YTCategory" syncable="YES">
+    <entity name="YTCategory" representedClassName="YTCategory" syncable="YES">
         <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="cateName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -22,18 +22,18 @@
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
-    <entity name="YTGenre" syncable="YES">
+    <entity name="YTGenre" representedClassName="YTGenre" syncable="YES">
         <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="genName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="YTProvider" syncable="YES">
+    <entity name="YTProvider" representedClassName="YTProvider" syncable="YES">
         <attribute name="provID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="provName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="YTProvider" positionX="-63" positionY="-18" width="128" height="75"/>
         <element name="YTCategory" positionX="-54" positionY="0" width="128" height="75"/>
-        <element name="YTGenre" positionX="-36" positionY="27" width="128" height="75"/>
         <element name="YTContent" positionX="-18" positionY="45" width="128" height="285"/>
+        <element name="YTGenre" positionX="-36" positionY="27" width="128" height="75"/>
+        <element name="YTProvider" positionX="-63" positionY="-18" width="128" height="75"/>
     </elements>
 </model>

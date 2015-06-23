@@ -10,4 +10,6 @@
 
 @interface YTSideViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tbvSideMenu;
+
 @end

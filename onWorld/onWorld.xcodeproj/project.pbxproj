@@ -12,10 +12,17 @@
 		040232591B3810300093E85C /* YTMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040232581B3810300093E85C /* YTMainViewController.m */; };
 		0402325C1B3810620093E85C /* YTSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0402325B1B3810620093E85C /* YTSideViewController.m */; };
 		0402325F1B38110D0093E85C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0402325E1B38110D0093E85C /* SWRevealViewController.m */; };
+		04E10FE21B38EB74001958C3 /* YTGenre.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FE11B38EB74001958C3 /* YTGenre.m */; };
+		04E10FE51B38EB74001958C3 /* YTProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FE41B38EB74001958C3 /* YTProvider.m */; };
+		04E10FE81B38EB74001958C3 /* YTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FE71B38EB74001958C3 /* YTCategory.m */; };
+		04E10FF31B38EF6F001958C3 /* YTSideViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FF11B38EF6F001958C3 /* YTSideViewCell.m */; };
+		04E10FF41B38EF6F001958C3 /* YTSideViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E10FF21B38EF6F001958C3 /* YTSideViewCell.xib */; };
+		04E10FFE1B390776001958C3 /* YTSideHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FFC1B390776001958C3 /* YTSideHeaderViewCell.m */; };
+		04E10FFF1B390776001958C3 /* YTSideHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E10FFD1B390776001958C3 /* YTSideHeaderViewCell.xib */; };
+		04E110031B393279001958C3 /* YTLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E110021B393279001958C3 /* YTLoginViewController.m */; };
 		04E23B7E1B37C08F0097A2D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B7D1B37C08F0097A2D5 /* main.m */; };
 		04E23B811B37C08F0097A2D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B801B37C08F0097A2D5 /* AppDelegate.m */; };
 		04E23B841B37C08F0097A2D5 /* OnWorld.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B821B37C08F0097A2D5 /* OnWorld.xcdatamodeld */; };
-		04E23B871B37C08F0097A2D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B861B37C08F0097A2D5 /* ViewController.m */; };
 		04E23B8A1B37C08F0097A2D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04E23B881B37C08F0097A2D5 /* Main.storyboard */; };
 		04E23B8C1B37C08F0097A2D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E23B8B1B37C08F0097A2D5 /* Images.xcassets */; };
 		04E23B8F1B37C08F0097A2D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E23B8D1B37C08F0097A2D5 /* LaunchScreen.xib */; };
@@ -45,14 +52,27 @@
 		0402325B1B3810620093E85C /* YTSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSideViewController.m; sourceTree = "<group>"; };
 		0402325D1B38110D0093E85C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		0402325E1B38110D0093E85C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		04E10FE01B38EB74001958C3 /* YTGenre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTGenre.h; sourceTree = "<group>"; };
+		04E10FE11B38EB74001958C3 /* YTGenre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTGenre.m; sourceTree = "<group>"; };
+		04E10FE31B38EB74001958C3 /* YTProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTProvider.h; sourceTree = "<group>"; };
+		04E10FE41B38EB74001958C3 /* YTProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTProvider.m; sourceTree = "<group>"; };
+		04E10FE61B38EB74001958C3 /* YTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTCategory.h; sourceTree = "<group>"; };
+		04E10FE71B38EB74001958C3 /* YTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTCategory.m; sourceTree = "<group>"; };
+		04E10FEC1B38EC06001958C3 /* YTCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTCoreDataManager.h; sourceTree = "<group>"; };
+		04E10FF01B38EF6F001958C3 /* YTSideViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSideViewCell.h; sourceTree = "<group>"; };
+		04E10FF11B38EF6F001958C3 /* YTSideViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSideViewCell.m; sourceTree = "<group>"; };
+		04E10FF21B38EF6F001958C3 /* YTSideViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTSideViewCell.xib; sourceTree = "<group>"; };
+		04E10FFB1B390776001958C3 /* YTSideHeaderViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSideHeaderViewCell.h; sourceTree = "<group>"; };
+		04E10FFC1B390776001958C3 /* YTSideHeaderViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSideHeaderViewCell.m; sourceTree = "<group>"; };
+		04E10FFD1B390776001958C3 /* YTSideHeaderViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTSideHeaderViewCell.xib; sourceTree = "<group>"; };
+		04E110011B393279001958C3 /* YTLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTLoginViewController.h; sourceTree = "<group>"; };
+		04E110021B393279001958C3 /* YTLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTLoginViewController.m; sourceTree = "<group>"; };
 		04E23B781B37C08F0097A2D5 /* OnWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E23B7C1B37C08F0097A2D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04E23B7D1B37C08F0097A2D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		04E23B7F1B37C08F0097A2D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		04E23B801B37C08F0097A2D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		04E23B831B37C08F0097A2D5 /* OnWorld.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OnWorld.xcdatamodel; sourceTree = "<group>"; };
-		04E23B851B37C08F0097A2D5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		04E23B861B37C08F0097A2D5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		04E23B891B37C08F0097A2D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		04E23B8B1B37C08F0097A2D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		04E23B8E1B37C08F0097A2D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -95,6 +115,7 @@
 		040232551B380FF20093E85C /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				04E110001B393258001958C3 /* Login */,
 				040232561B380FFE0093E85C /* HomeScreen */,
 			);
 			name = ViewController;
@@ -107,8 +128,7 @@
 				0402325E1B38110D0093E85C /* SWRevealViewController.m */,
 				040232571B3810300093E85C /* YTMainViewController.h */,
 				040232581B3810300093E85C /* YTMainViewController.m */,
-				0402325A1B3810620093E85C /* YTSideViewController.h */,
-				0402325B1B3810620093E85C /* YTSideViewController.m */,
+				04E10FEF1B38EF3F001958C3 /* Side Menu */,
 			);
 			name = HomeScreen;
 			sourceTree = "<group>";
@@ -119,6 +139,54 @@
 				04E23B881B37C08F0097A2D5 /* Main.storyboard */,
 			);
 			name = StoryBoard;
+			sourceTree = "<group>";
+		};
+		04E10FDE1B38EB36001958C3 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				04E23B7F1B37C08F0097A2D5 /* AppDelegate.h */,
+				04E23B801B37C08F0097A2D5 /* AppDelegate.m */,
+			);
+			name = "App Delegate";
+			sourceTree = "<group>";
+		};
+		04E10FDF1B38EB51001958C3 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				04E10FEC1B38EC06001958C3 /* YTCoreDataManager.h */,
+				04E10FE61B38EB74001958C3 /* YTCategory.h */,
+				04E10FE71B38EB74001958C3 /* YTCategory.m */,
+				04E10FE31B38EB74001958C3 /* YTProvider.h */,
+				04E10FE41B38EB74001958C3 /* YTProvider.m */,
+				04E10FE01B38EB74001958C3 /* YTGenre.h */,
+				04E10FE11B38EB74001958C3 /* YTGenre.m */,
+				04E23B821B37C08F0097A2D5 /* OnWorld.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		04E10FEF1B38EF3F001958C3 /* Side Menu */ = {
+			isa = PBXGroup;
+			children = (
+				0402325A1B3810620093E85C /* YTSideViewController.h */,
+				0402325B1B3810620093E85C /* YTSideViewController.m */,
+				04E10FF01B38EF6F001958C3 /* YTSideViewCell.h */,
+				04E10FF11B38EF6F001958C3 /* YTSideViewCell.m */,
+				04E10FF21B38EF6F001958C3 /* YTSideViewCell.xib */,
+				04E10FFB1B390776001958C3 /* YTSideHeaderViewCell.h */,
+				04E10FFC1B390776001958C3 /* YTSideHeaderViewCell.m */,
+				04E10FFD1B390776001958C3 /* YTSideHeaderViewCell.xib */,
+			);
+			name = "Side Menu";
+			sourceTree = "<group>";
+		};
+		04E110001B393258001958C3 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				04E110011B393279001958C3 /* YTLoginViewController.h */,
+				04E110021B393279001958C3 /* YTLoginViewController.m */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		04E23B6F1B37C08F0097A2D5 = {
@@ -144,17 +212,14 @@
 		04E23B7A1B37C08F0097A2D5 /* OnWorld */ = {
 			isa = PBXGroup;
 			children = (
+				04E10FDF1B38EB51001958C3 /* CoreData */,
+				04E10FDE1B38EB36001958C3 /* App Delegate */,
 				040232551B380FF20093E85C /* ViewController */,
 				040232511B37E5A50093E85C /* CoreData Manager */,
 				04E23BAB1B37C1F90097A2D5 /* Network Manager */,
-				04E23B7F1B37C08F0097A2D5 /* AppDelegate.h */,
-				04E23B801B37C08F0097A2D5 /* AppDelegate.m */,
-				04E23B851B37C08F0097A2D5 /* ViewController.h */,
-				04E23B861B37C08F0097A2D5 /* ViewController.m */,
 				040232601B381A020093E85C /* StoryBoard */,
 				04E23B8B1B37C08F0097A2D5 /* Images.xcassets */,
 				04E23B8D1B37C08F0097A2D5 /* LaunchScreen.xib */,
-				04E23B821B37C08F0097A2D5 /* OnWorld.xcdatamodeld */,
 				04E23B7B1B37C08F0097A2D5 /* Supporting Files */,
 			);
 			path = OnWorld;
@@ -296,7 +361,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E10FF41B38EF6F001958C3 /* YTSideViewCell.xib in Resources */,
 				04E23B8A1B37C08F0097A2D5 /* Main.storyboard in Resources */,
+				04E10FFF1B390776001958C3 /* YTSideHeaderViewCell.xib in Resources */,
 				04E23B8F1B37C08F0097A2D5 /* LaunchScreen.xib in Resources */,
 				04E23B8C1B37C08F0097A2D5 /* Images.xcassets in Resources */,
 			);
@@ -351,13 +418,18 @@
 			files = (
 				040232501B37E4CC0093E85C /* YTNetWorkManager.m in Sources */,
 				04E23B811B37C08F0097A2D5 /* AppDelegate.m in Sources */,
+				04E10FFE1B390776001958C3 /* YTSideHeaderViewCell.m in Sources */,
+				04E110031B393279001958C3 /* YTLoginViewController.m in Sources */,
 				0402325C1B3810620093E85C /* YTSideViewController.m in Sources */,
+				04E10FE81B38EB74001958C3 /* YTCategory.m in Sources */,
 				04E23B7E1B37C08F0097A2D5 /* main.m in Sources */,
-				04E23B871B37C08F0097A2D5 /* ViewController.m in Sources */,
 				0402325F1B38110D0093E85C /* SWRevealViewController.m in Sources */,
+				04E10FE21B38EB74001958C3 /* YTGenre.m in Sources */,
 				040232591B3810300093E85C /* YTMainViewController.m in Sources */,
+				04E10FF31B38EF6F001958C3 /* YTSideViewCell.m in Sources */,
 				040232541B37E5CA0093E85C /* YTDataManager.m in Sources */,
 				04E23B841B37C08F0097A2D5 /* OnWorld.xcdatamodeld in Sources */,
+				04E10FE51B38EB74001958C3 /* YTProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

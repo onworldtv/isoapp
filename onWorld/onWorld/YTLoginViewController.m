@@ -1,35 +1,33 @@
 //
-//  YTMainViewController.m
+//  YTLoginViewController.m
 //  OnWorld
 //
-//  Created by yestech1 on 6/22/15.
+//  Created by yestech1 on 6/23/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
-#import "YTMainViewController.h"
-#import "SWRevealViewController.h"
-@interface YTMainViewController ()
+#import "YTLoginViewController.h"
+
+@interface YTLoginViewController ()
 
 @end
 
-@implementation YTMainViewController
+@implementation YTLoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    SWRevealViewController *revealViewController = self.revealViewController;
-    if (revealViewController )
-    {
-        [self.sidebarButton setTarget: self.revealViewController];
-        [self.sidebarButton setAction: @selector(revealToggle:)];
-        [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
-    }
+    [self.loginScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
 
 /*
 #pragma mark - Navigation
@@ -41,4 +39,9 @@
 }
 */
 
+- (IBAction)click_remember:(id)sender {
+}
+
+- (IBAction)click_login:(id)sender {
+}
 @end

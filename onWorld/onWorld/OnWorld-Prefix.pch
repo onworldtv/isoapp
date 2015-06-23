@@ -23,4 +23,5 @@
 #import "MagicalRecord.h"
 #import "YTDataManager.h"
 #import "YTNetWorkManager.h"
+#import "YTCoreDataManager.h"
 #endif
