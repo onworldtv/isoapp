@@ -2,9 +2,18 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="YTCategory" representedClassName="YTCategory" syncable="YES">
         <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="cateName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="karaoke" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="mode" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="YTContent" syncable="YES">
+    <entity name="YTContent" representedClassName="YTContent" syncable="YES">
+        <attribute name="contentID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="karaoke" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="YTContentDetail" syncable="YES">
         <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="contDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -23,6 +32,7 @@
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="YTGenre" representedClassName="YTGenre" syncable="YES">
+        <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="genName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -31,9 +41,10 @@
         <attribute name="provName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="YTCategory" positionX="-54" positionY="0" width="128" height="75"/>
-        <element name="YTContent" positionX="-18" positionY="45" width="128" height="285"/>
-        <element name="YTGenre" positionX="-36" positionY="27" width="128" height="75"/>
+        <element name="YTCategory" positionX="-54" positionY="0" width="128" height="105"/>
+        <element name="YTContentDetail" positionX="-18" positionY="45" width="128" height="285"/>
+        <element name="YTGenre" positionX="-36" positionY="27" width="128" height="90"/>
         <element name="YTProvider" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="YTContent" positionX="-36" positionY="135" width="128" height="120"/>
     </elements>
 </model>

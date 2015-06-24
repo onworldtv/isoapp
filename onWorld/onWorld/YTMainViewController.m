@@ -24,6 +24,12 @@
         [self.sidebarButton setAction: @selector(revealToggle:)];
         [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     }
+    
+    if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
+        self.navigationItem.title = nil;
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+    }
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-2000, -2000) forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)didReceiveMemoryWarning {

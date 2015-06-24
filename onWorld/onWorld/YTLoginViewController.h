@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YTLoginViewController : UIViewController
+@interface YTLoginViewController : UIViewController 
 
 @property (weak, nonatomic) IBOutlet UITextField *txtPassword;
 @property (weak, nonatomic) IBOutlet UITextField *txtUserName;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *loginScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *btnRemember;
+@property (weak, nonatomic) IBOutlet UIButton *btnlogin;
+
 
 - (IBAction)click_remember:(id)sender;
 - (IBAction)click_login:(id)sender;

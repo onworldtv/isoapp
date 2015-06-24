@@ -17,11 +17,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+    DATA_MANAGER;
+//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+//        if(task.error) {
+//            NSLog(@"ERR");
+//        }else {
+//            NSLog(@"");
+//        }
+//        return nil;
+//    }];
+    
     return YES;
-    
-    
-        return YES;
-    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

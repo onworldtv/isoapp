@@ -16,13 +16,19 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
 
 @interface YTNetWorkManager : NSObject {
     
-    NSString    *access_token;
+    NSString          *access_token;
     NSInteger         languageId;
     NSInteger         userID;
+    NSString          *m_userName;
 }
+
 
 + (YTNetWorkManager *)shareNetworkManager;
 
+
+- (BOOL)isLogin;
+
+- (void)clearData;
 
 - (void)loginWithUserName:(NSString *)userName
                  passWord:(NSString *)pass
@@ -40,6 +46,7 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
 - (void)pullCategoriesWithSuccessBlock:(SuccessBlock)successBlock
                           failureBlock:(FailureBlock)failureBlock;
 
+
 - (void)pullCategoriesByProvider:(int)provID
                     successBlock:(SuccessBlock)successBlock
                     failureBlock:(FailureBlock)failureBlock;
@@ -49,6 +56,10 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
                     successBlock:(SuccessBlock)successBlock
                     failureBlock:(FailureBlock)failureBlock;
 
+
+
+- (void)pullGenreByCategory:(int)cateID  successBlock:(SuccessBlock)successBlock
+               failureBlock:(FailureBlock)failureBlock;
 
 - (void)contentDetail:(int)contentID
                successBlock:(SuccessBlock)successBlock

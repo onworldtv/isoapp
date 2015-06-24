@@ -40,20 +40,36 @@ static YTNetWorkManager *m_instance;
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
-- (void)setUserId:(NSInteger)userid accessToken:(NSString *)token {
+
+- (BOOL)isLogin {
+    
+    return NO;
+}
+
+
+- (void)setUserId:(NSInteger)userid accessToken:(NSString *)token username:(NSString *)userName{
     
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
     [userdefault setInteger:userid forKey:@"kYTUserID"];
     [userdefault setObject:token forKey:@"kYTToken"];
+    [userdefault setObject:userName forKey:@"kYTUserName"];
     [userdefault synchronize];
 }
 
+
+- (void)clearData {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault removeObjectForKey:@"kYTUserID"];
+    [userDefault removeObjectForKey:@"kYTToken"];
+    [userDefault removeObjectForKey:@"kYTToken"];
+    
+}
 - (void)initalizeLaunchApp {
     
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     NSInteger userid = [userDefault integerForKey:@"kYTUserID"];
     NSString *token = [userDefault valueForKey:@"kYTToken"];
-    
+    NSString *username = [userDefault valueForKey:@"kYTToken"];
     if(userid > 0) {
         userID = userid ;
     }else {
@@ -69,6 +85,11 @@ static YTNetWorkManager *m_instance;
         languageId = 1;
     }else {
         languageId = [userDefault integerForKey:@"kYTLanguageID"];
+    }
+    if(username) {
+        m_userName = username;
+    }else {
+        m_userName = nil;
     }
 }
 
@@ -121,7 +142,8 @@ static YTNetWorkManager *m_instance;
                             }else {
                                 access_token = [response valueForKey:@"token"];
                                 userID       = [[response valueForKey:@"user_id"] integerValue];
-                                [self setUserId:userID accessToken:access_token];
+                                m_userName = userName;
+                                [self setUserId:userID accessToken:access_token username:m_userName];
                                 successBlock(operation,response);
                             }
                         } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -234,6 +256,26 @@ static YTNetWorkManager *m_instance;
 
 }
 
+
+- (void)pullGenreByCategory:(int)cateID  successBlock:(SuccessBlock)successBlock
+               failureBlock:(FailureBlock)failureBlock {
+    
+    NSString *urlPath = [NSString stringWithFormat:@"%@/genre&lang_id=%ld&category_id=%d&token=%@", kServerBaseURL,languageId,cateID,access_token];
+    [self sendRequestWithServicePath:urlPath
+                         postContent:nil
+                       requestMethod:@"GET"
+                        successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                            int errorcode =[[response valueForKey:@"error"] intValue];
+                            if(errorcode == 1) {
+                                failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.Genre" code:errorcode userInfo:response]);
+                            }else {
+                                successBlock(operation,response);
+                            }
+                        } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            failureBlock(operation,error);
+                        }];
+
+}
 
 #pragma mark -content
 - (void)contentDetail:(int)contentID

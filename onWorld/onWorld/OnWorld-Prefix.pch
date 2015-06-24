@@ -20,8 +20,12 @@
 #import "AFNetworking.h"
 #import "Bolts.h"
 #define MR_SHORTHAND
+#define MR_ENABLE_ACTIVE_RECORD_LOGGING 0
 #import "MagicalRecord.h"
 #import "YTDataManager.h"
 #import "YTNetWorkManager.h"
 #import "YTCoreDataManager.h"
+#import "YTOnWorldUtility.h"
+#import "HexColor.h"
+#import "NSString+Utility.h"
 #endif

@@ -10,7 +10,7 @@ xcodeproj 'OnWorld'
 pod "AFNetworking", "~> 2.0"
 pod "BFTask-Extras"
 pod "MagicalRecord"
-
+pod "HexColors", "~> 2.2.1"
 
 post_install do |installer|
     installer.project.targets.each do |target|

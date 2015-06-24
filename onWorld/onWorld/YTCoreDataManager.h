@@ -9,4 +9,5 @@
 #import "YTCategory.h"
 #import "YTProvider.h"
 #import "YTGenre.h"
+#import "YTContent.h"
 

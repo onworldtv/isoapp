@@ -48,7 +48,6 @@
                     <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="pB9-cK-1UR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
@@ -72,9 +71,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2k7-b0-s2U">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2k7-b0-s2U">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Mdn-Xi-hw5" id="MAY-yT-RRx"/>
@@ -82,7 +82,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
                             <constraint firstItem="2k7-b0-s2U" firstAttribute="top" secondItem="av7-mp-BaZ" secondAttribute="top" id="6Tr-HO-L46"/>
                             <constraint firstItem="2k7-b0-s2U" firstAttribute="leading" secondItem="av7-mp-BaZ" secondAttribute="leading" id="MVc-GC-9Wm"/>
@@ -132,7 +132,7 @@
                                             <action selector="click_remember:" destination="B7W-Qr-dZp" eventType="touchUpInside" id="aNB-Le-u1x"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CiN-9I-0r5">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="email_address" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CiN-9I-0r5">
                                         <rect key="frame" x="16" y="78" width="288" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -211,6 +211,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <color key="backgroundColor" red="1" green="0.96689152" blue="0.16893331810000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="DaD-Dl-qid" secondAttribute="bottom" id="1UZ-g8-ExM"/>
                             <constraint firstItem="DaD-Dl-qid" firstAttribute="leading" secondItem="KtA-07-jBq" secondAttribute="leading" id="lbH-nX-axV"/>
@@ -222,6 +223,7 @@
                     <navigationItem key="navigationItem" id="JJh-Zx-vjd"/>
                     <connections>
                         <outlet property="btnRemember" destination="ew7-th-jr1" id="tPF-7i-0dN"/>
+                        <outlet property="btnlogin" destination="eZR-tK-Elc" id="kO0-ES-fcF"/>
                         <outlet property="loginScrollView" destination="DaD-Dl-qid" id="PI2-Fm-7u2"/>
                         <outlet property="txtPassword" destination="gNc-WZ-hDZ" id="NAI-Hr-ySe"/>
                         <outlet property="txtUserName" destination="CiN-9I-0r5" id="MlL-8D-tQl"/>

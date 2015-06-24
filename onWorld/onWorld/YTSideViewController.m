@@ -11,7 +11,7 @@
 #import "YTSideHeaderViewCell.h"
 #import "SWRevealViewController.h"
 #import "YTLoginViewController.h"
-
+#import "SSKeychain.h"
 static const NSString * kYTMenuHome = @"HOME";
 static const NSString * kYTMenuLogin = @"LOGIN";
 static const NSString * kYTSearch = @"SEARCH";
@@ -25,6 +25,9 @@ static const NSString * kYTSearch = @"SEARCH";
 @interface YTSideViewController ()
 {
     NSMutableArray *arrMenu;
+    
+    int selectedCategoryID;
+    int selectedProviderID;
 }
 @end
 
@@ -33,27 +36,34 @@ static const NSString * kYTSearch = @"SEARCH";
 - (void)viewDidLoad {
     [super viewDidLoad];
     arrMenu = [[NSMutableArray alloc]init];
+    selectedProviderID = -1; // all
+    selectedCategoryID = -1; //
     
     
-    [_tbvSideMenu setBackgroundColor:[UIColor blueColor]];
-    
-    NSDictionary *userMenu = @{@"Home": @[MENU_LOGIN,MENU_HOME,MENU_SEARCH]};
+    NSDictionary *userMenu = @{@"Home": @[MENU_INFO,MENU_LOGIN,MENU_HOME,MENU_SEARCH]};
     [arrMenu addObject:userMenu];
-//    NSArray *categories =[YTCategory MR_findAll];
-//    NSArray *providers = [YTProvider MR_findAll];
-//    [arrMenu addObject:@{@"providers":providers}];
-//    [arrMenu addObject:@{@"Categories": categories}];
+    NSArray *providers = [YTProvider MR_findAllSortedBy:@"provID" ascending:YES inContext:[NSManagedObjectContext MR_defaultContext]];
+
+    if(providers.count > 0){
+        NSMutableArray * arrProvider = [NSMutableArray array];
+        for (YTProvider *provider in providers) {
+            [arrProvider addObject:@{@"id":provider.provID,@"name":provider.provName}];
+        }
+        [arrMenu addObject:@{@"providers":arrProvider}];
+    }
     
-    [arrMenu addObject:@{@"providers":@[@"Provider 1",@"Provider 2",@"Provider 3"]}];
-    [arrMenu addObject:@{@"Categories":@[@"Category 1",@"Category 2",@"Category 3"]}];
-    
-    
-    
-    
+    NSArray *categories = [YTCategory MR_findAllSortedBy:@"cateID" ascending:YES inContext:[NSManagedObjectContext MR_defaultContext]];
+    if(categories.count >0) {
+        NSMutableArray *arrCate = [NSMutableArray array];
+        for (YTCategory *category in categories) {
+            [arrCate addObject:@{@"id":category.cateID,@"name":category.name}];
+        }
+        [arrMenu addObject:@{@"categories":arrCate}];
+    }
     [self.tbvSideMenu setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
 
-
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -88,6 +98,12 @@ static const NSString * kYTSearch = @"SEARCH";
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if(indexPath.section == 0) {
+        if(indexPath.row == 0 &&![[YTNetWorkManager shareNetworkManager]isLogin]) {
+            return 0;
+        }
+    }
     return 40;
 }
 
@@ -103,7 +119,9 @@ static const NSString * kYTSearch = @"SEARCH";
     return kMenuHeaderHeight;
 }
 
-
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   
@@ -130,46 +148,78 @@ static const NSString * kYTSearch = @"SEARCH";
     }
     NSDictionary *menuDict= [arrMenu objectAtIndex:indexPath.section];
     NSArray *menuContent = [menuDict valueForKey:menuDict.allKeys[0]];
-    NSString * title = menuContent[indexPath.row];
+    
     
     if(indexPath.section == 0) {
+        NSString * title = menuContent[indexPath.row];
         if([title isEqualToString:MENU_LOGIN]) {
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"login"]];
         }else if([title isEqualToString:MENU_HOME]) {
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"home"]];
         }else if ([title isEqualToString:MENU_SEARCH]) {
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"search"]];
+        }else if([title isEqualToString:MENU_INFO]) {
+            [viewCell.imgMenu setImage:[UIImage imageNamed:@"user"]];
         }
+         [viewCell.txtMenuTitle setText:title];
+    }else {
+        NSString *title = [menuContent[indexPath.row] valueForKey:@"name"];
+        if(indexPath.section == 1){
+            if(selectedProviderID == [[menuContent[indexPath.row] valueForKey:@"id"] intValue]) {
+                [viewCell.imgMenu setImage:[UIImage imageNamed:@"circle_checked"]];
+            }else {
+                [viewCell.imgMenu setImage:[UIImage imageNamed:@"circle"]];
+            }
+        }else if(indexPath.section == 2) {
+            NSString *stringWithoutSpaces = [title
+                                             stringByReplacingOccurrencesOfString:@" "
+                                             withString:@""].lowercaseString;
+            [viewCell.imgMenu setImage:[UIImage imageNamed:stringWithoutSpaces]];
+            
+        }
+        viewCell.txtMenuTitle.text = title;
     }
-    CGRect line = CGRectMake(viewCell.txtMenuTitle.frame.origin.x, viewCell.frame.size.height, viewCell.frame.size.width, 1);
-    UIView *lineView =[[UIView alloc]initWithFrame:line];
-    [lineView setBackgroundColor:[UIColor darkGrayColor]];
-    [viewCell addSubview:lineView];
-    [viewCell.txtMenuTitle setText:title];
-    
     return viewCell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSDictionary *dict = [arrMenu objectAtIndex:indexPath.section];
+    NSArray *menus = [dict valueForKey:[dict.allKeys objectAtIndex:0]];
+    
     if(indexPath.section == 0) {
-        if(indexPath.row == 0) {
+        if([menus[indexPath.row] isEqualToString:MENU_LOGIN]) {
+            
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
             YTLoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
             UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
             [navCtrll pushViewController:loginViewController animated:YES];
-        }else if (indexPath.row == 1) {
             
-        }else if (indexPath.row == 2) {
+        }else if ([menus[indexPath.row] isEqualToString:MENU_HOME]) {
+            
+        }else if ([menus[indexPath.row] isEqualToString:MENU_INFO]) {
+            
+        }else if ([menus[indexPath.row] isEqualToString:MENU_LOGOUT]) {
+            
+            [NETWORK_MANAGER logoutWithSuccessBlock:^(AFHTTPRequestOperation *operation, id response) {
+                [SSKeychain deletePasswordForService:kYTServiceName account:kYTAccountName];
+                [NETWORK_MANAGER clearData];
+                
+            } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+            }];
+            
+            
+        }else if([menus[indexPath.row] isEqualToString:MENU_SEARCH]) {
             
         }
         
-    }else {
-        
+    }else if(indexPath.section == 1){
+        selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
+    }else if (indexPath.section == 2) {
+        selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
     }
-    
-    
 }
 
 @end

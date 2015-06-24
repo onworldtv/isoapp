@@ -16,4 +16,14 @@
 
 + (YTDataManager *)sharedDataManager;
 
+- (BFTask *)getProvider;
+
+- (BFTask *)getAllGenreByCateID:(int)cateID;
+
+- (BFTask *)getGenres;
+
+- (BFTask *)pullAllMetaData;
+
+
+
 @end
