@@ -20,7 +20,9 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
     NSInteger         languageId;
     NSInteger         userID;
     NSString          *m_userName;
+    BOOL                loginStatus;
 }
+
 
 
 + (YTNetWorkManager *)shareNetworkManager;

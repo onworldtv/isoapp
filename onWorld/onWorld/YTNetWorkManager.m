@@ -39,37 +39,38 @@ static YTNetWorkManager *m_instance;
     [[NSUserDefaults standardUserDefaults]setObject:@(languageId) forKey:@"kYTLanguageID"];
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
-
+                    
 
 - (BOOL)isLogin {
-    
-    return NO;
+   
+    return loginStatus;
 }
 
 
 - (void)setUserId:(NSInteger)userid accessToken:(NSString *)token username:(NSString *)userName{
     
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
-    [userdefault setInteger:userid forKey:@"kYTUserID"];
-    [userdefault setObject:token forKey:@"kYTToken"];
-    [userdefault setObject:userName forKey:@"kYTUserName"];
+    [userdefault setInteger:userid forKey:USERID];
+    [userdefault setObject:token forKey:ACCESS_TOKEN];
+    [userdefault setObject:userName forKey:USERNAME];
     [userdefault synchronize];
 }
 
 
 - (void)clearData {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault removeObjectForKey:@"kYTUserID"];
-    [userDefault removeObjectForKey:@"kYTToken"];
-    [userDefault removeObjectForKey:@"kYTToken"];
+    [userDefault removeObjectForKey:USERID];
+    [userDefault removeObjectForKey:ACCESS_TOKEN];
+    [userDefault removeObjectForKey:USERNAME];
+    [userDefault removeObjectForKey:REMEMBER_LOGIN];
     
 }
 - (void)initalizeLaunchApp {
     
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    NSInteger userid = [userDefault integerForKey:@"kYTUserID"];
-    NSString *token = [userDefault valueForKey:@"kYTToken"];
-    NSString *username = [userDefault valueForKey:@"kYTToken"];
+    NSInteger userid = [userDefault integerForKey:USERID];
+    NSString *token = [userDefault valueForKey:ACCESS_TOKEN];
+    NSString *username = [userDefault valueForKey:USERNAME];
     if(userid > 0) {
         userID = userid ;
     }else {
@@ -140,6 +141,7 @@ static YTNetWorkManager *m_instance;
                                     NSLog(@"%s", __func__);
                                 }
                             }else {
+                                loginStatus = YES;
                                 access_token = [response valueForKey:@"token"];
                                 userID       = [[response valueForKey:@"user_id"] integerValue];
                                 m_userName = userName;

@@ -11,7 +11,7 @@
 #import "YTSideHeaderViewCell.h"
 #import "SWRevealViewController.h"
 #import "YTLoginViewController.h"
-#import "SSKeychain.h"
+#import "PDKeychainBindings.h"
 static const NSString * kYTMenuHome = @"HOME";
 static const NSString * kYTMenuLogin = @"LOGIN";
 static const NSString * kYTSearch = @"SEARCH";
@@ -38,9 +38,13 @@ static const NSString * kYTSearch = @"SEARCH";
     arrMenu = [[NSMutableArray alloc]init];
     selectedProviderID = -1; // all
     selectedCategoryID = -1; //
-    
-    
-    NSDictionary *userMenu = @{@"Home": @[MENU_INFO,MENU_LOGIN,MENU_HOME,MENU_SEARCH]};
+    NSDictionary *userMenu = nil;
+    if([NETWORK_MANAGER isLogin]) {
+        userMenu = @{@"Home": @[MENU_INFO,MENU_LOGOUT,MENU_HOME,MENU_SEARCH]};
+    }else {
+        userMenu = @{@"Home": @[MENU_LOGIN,MENU_HOME,MENU_SEARCH]};
+    }
+
     [arrMenu addObject:userMenu];
     NSArray *providers = [YTProvider MR_findAllSortedBy:@"provID" ascending:YES inContext:[NSManagedObjectContext MR_defaultContext]];
 
@@ -64,6 +68,13 @@ static const NSString * kYTSearch = @"SEARCH";
 
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    if([NETWORK_MANAGER isLogin]) {
+        NSDictionary *userMenu = @{@"Home": @[MENU_INFO,MENU_LOGOUT,MENU_HOME,MENU_SEARCH]};
+        [arrMenu replaceObjectAtIndex:0 withObject:userMenu];
+        [self.tbvSideMenu reloadData];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -99,12 +110,7 @@ static const NSString * kYTSearch = @"SEARCH";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if(indexPath.section == 0) {
-        if(indexPath.row == 0 &&![[YTNetWorkManager shareNetworkManager]isLogin]) {
-            return 0;
-        }
-    }
-    return 40;
+   return 40;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -149,7 +155,6 @@ static const NSString * kYTSearch = @"SEARCH";
     NSDictionary *menuDict= [arrMenu objectAtIndex:indexPath.section];
     NSArray *menuContent = [menuDict valueForKey:menuDict.allKeys[0]];
     
-    
     if(indexPath.section == 0) {
         NSString * title = menuContent[indexPath.row];
         if([title isEqualToString:MENU_LOGIN]) {
@@ -160,6 +165,8 @@ static const NSString * kYTSearch = @"SEARCH";
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"search"]];
         }else if([title isEqualToString:MENU_INFO]) {
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"user"]];
+            title = [[NSUserDefaults standardUserDefaults]objectForKey:USERNAME];
+            [viewCell.txtMenuTitle setTextColor:[UIColor whiteColor]];
         }
          [viewCell.txtMenuTitle setText:title];
     }else {
@@ -203,7 +210,9 @@ static const NSString * kYTSearch = @"SEARCH";
         }else if ([menus[indexPath.row] isEqualToString:MENU_LOGOUT]) {
             
             [NETWORK_MANAGER logoutWithSuccessBlock:^(AFHTTPRequestOperation *operation, id response) {
-                [SSKeychain deletePasswordForService:kYTServiceName account:kYTAccountName];
+               
+                [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:USERNAME];
+                [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:PASSWORD];
                 [NETWORK_MANAGER clearData];
                 
             } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {

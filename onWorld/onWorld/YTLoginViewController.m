@@ -7,7 +7,7 @@
 //
 
 #import "YTLoginViewController.h"
-#import "SSKeychain.h"
+#import "PDKeychainBindings.h"
 @interface YTLoginViewController ()
 
 @end
@@ -20,7 +20,20 @@
     [self.loginScrollView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [_btnRemember setTag:0];// uncheck
     [_txtPassword setSecureTextEntry:YES];
-
+    
+    [_txtUserName becomeFirstResponder];
+    
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    if([userdefault boolForKey:REMEMBER_LOGIN]) {
+        NSString *username = [[PDKeychainBindings sharedKeychainBindings] objectForKey:USERNAME];
+        NSString *password = [[PDKeychainBindings sharedKeychainBindings] objectForKey:PASSWORD];
+        [_txtUserName setText:username];
+        [_txtPassword setText:password];
+    }else {
+        // remove
+        [[PDKeychainBindings sharedKeychainBindings] removeObjectForKey:USERNAME];
+        [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:PASSWORD];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,6 +41,52 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+#pragma mark - keyboard notification
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:self.view.window];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+//    if (_keyboardIsShown) return;
+//    
+//    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+//    CGRect convertedFrame = [self.view convertRect:keyboardFrame fromView:nil];
+//    CGRect containerFrame = self.containterView.frame;
+//    containerFrame.size.height -= convertedFrame.size.height;
+//    self.containterView.frame = containerFrame;
+//    _keyboardIsShown = YES;
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+//    CGRect containerFrame = self.containterView.frame;
+//    containerFrame.size.height = self.view.bounds.size.height;
+//    self.containterView.frame = containerFrame;
+//    _keyboardIsShown = NO;
+}
 
 
 
@@ -54,6 +113,14 @@
 
 - (IBAction)click_login:(id)sender {
     
+    if([_txtUserName.text isEqualToString:@""]) {
+        [YTOnWorldUtility showError:@"Please enter email address."];
+        return ;
+    }
+    if([_txtPassword.text isEqualToString:@""]){
+        [YTOnWorldUtility showError:@"Please enter password."];
+        return;
+    }
 
     if(![self isValidEmail]) {
          [YTOnWorldUtility showError:@"The email address inccorect !"];
@@ -61,25 +128,28 @@
     }
     NSString *userName = [_txtUserName text];
     NSString *password = [_txtPassword text];
-    [self enableControls:NO];
+    
+    [DejalBezelActivityView activityViewForView:self.view withLabel:nil];
+    
     [NETWORK_MANAGER loginWithUserName:userName
                               passWord:password
                           successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                              [DejalBezelActivityView removeViewAnimated:YES];
+                              NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
                               if(_btnRemember.tag == 1) {//
+                                  [userdefault setBool:YES forKey:REMEMBER_LOGIN];
                                   
-                                  //set pass
-                                  [SSKeychain setPassword:password
-                                               forService:kYTServiceName
-                                                  account:kYTAccountName];
-//                                  NSString *password = [SSKeychain passwordForService:kYTServiceName account:kYTAccountName];
-
-                              }else { //delete password
-                                  
-                                  [SSKeychain deletePasswordForService:kYTServiceName account:kYTAccountName];
+                                  [[PDKeychainBindings sharedKeychainBindings]setObject:userName forKey:USERNAME];
+                                  [[PDKeychainBindings sharedKeychainBindings]setObject:password forKey:PASSWORD];
+                              }else {
+                                  [userdefault setBool:NO forKey:REMEMBER_LOGIN];
+                                  [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:USERNAME];
+                                  [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:PASSWORD];
                               }
                               [self.navigationController popViewControllerAnimated:YES];
                           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                              [self enableControls:YES];
+                              [DejalBezelActivityView removeViewAnimated:YES
+                               ];
                               
                               [YTOnWorldUtility showError:[[error userInfo]valueForKey:@"message"]];
                           }];
