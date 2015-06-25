@@ -26,6 +26,7 @@
 - (IBAction)click_popular:(id)sender;
 
 
+-(void)setViewController:(NSArray *)controllers;
 
 
 @end

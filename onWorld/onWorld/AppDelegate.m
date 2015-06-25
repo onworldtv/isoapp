@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "YTNetWorkManager.h"
+#import "YTCollectionView.h"
 @interface AppDelegate ()
 
 @end
@@ -18,7 +19,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    DATA_MANAGER;
+//    DATA_MANAGER;
+    
+    YTCollectionView *collectionView = [[YTCollectionView alloc]initWithNibName:@"YTCollectionView" bundle:nil];
+
+    [self.window setRootViewController:collectionView];
+     [self.window makeKeyAndVisible];
 //    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
 //        if(task.error) {
 //            NSLog(@"ERR");

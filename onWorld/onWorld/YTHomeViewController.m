@@ -48,16 +48,18 @@
 }
 
 
-
+-(void)setViewController:(NSArray *)controllers {
+    viewControllers = [[NSMutableArray alloc]initWithArray:controllers];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(void)setSelectedIndex:(NSUInteger)selectedIndex {
+-(void)setSelectedIndex:(NSUInteger)index {
     
-    [self setSelectedIndex:selectedIndex animated:NO];
+    [self setSelectedIndex:index animated:NO];
 }
 
 -(void)setSelectedIndex:(NSUInteger)newSelectedIndex animated:(BOOL)animated {
@@ -140,11 +142,16 @@
 */
 
 - (IBAction)click_recommendation:(id)sender {
+    [self setSelectedIndex:0 animated:YES];
 }
 
 - (IBAction)click_recent:(id)sender {
+    [self setSelectedIndex:1 animated:YES];
+
 }
 
 - (IBAction)click_popular:(id)sender {
+    [self setSelectedIndex:2 animated:YES];
+
 }
 @end

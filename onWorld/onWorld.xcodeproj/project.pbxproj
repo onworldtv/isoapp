@@ -61,6 +61,11 @@
 		04E23B9B1B37C08F0097A2D5 /* OnWorldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B9A1B37C08F0097A2D5 /* OnWorldTests.m */; };
 		04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */; };
 		04F0AEC61B3BF51300615D90 /* YTHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */; };
+		04F0AECA1B3C01E400615D90 /* YTCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0AEC81B3C01E400615D90 /* YTCollectionView.m */; };
+		04F0AECB1B3C01E400615D90 /* YTCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AEC91B3C01E400615D90 /* YTCollectionView.xib */; };
+		04F0AED01B3C021C00615D90 /* YTItemViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0AECE1B3C021C00615D90 /* YTItemViewCell.m */; };
+		04F0AED11B3C021C00615D90 /* YTItemViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AECF1B3C021C00615D90 /* YTItemViewCell.xib */; };
+		04F0AED31B3C0D7B00615D90 /* download.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AED21B3C0D7B00615D90 /* download.jpeg */; };
 		99D071B6766AA0DD2E88CCF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 057883AA109A0B65946A3D87 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -144,6 +149,13 @@
 		04F0AEC21B3BF51300615D90 /* YTHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTHomeViewController.h; sourceTree = "<group>"; };
 		04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTHomeViewController.m; sourceTree = "<group>"; };
 		04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTHomeViewController.xib; sourceTree = "<group>"; };
+		04F0AEC71B3C01E400615D90 /* YTCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTCollectionView.h; sourceTree = "<group>"; };
+		04F0AEC81B3C01E400615D90 /* YTCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTCollectionView.m; sourceTree = "<group>"; };
+		04F0AEC91B3C01E400615D90 /* YTCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTCollectionView.xib; sourceTree = "<group>"; };
+		04F0AECD1B3C021C00615D90 /* YTItemViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTItemViewCell.h; sourceTree = "<group>"; };
+		04F0AECE1B3C021C00615D90 /* YTItemViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTItemViewCell.m; sourceTree = "<group>"; };
+		04F0AECF1B3C021C00615D90 /* YTItemViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTItemViewCell.xib; sourceTree = "<group>"; };
+		04F0AED21B3C0D7B00615D90 /* download.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = download.jpeg; sourceTree = "<group>"; };
 		057883AA109A0B65946A3D87 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02870C58E4009013CD64688 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -328,6 +340,7 @@
 		04E23B7B1B37C08F0097A2D5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04F0AED21B3C0D7B00615D90 /* download.jpeg */,
 				04E23B7C1B37C08F0097A2D5 /* Info.plist */,
 				04E23B7D1B37C08F0097A2D5 /* main.m */,
 				04E23BA51B37C0EC0097A2D5 /* OnWorld-Prefix.pch */,
@@ -367,8 +380,22 @@
 				04F0AEC21B3BF51300615D90 /* YTHomeViewController.h */,
 				04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */,
 				04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */,
+				04F0AECC1B3C01E800615D90 /* Collection View */,
 			);
 			name = "Custom View";
+			sourceTree = "<group>";
+		};
+		04F0AECC1B3C01E800615D90 /* Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				04F0AEC71B3C01E400615D90 /* YTCollectionView.h */,
+				04F0AEC81B3C01E400615D90 /* YTCollectionView.m */,
+				04F0AEC91B3C01E400615D90 /* YTCollectionView.xib */,
+				04F0AECD1B3C021C00615D90 /* YTItemViewCell.h */,
+				04F0AECE1B3C021C00615D90 /* YTItemViewCell.m */,
+				04F0AECF1B3C021C00615D90 /* YTItemViewCell.xib */,
+			);
+			name = "Collection View";
 			sourceTree = "<group>";
 		};
 		1466DC379BDAE1A6B7E7A125 /* Frameworks */ = {
@@ -489,6 +516,9 @@
 				04E23B8F1B37C08F0097A2D5 /* LaunchScreen.xib in Resources */,
 				04E23B8C1B37C08F0097A2D5 /* Images.xcassets in Resources */,
 				04E1FA291B3A4DBC00D68AF4 /* SourceSansPro-BoldIt.otf in Resources */,
+				04F0AECB1B3C01E400615D90 /* YTCollectionView.xib in Resources */,
+				04F0AED11B3C021C00615D90 /* YTItemViewCell.xib in Resources */,
+				04F0AED31B3C0D7B00615D90 /* download.jpeg in Resources */,
 				04E1FA2D1B3A4DC200D68AF4 /* SourceSansPro-ExtraLightIt.otf in Resources */,
 				04E1FA391B3A4DD800D68AF4 /* SourceSansPro-SemiboldIt.otf in Resources */,
 			);
@@ -554,6 +584,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E1FA4B1B3AB2F300D68AF4 /* NSString+Utility.m in Sources */,
+				04F0AECA1B3C01E400615D90 /* YTCollectionView.m in Sources */,
 				040232501B37E4CC0093E85C /* YTNetWorkManager.m in Sources */,
 				04E1FA151B3A466E00D68AF4 /* YTOnWorldUtility.m in Sources */,
 				04E23B811B37C08F0097A2D5 /* AppDelegate.m in Sources */,
@@ -564,6 +595,7 @@
 				04E1FA3F1B3A5CF800D68AF4 /* YTContent.m in Sources */,
 				04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */,
 				04E23B7E1B37C08F0097A2D5 /* main.m in Sources */,
+				04F0AED01B3C021C00615D90 /* YTItemViewCell.m in Sources */,
 				0402325F1B38110D0093E85C /* SWRevealViewController.m in Sources */,
 				04E1FA451B3A5CF800D68AF4 /* YTCategory.m in Sources */,
 				040467671B3B9ED5005E58C3 /* PDKeychainBindings.m in Sources */,
