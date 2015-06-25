@@ -16,12 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNG-2a-7LL">
-                                <rect key="frame" x="143" y="287" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSM-eZ-fan">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -30,6 +27,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="scrollView" destination="RSM-eZ-fan" id="jN9-Jo-hhU"/>
                         <outlet property="sidebarButton" destination="mih-oX-NDD" id="1jg-dW-Q5L"/>
                     </connections>
                 </viewController>
@@ -232,29 +230,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WEE-BI-2Ok" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1146" y="-162"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="rp0-m1-kr1">
-            <objects>
-                <viewController id="atz-2N-xjW" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CzD-9f-yio"/>
-                        <viewControllerLayoutGuide type="bottom" id="6X4-8I-hTT"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Dn0-ut-ctt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vzs-Re-a00">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lvy-T6-PNS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1135" y="447"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mLW-YH-4ci">

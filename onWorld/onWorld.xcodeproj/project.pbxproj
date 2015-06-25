@@ -59,6 +59,8 @@
 		04E23B8C1B37C08F0097A2D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04E23B8B1B37C08F0097A2D5 /* Images.xcassets */; };
 		04E23B8F1B37C08F0097A2D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E23B8D1B37C08F0097A2D5 /* LaunchScreen.xib */; };
 		04E23B9B1B37C08F0097A2D5 /* OnWorldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B9A1B37C08F0097A2D5 /* OnWorldTests.m */; };
+		04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */; };
+		04F0AEC61B3BF51300615D90 /* YTHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */; };
 		99D071B6766AA0DD2E88CCF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 057883AA109A0B65946A3D87 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +141,9 @@
 		04E23B991B37C08F0097A2D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04E23B9A1B37C08F0097A2D5 /* OnWorldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnWorldTests.m; sourceTree = "<group>"; };
 		04E23BA51B37C0EC0097A2D5 /* OnWorld-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnWorld-Prefix.pch"; sourceTree = "<group>"; };
+		04F0AEC21B3BF51300615D90 /* YTHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTHomeViewController.h; sourceTree = "<group>"; };
+		04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTHomeViewController.m; sourceTree = "<group>"; };
+		04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTHomeViewController.xib; sourceTree = "<group>"; };
 		057883AA109A0B65946A3D87 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02870C58E4009013CD64688 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -305,6 +310,7 @@
 		04E23B7A1B37C08F0097A2D5 /* OnWorld */ = {
 			isa = PBXGroup;
 			children = (
+				04F0AEC11B3BF4A400615D90 /* Custom View */,
 				04E1FA161B3A46AE00D68AF4 /* Font */,
 				04E1FA121B3A45F800D68AF4 /* Utility */,
 				04E10FDE1B38EB36001958C3 /* App Delegate */,
@@ -353,6 +359,16 @@
 				0402324F1B37E4CC0093E85C /* YTNetWorkManager.m */,
 			);
 			name = "Network Manager";
+			sourceTree = "<group>";
+		};
+		04F0AEC11B3BF4A400615D90 /* Custom View */ = {
+			isa = PBXGroup;
+			children = (
+				04F0AEC21B3BF51300615D90 /* YTHomeViewController.h */,
+				04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */,
+				04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */,
+			);
+			name = "Custom View";
 			sourceTree = "<group>";
 		};
 		1466DC379BDAE1A6B7E7A125 /* Frameworks */ = {
@@ -465,6 +481,7 @@
 				04E1FA311B3A4DCA00D68AF4 /* SourceSansPro-Light.otf in Resources */,
 				04E1FA351B3A4DD200D68AF4 /* SourceSansPro-Regular.otf in Resources */,
 				04E1FA2F1B3A4DC600D68AF4 /* SourceSansPro-It.otf in Resources */,
+				04F0AEC61B3BF51300615D90 /* YTHomeViewController.xib in Resources */,
 				04E23B8A1B37C08F0097A2D5 /* Main.storyboard in Resources */,
 				04E1FA2B1B3A4DBF00D68AF4 /* SourceSansPro-ExtraLight.otf in Resources */,
 				04E10FFF1B390776001958C3 /* YTSideHeaderViewCell.xib in Resources */,
@@ -545,6 +562,7 @@
 				0402325C1B3810620093E85C /* YTSideViewController.m in Sources */,
 				04E1FA421B3A5CF800D68AF4 /* YTGenre.m in Sources */,
 				04E1FA3F1B3A5CF800D68AF4 /* YTContent.m in Sources */,
+				04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */,
 				04E23B7E1B37C08F0097A2D5 /* main.m in Sources */,
 				0402325F1B38110D0093E85C /* SWRevealViewController.m in Sources */,
 				04E1FA451B3A5CF800D68AF4 /* YTCategory.m in Sources */,

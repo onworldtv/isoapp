@@ -12,6 +12,10 @@
 
 
 
++ (UIColor *)getBlueColor
+{
+    return [UIColor colorWithRed:94.0f/255.0f green:162.0f/255.0f blue:253.0f/255.0f alpha:1.0f];
+}
 
 
 + (UIFont *)getFontWithSize:(CGFloat)size

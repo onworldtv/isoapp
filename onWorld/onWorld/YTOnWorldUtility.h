@@ -15,6 +15,7 @@ static NSString *kYTPassword = @"kYTPassword";
 
 @interface YTOnWorldUtility : NSObject
 
++ (UIColor *)getBlueColor;
 + (UIFont *)getFontWithSize:(CGFloat)size;
 + (void)showError:(NSString *)error;
 

@@ -10,5 +10,6 @@
 
 @interface YTMainViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
