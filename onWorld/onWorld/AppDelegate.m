@@ -8,9 +8,7 @@
 
 #import "AppDelegate.h"
 #import "YTNetWorkManager.h"
-#import "ListViewController.h"
 #import "YTHomeViewController.h"
-#import "MHTabBarController.h"
 #import "YTGridViewController.h"
 @interface AppDelegate ()
 
@@ -21,8 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    ListViewController *listViewController1 = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
-    ListViewController *listViewController2 = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+    YTGridViewController *listViewController1 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
+    YTGridViewController *listViewController2 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
     YTGridViewController *listViewController3 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
     
     listViewController1.title = @"Tab 1";
