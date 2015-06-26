@@ -20,13 +20,13 @@
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
 
-
+@property (nonatomic, weak) UIViewController *selectedViewController;
 - (IBAction)click_recommendation:(id)sender;
 - (IBAction)click_recent:(id)sender;
 - (IBAction)click_popular:(id)sender;
 
 
--(void)setViewController:(NSArray *)controllers;
+- (void)setViewControllers:(NSArray *)newViewControllers;
 
 
 @end

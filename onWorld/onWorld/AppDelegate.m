@@ -8,7 +8,10 @@
 
 #import "AppDelegate.h"
 #import "YTNetWorkManager.h"
-#import "YTCollectionView.h"
+#import "ListViewController.h"
+#import "YTHomeViewController.h"
+#import "MHTabBarController.h"
+#import "YTGridViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -17,23 +20,25 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-
-//    DATA_MANAGER;
     
-    YTCollectionView *collectionView = [[YTCollectionView alloc]initWithNibName:@"YTCollectionView" bundle:nil];
-
-    [self.window setRootViewController:collectionView];
-     [self.window makeKeyAndVisible];
-//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-//        if(task.error) {
-//            NSLog(@"ERR");
-//        }else {
-//            NSLog(@"");
-//        }
-//        return nil;
-//    }];
+    ListViewController *listViewController1 = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+    ListViewController *listViewController2 = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
+    YTGridViewController *listViewController3 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
     
+    listViewController1.title = @"Tab 1";
+    listViewController2.title = @"Tab 2";
+    listViewController3.title = @"Tab 3";
+    
+    NSArray *viewControllers = @[listViewController1, listViewController2, listViewController3];
+    YTHomeViewController *tabBarController = [[YTHomeViewController alloc] initWithNibName:@"YTHomeViewController" bundle:nil];
+    
+    tabBarController.viewControllers = viewControllers;
+    
+    
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = tabBarController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
