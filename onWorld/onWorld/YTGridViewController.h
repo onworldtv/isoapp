@@ -11,6 +11,6 @@
 @interface YTGridViewController : UICollectionViewController
 
 
-
-- (void)setSize:(CGSize)size numberItem:(int)item;
+- (id)initWithArray:(NSArray *)array numberItem:(int)number;
+- (void)setNumberItem:(int)item;
 @end

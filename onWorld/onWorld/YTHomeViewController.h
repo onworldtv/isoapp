@@ -11,6 +11,9 @@
 @interface YTHomeViewController : UIViewController
 
 
+
+
+
 @property (weak, nonatomic) IBOutlet UILabel *txtTitle;
 @property (weak, nonatomic) IBOutlet UIButton *btnMore;
 @property (weak, nonatomic) IBOutlet UIButton *btnRecomemdation;
@@ -27,6 +30,6 @@
 
 
 - (void)setViewControllers:(NSArray *)newViewControllers;
-
-
+- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
+- (void)loadTabView;
 @end

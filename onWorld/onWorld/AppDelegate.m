@@ -19,24 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    YTGridViewController *listViewController1 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
-    YTGridViewController *listViewController2 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
-    YTGridViewController *listViewController3 = [[YTGridViewController alloc] initWithNibName:@"YTGridViewController" bundle:nil];
-    
-    listViewController1.title = @"Tab 1";
-    listViewController2.title = @"Tab 2";
-    listViewController3.title = @"Tab 3";
-    
-    NSArray *viewControllers = @[listViewController1, listViewController2, listViewController3];
-    YTHomeViewController *tabBarController = [[YTHomeViewController alloc] initWithNibName:@"YTHomeViewController" bundle:nil];
-    
-    tabBarController.viewControllers = viewControllers;
-    
-    
-    
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = tabBarController;
-    [self.window makeKeyAndVisible];
+    DATA_MANAGER;
     return YES;
 }
 

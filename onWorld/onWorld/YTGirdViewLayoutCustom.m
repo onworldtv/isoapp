@@ -39,8 +39,8 @@ static NSString * const YTLayoutItemCell = @"itemCell";
 
 - (void)setup
 {
-    self.itemInsets = UIEdgeInsetsMake(2.0f, 5.0f, 2.0f, 5.0f);
-    self.interItemSpacingY = 5.0f;
+    self.itemInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    self.interItemSpacingY = 0.0f;
     self.numberOfColumns = 2;
 }
 
@@ -88,6 +88,8 @@ static NSString * const YTLayoutItemCell = @"itemCell";
     CGFloat originY = floor(self.itemInsets.top +
                             (self.itemSize.height + self.interItemSpacingY) * row);
     
+    
+    
     return CGRectMake(originX, originY, self.itemSize.width, self.itemSize.height);
 }
 
@@ -115,11 +117,9 @@ static NSString * const YTLayoutItemCell = @"itemCell";
     NSInteger rowCount = [self.collectionView numberOfSections] / self.numberOfColumns;
     // make sure we count another row if one is only partially filled
     if ([self.collectionView numberOfSections] % self.numberOfColumns) rowCount++;
-    
     CGFloat height = self.itemInsets.top +
     rowCount * self.itemSize.height + (rowCount - 1) * self.interItemSpacingY +
     self.itemInsets.bottom;
-    
     return CGSizeMake(self.collectionView.bounds.size.width, height);
 }
 
@@ -136,7 +136,6 @@ static NSString * const YTLayoutItemCell = @"itemCell";
 {
     if (CGSizeEqualToSize(_itemSize, itemSize)) return;
     _itemSize = itemSize;
-    
     [self invalidateLayout];
 }
 
@@ -151,10 +150,10 @@ static NSString * const YTLayoutItemCell = @"itemCell";
 
 - (void)setNumberOfColumns:(NSInteger)numberOfColumns
 {
-    if (_numberOfColumns == numberOfColumns) return;
-    
     _numberOfColumns = numberOfColumns;
-    
+    CGRect frame = self.collectionView.bounds;
+    CGFloat width = floorf(frame.size.width -  self.itemInsets.left - self.itemInsets.right)/ self.numberOfColumns;
+    self.itemSize = CGSizeMake(width, 180);
     [self invalidateLayout];
 }
 

@@ -226,7 +226,9 @@ static const NSString * kYTSearch = @"SEARCH";
         
     }else if(indexPath.section == 1){
         selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
+        
     }else if (indexPath.section == 2) {
+        
         selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
     }
 }

@@ -11,7 +11,10 @@
 #import "YTGirdItemCell.h"
 static NSString * const itemCellIdentify = @"itemCell";
 
-@interface YTGridViewController ()
+@interface YTGridViewController () {
+    NSMutableArray *contentItems;
+    int numberItem;
+}
 
 @property (nonatomic, weak) IBOutlet YTGirdViewLayoutCustom *mylayout;
 @end
@@ -20,11 +23,30 @@ static NSString * const itemCellIdentify = @"itemCell";
 
 static NSString * const reuseIdentifier = @"Cell";
 
+
+- (id)initWithArray:(NSArray *)array numberItem:(int)number{
+    self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if(self) {
+        if(array) {
+            contentItems = [NSMutableArray arrayWithArray:array];
+          
+        }else {
+            contentItems = [NSMutableArray array];
+        }
+        numberItem = number;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.collectionView.backgroundColor = [UIColor colorWithWhite:0.25f alpha:1.0f];
-    self.mylayout.itemSize = CGSizeMake(153, 180);
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        self.mylayout.numberOfColumns = numberItem +1;
+    }else {
+        self.mylayout.numberOfColumns = numberItem;
+    }
+    
     [self.collectionView registerClass:[YTGirdItemCell class]
             forCellWithReuseIdentifier:itemCellIdentify];
 }
@@ -32,25 +54,26 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@"%@ viewWillAppear", self.title);
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        self.mylayout.numberOfColumns = numberItem + 1;
+    }else {
+        self.mylayout.numberOfColumns = numberItem;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"%@ viewDidAppear", self.title);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    NSLog(@"%@ viewWillDisappear", self.title);
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    NSLog(@"%@ viewDidDisappear", self.title);
 }
 
 
@@ -59,31 +82,21 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (void)willMoveToParentViewController:(UIViewController *)parent
 {
     [super willMoveToParentViewController:parent];
-    NSLog(@"%@ willMoveToParentViewController %@", self.title, parent);
 }
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
     [super didMoveToParentViewController:parent];
-    NSLog(@"%@ didMoveToParentViewController %@", self.title, parent);
 }
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 10;
+    return 6;
+    return contentItems.count;
 }
 
 
@@ -98,39 +111,16 @@ static NSString * const reuseIdentifier = @"Cell";
     return itemCell;
 }
 
-- (void)setSize:(CGSize)size numberItem:(int)item{
+- (void)setNumberItem:(int)item{
     self.mylayout.numberOfColumns = item;
-    // handle insets for iPhone 4 or 5
-    self.mylayout.itemSize = size;
 }
 
-
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
 
 #pragma mark <UICollectionViewDelegate>
-
-
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 - (IBAction)done:(id)sender
 {

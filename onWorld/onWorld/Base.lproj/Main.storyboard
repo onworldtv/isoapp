@@ -13,15 +13,23 @@
                         <viewControllerLayoutGuide type="bottom" id="SRE-Lo-5x9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RSM-eZ-fan">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RSM-eZ-fan">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <color key="backgroundColor" red="0.9031284034" green="0.2409096218" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="0.96689152" blue="0.16893331810000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="RSM-eZ-fan" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="46J-jv-dii"/>
+                            <constraint firstAttribute="bottom" secondItem="RSM-eZ-fan" secondAttribute="bottom" id="5U2-d2-1xX"/>
+                            <constraint firstItem="RSM-eZ-fan" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eWN-Sz-twf"/>
+                            <constraint firstAttribute="trailing" secondItem="RSM-eZ-fan" secondAttribute="trailing" id="up2-fY-84a"/>
+                        </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="87V-cf-Fmd">
                         <barButtonItem key="leftBarButtonItem" image="menu" id="mih-oX-NDD"/>
                     </navigationItem>

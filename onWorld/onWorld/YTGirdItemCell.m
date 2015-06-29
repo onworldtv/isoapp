@@ -15,23 +15,19 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.0f];
         
-        self.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.layer.borderWidth = 3.0f;
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowRadius = 3.0f;
-        self.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-        self.layer.shadowOpacity = 0.5f;
-        // make sure we rasterize nicely for retina
-        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        self.layer.shouldRasterize = YES;
+        NSArray *arrayOfViews = [[NSBundle mainBundle] loadNibNamed:@"YTGirdItemCell" owner:self options:nil];
         
-        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _imageView.contentMode = UIViewContentModeScaleAspectFill;
-        _imageView.clipsToBounds = YES;
+        if ([arrayOfViews count] < 1) {
+            return nil;
+        }        
+        if (![[arrayOfViews objectAtIndex:0] isKindOfClass:[UICollectionViewCell class]]) {
+            return nil;
+        }
+        self = [arrayOfViews objectAtIndex:0];
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [UIColor blueColor].CGColor;
         
-        [self.contentView addSubview:self.imageView];
     }
     
     return self;
@@ -43,5 +39,4 @@
     
     self.imageView.image = nil;
 }
-
 @end
