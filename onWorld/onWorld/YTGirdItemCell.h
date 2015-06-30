@@ -10,6 +10,8 @@
 
 @interface YTGirdItemCell : UICollectionViewCell
 
-@property (nonatomic, strong, readonly) UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@property (weak, nonatomic) IBOutlet UILabel *txtTitle;
+@property (weak, nonatomic) IBOutlet UILabel *txtCategory;
 
 @end

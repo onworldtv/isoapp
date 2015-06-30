@@ -17,5 +17,7 @@
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSString * image;
 @property (nonatomic, retain) NSNumber * karaoke;
+@property (nonatomic, retain) NSNumber * status;
+
 
 @end

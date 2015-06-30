@@ -37,6 +37,5 @@
 {
     [super prepareForReuse];
     
-    self.imageView.image = nil;
 }
 @end

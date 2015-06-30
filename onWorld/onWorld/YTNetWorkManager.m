@@ -300,7 +300,25 @@ static YTNetWorkManager *m_instance;
                         }];
 }
 
+- (void)contentItemsHomeWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
+    
+    NSString *urlPath = [NSString stringWithFormat:@"%@/home&lang_id=%ld&item_count=6&token=%@", kServerBaseURL,languageId,access_token];
+    
+    [self sendRequestWithServicePath:urlPath
+                         postContent:nil
+                       requestMethod:@"GET"
+                        successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                            int errorcode =[[response valueForKey:@"error"] intValue];
+                            if(errorcode == 1) {
+                                failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.ContentDetail" code:errorcode userInfo:response]);
+                            }else {
+                                successBlock(operation,response);
+                            }
+                        } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            failureBlock(operation,error);
+                        }];
 
+}
 
 
 @end

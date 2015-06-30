@@ -24,12 +24,17 @@
 @property (weak, nonatomic) IBOutlet UIView *tabView;
 
 @property (nonatomic, weak) UIViewController *selectedViewController;
+
+
+
+- (void)setCategories:(NSDictionary *)categories;
+- (id)initWithTitle:(NSString *)title;
 - (IBAction)click_recommendation:(id)sender;
 - (IBAction)click_recent:(id)sender;
 - (IBAction)click_popular:(id)sender;
 
 
 - (void)setViewControllers:(NSArray *)newViewControllers;
-- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation;
+- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem;
 - (void)loadTabView;
 @end

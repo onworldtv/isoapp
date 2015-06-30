@@ -30,4 +30,5 @@
 #import "NSString+Utility.h"
 #import "DejalActivityView.h"
 #import "YTConstant.h"
+#import "DLImageLoader.h"
 #endif

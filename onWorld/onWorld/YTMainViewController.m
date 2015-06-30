@@ -36,17 +36,39 @@
     }
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-2000, -2000) forBarMetrics:UIBarMetricsDefault];
     
+    [self initalizeHomeView];
     
-    YTGridViewController *listViewController1 = [[YTGridViewController alloc] initWithArray:nil numberItem:2];
-    YTGridViewController *listViewController2 = [[YTGridViewController alloc] initWithArray:nil numberItem:2];
-    YTGridViewController *listViewController3 = [[YTGridViewController alloc] initWithArray:nil numberItem:2];
+    [DejalBezelActivityView activityViewForView:self.view withLabel:nil];
+    [[DATA_MANAGER contentItemsHomeView]continueWithBlock:^id(BFTask *task) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        if(task.error == nil) {
+            NSDictionary* contentItems = task.result;
+            if(videoViewCtrl) {
+                [videoViewCtrl setCategories:[contentItems valueForKey:@"view"]];
+            }
+            if(audioViewCtrl){
+                [audioViewCtrl setCategories:[contentItems valueForKey:@"listen"]];
+            }
+        }else {
+            
+        }
+        return nil;
+    }];
+
+}
+
+- (void)initalizeHomeView{
+
+    YTGridViewController *listViewController1 = [[YTGridViewController alloc]initWithIdentify:@"recommend" numberItem:2];
+    YTGridViewController *listViewController2 = [[YTGridViewController alloc]initWithIdentify:@"added" numberItem:2];
+    YTGridViewController *listViewController3 = [[YTGridViewController alloc]initWithIdentify:@"popular" numberItem:2];
     
     NSArray *viewControllers = @[listViewController1, listViewController2, listViewController3];
     
     CGRect frame = _scrollView.frame;
     
     
-    videoViewCtrl = [[YTHomeViewController alloc]initWithNibName:NSStringFromClass([YTHomeViewController class]) bundle:nil];
+    videoViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's view today"];
     [videoViewCtrl setViewControllers:viewControllers];
     
     videoViewCtrl.view.frame =CGRectMake(frame.origin.x, frame.origin.y, CGRectGetWidth(frame), 630);
@@ -54,14 +76,12 @@
     
     
     
+    YTGridViewController *l1 = [[YTGridViewController alloc]initWithIdentify:@"recommend" numberItem:2];
+    YTGridViewController *l2 = [[YTGridViewController alloc]initWithIdentify:@"added" numberItem:2];
+    YTGridViewController *l3 = [[YTGridViewController alloc]initWithIdentify:@"popular" numberItem:2];
     
     
-    YTGridViewController *l1 = [[YTGridViewController alloc] initWithArray:nil numberItem:2];
-    YTGridViewController *l2 = [[YTGridViewController alloc] initWithArray:nil numberItem:2];
-    YTGridViewController *l3 = [[YTGridViewController alloc] initWithArray:nil numberItem:2];
-    
-    
-    audioViewCtrl = [[YTHomeViewController alloc]initWithNibName:NSStringFromClass([YTHomeViewController class]) bundle:nil];
+    audioViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's listen today"];
     [audioViewCtrl setViewControllers:@[l1,l2,l3]];
     audioViewCtrl.view.frame=CGRectMake(frame.origin.x,630,CGRectGetWidth(frame),630);
     
@@ -79,7 +99,8 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [videoViewCtrl parentDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [videoViewCtrl parentDidRotateFromInterfaceOrientation:fromInterfaceOrientation numberItem:2];
+    
     YTGridViewController *currentViewCtrl = (YTGridViewController*)videoViewCtrl.selectedViewController;
     CGSize size = currentViewCtrl.collectionViewLayout.collectionViewContentSize;
     CGRect videoFrame = videoViewCtrl.view.frame;
@@ -87,7 +108,7 @@
     [videoViewCtrl.view setFrame:videoFrame];
     
     
-    [audioViewCtrl parentDidRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [audioViewCtrl parentDidRotateFromInterfaceOrientation:fromInterfaceOrientation numberItem:3];
     YTGridViewController *currentAudioCtrl = (YTGridViewController*)audioViewCtrl.selectedViewController;
     CGSize audiosize = currentAudioCtrl.collectionViewLayout.collectionViewContentSize;
     CGRect audioFrame = currentAudioCtrl.view.frame;

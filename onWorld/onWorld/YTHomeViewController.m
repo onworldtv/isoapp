@@ -13,12 +13,22 @@
     NSMutableArray *viewControllers;
     NSInteger selectedIndex;
     UIButton * buttonSelected;
+    NSString * m_title;
+    NSDictionary *categoryEachViewCtrl;
 }
 @end
 
 
 @implementation YTHomeViewController
 
+
+- (id)initWithTitle:(NSString *)title {
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if(self) {
+        m_title = title;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -29,12 +39,7 @@
         _btnRecent.enabled = NO;
         _btnRecomemdation.enabled = NO;
     }
-    
-//    _tabView.layer.borderWidth = 1.0f;
-//    _tabView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    
-    
-    //
+
     _btnPopular.layer.borderColor = [UIColor darkGrayColor].CGColor;
     _btnPopular.layer.borderWidth = 1.0f;
     
@@ -43,9 +48,16 @@
     
     _btnRecomemdation.layer.borderColor = [UIColor blueColor].CGColor;
     _btnRecomemdation.layer.borderWidth = 1.0f;
+    [_txtTitle setText:m_title.uppercaseString];
     
 }
 
+- (void)setCategories:(NSDictionary *)categories {
+    categoryEachViewCtrl = [NSMutableDictionary dictionaryWithDictionary:categories];
+    for (UIViewController *viewCtrl in viewControllers) {
+        [(YTGridViewController *)viewCtrl setContentsView:[categories valueForKey:([(YTGridViewController *)viewCtrl identify])]];
+    }
+}
 
 - (void)loadTabView {
     NSUInteger lastIndex = selectedIndex;
@@ -55,13 +67,13 @@
 
 }
 
-- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem{
     
     YTGridViewController *currentCtrl = (YTGridViewController *)self.selectedViewController;
     if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
-        [currentCtrl setNumberItem:2];
+        [currentCtrl setNumberItem:numberItem];
     } else {
-        [currentCtrl setNumberItem:3];
+        [currentCtrl setNumberItem:numberItem+1];
     }
 }
 

@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-DLImageLoader.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-HexColors.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2C60935F06A0BF52AC4D3E98</key>
+		<key>86700B1AC1FFD0B0B76EEC95</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>38CA2690CA4A7AB0266C36D0</key>
+		<key>90581BEE25E17C5B7FFBBF73</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3D893A48B2FA47E7C417314C</key>
+		<key>959CB5250178201964BD84B6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7C9910607CC7028C4CBC8D7C</key>
+		<key>AE9493A835AD6BA2B6E6A3C5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8BBEB0A7570EC4E8C2CB367A</key>
+		<key>AEF6C8A859C8F9AD18EE810C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C7547EE21B5FB5BE8B0CFC25</key>
+		<key>DC46A47D200C27EED3CC3234</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E619B3A0D075FF28ADE3E6CB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

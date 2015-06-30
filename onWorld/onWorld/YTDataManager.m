@@ -196,4 +196,16 @@ static YTDataManager *m_instance;
 }
 
 
+- (BFTask *)contentItemsHomeView {
+    
+     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    [NETWORK_MANAGER contentItemsHomeWithSuccessBlock:^(AFHTTPRequestOperation *operation, id response) {
+        [completionSource setResult:response];
+        
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [completionSource setError:error];
+    }];
+    return completionSource.task;
+}
+
 @end

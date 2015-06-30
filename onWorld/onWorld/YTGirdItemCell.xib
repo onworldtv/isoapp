@@ -49,10 +49,11 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label dfgdfg dfgdfg dgs dfgs " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4He-UR-hbA">
                     <rect key="frame" x="8" y="249" width="249" height="42"/>
                     <fontDescription key="fontDescription" name="UTM-Bebas" family="UTM Bebas" pointSize="15"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Mca-Qe-NhL" secondAttribute="trailing" constant="12" id="0Rr-oO-ReC"/>
                 <constraint firstItem="PTI-vl-7GH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="9jN-cC-6Wa"/>
@@ -80,7 +81,12 @@
                     <exclude reference="yeE-9Q-KnS"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="377.5" y="210"/>
+            <connections>
+                <outlet property="imgView" destination="PTI-vl-7GH" id="cVg-gh-FNN"/>
+                <outlet property="txtCategory" destination="Mca-Qe-NhL" id="Yhu-Xj-0Ww"/>
+                <outlet property="txtTitle" destination="4He-UR-hbA" id="aBz-D4-hy1"/>
+            </connections>
+            <point key="canvasLocation" x="256.5" y="107"/>
         </view>
     </objects>
     <resources>

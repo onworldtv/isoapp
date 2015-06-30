@@ -68,4 +68,6 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
                failureBlock:(FailureBlock)failureBlock;
 
 
+
+- (void)contentItemsHomeWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
 @end

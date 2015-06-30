@@ -11,6 +11,7 @@
 #define DATA_MANAGER  ([YTDataManager sharedDataManager])
 
 
+
 @interface YTDataManager : NSObject
 
 
@@ -24,6 +25,6 @@
 
 - (BFTask *)pullAllMetaData;
 
-
+- (BFTask *)contentItemsHomeView;
 
 @end

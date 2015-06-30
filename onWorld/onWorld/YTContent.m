@@ -16,5 +16,7 @@
 @dynamic desc;
 @dynamic image;
 @dynamic karaoke;
+@dynamic status;
+
 
 @end

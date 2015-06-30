@@ -60,6 +60,12 @@
 #define COCOAPODS_VERSION_MINOR_Bolts_Tasks 2
 #define COCOAPODS_VERSION_PATCH_Bolts_Tasks 0
 
+// DLImageLoader
+#define COCOAPODS_POD_AVAILABLE_DLImageLoader
+#define COCOAPODS_VERSION_MAJOR_DLImageLoader 2
+#define COCOAPODS_VERSION_MINOR_DLImageLoader 0
+#define COCOAPODS_VERSION_PATCH_DLImageLoader 0
+
 // HexColors
 #define COCOAPODS_POD_AVAILABLE_HexColors
 #define COCOAPODS_VERSION_MAJOR_HexColors 2

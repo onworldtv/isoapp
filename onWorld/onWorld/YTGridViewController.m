@@ -14,6 +14,7 @@ static NSString * const itemCellIdentify = @"itemCell";
 @interface YTGridViewController () {
     NSMutableArray *contentItems;
     int numberItem;
+    NSString *m_identify;
 }
 
 @property (nonatomic, weak) IBOutlet YTGirdViewLayoutCustom *mylayout;
@@ -37,10 +38,23 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     return self;
 }
+
+- (id)initWithIdentify:(NSString *)identify numberItem:(int)number {
+    self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if(self) {
+        m_identify = identify;
+        numberItem = number;
+    }
+    return self;
+}
+
+- (NSString *)identify {
+    return m_identify;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.collectionView.backgroundColor = [UIColor colorWithWhite:0.25f alpha:1.0f];
     if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
         self.mylayout.numberOfColumns = numberItem +1;
     }else {
@@ -51,6 +65,11 @@ static NSString * const reuseIdentifier = @"Cell";
             forCellWithReuseIdentifier:itemCellIdentify];
 }
 
+
+- (void)setContentsView:(NSArray *)contents {
+    contentItems = [NSMutableArray arrayWithArray:contents];
+    [self.collectionView reloadData];
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -95,7 +114,6 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 6;
     return contentItems.count;
 }
 
@@ -108,6 +126,19 @@ static NSString * const reuseIdentifier = @"Cell";
     YTGirdItemCell *itemCell =
     [collectionView dequeueReusableCellWithReuseIdentifier:itemCellIdentify
                                               forIndexPath:indexPath];
+    NSDictionary *contentItem = contentItems[indexPath.section];
+    itemCell.txtCategory.text = [contentItem valueForKey:@"category"];
+    itemCell.txtTitle.text = [contentItem valueForKey:@"name"];
+    __weak UIImageView *loadMe = itemCell.imgView;
+    [[DLImageLoader sharedInstance]loadImageFromUrl:[contentItem valueForKey:@"image"]
+                                          completed:^(NSError *error, UIImage *image) {
+                                              if ( loadMe == nil ) return;
+                                              
+                                              if (error == nil)
+                                              {
+                                                  loadMe.image = image;
+                                              }}];
+    
     return itemCell;
 }
 

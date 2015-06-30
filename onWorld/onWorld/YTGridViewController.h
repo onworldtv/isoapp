@@ -11,6 +11,10 @@
 @interface YTGridViewController : UICollectionViewController
 
 
+
+- (id)initWithIdentify:(NSString *)identify numberItem:(int)numberItem;
 - (id)initWithArray:(NSArray *)array numberItem:(int)number;
 - (void)setNumberItem:(int)item;
+- (void)setContentsView:(NSArray *)contents;
+- (NSString *)identify;
 @end
