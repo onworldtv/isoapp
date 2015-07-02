@@ -12,6 +12,8 @@
 #import "SWRevealViewController.h"
 #import "YTLoginViewController.h"
 #import "PDKeychainBindings.h"
+
+#import "YTTableViewController.h"
 static const NSString * kYTMenuHome = @"HOME";
 static const NSString * kYTMenuLogin = @"LOGIN";
 static const NSString * kYTSearch = @"SEARCH";
@@ -65,6 +67,7 @@ static const NSString * kYTSearch = @"SEARCH";
         [arrMenu addObject:@{@"categories":arrCate}];
     }
     [self.tbvSideMenu setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    
 
 }
 
@@ -110,19 +113,12 @@ static const NSString * kYTSearch = @"SEARCH";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-   return 40;
+   return 60;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if(section == 0)
-        return 0;
-    static CGFloat kMenuHeaderHeight = 30.0f;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        kMenuHeaderHeight = 40.0f;
-    else
-        kMenuHeaderHeight = 40.0f;
-    return kMenuHeaderHeight;
+    return 44;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -131,8 +127,11 @@ static const NSString * kYTSearch = @"SEARCH";
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
   
-    if(section == 0)
-        return nil;
+    if(section == 0) {
+        UIView *view = [[UIView alloc]initWithFrame:[tableView headerViewForSection:section].bounds];
+        [view setBackgroundColor:[UIColor colorWithHexString:@"#5ea2fd"]];
+        return view;
+    }
     YTSideHeaderViewCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"headercell"];
     if(headerCell == nil) {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([YTSideHeaderViewCell class]) owner:self options:nil];
@@ -230,6 +229,14 @@ static const NSString * kYTSearch = @"SEARCH";
     }else if (indexPath.section == 2) {
         
         selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
+        [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+        
+        YTTableViewController *categoriesViewController = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:categoriesViewController];
+        [self.revealViewController pushFrontViewController:navigationController animated:YES];
+        
+       
+        
     }
 }
 

@@ -25,7 +25,7 @@
             return nil;
         }
         self = [arrayOfViews objectAtIndex:0];
-        self.layer.borderWidth = 1.0f;
+        self.layer.borderWidth = 0.5f;
         self.layer.borderColor = [UIColor blueColor].CGColor;
         
     }

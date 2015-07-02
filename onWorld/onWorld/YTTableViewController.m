@@ -10,9 +10,10 @@
 #import "YTTableViewCell.h"
 #import "YTGirdItemCell.h"
 #import "YTTableHeaderCell.h"
+#include "SWRevealViewController.h"
 @interface YTTableViewController ()
 {
-    
+    NSMutableArray * datalist;
 }
 
 
@@ -20,25 +21,45 @@
 
 @implementation YTTableViewController
 
--(void)loadView
-{
-    [super loadView];
-    
-}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector:@selector(deviceOrientationDidChange:)
+                                                 name: UIDeviceOrientationDidChangeNotification
+                                               object: nil];
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if (revealViewController )
+    {
+        
+        UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu"]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:revealViewController action:@selector(revealToggle:)];
+        self.navigationItem.leftBarButtonItem = revealButtonItem;
+        [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
+        
+        if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
+            self.navigationItem.title = nil;
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+        }
+    }
     
+
 	// Do any additional setup after loading the view, typically from a nib.
 }
-
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+    [self.tableView reloadData];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 #pragma mark - UITableViewDataSource Methods
 
@@ -75,7 +96,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 3*180;
+    return 3*180 + 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -137,6 +158,8 @@
 }
 
 
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
 
 @end

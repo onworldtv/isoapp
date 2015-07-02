@@ -3,6 +3,18 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="SourceSansPro-Bold.otf">
+            <string>SourceSansPro-Bold</string>
+            <string>SourceSansPro-Bold</string>
+        </mutableArray>
+        <mutableArray key="SourceSansPro-Regular.otf">
+            <string>SourceSansPro-Regular</string>
+        </mutableArray>
+        <mutableArray key="UTM BEBAS.TTF">
+            <string>UTM-Bebas</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -98,7 +110,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2k7-b0-s2U">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="separatorColor" red="0.1615852176" green="0.55331917980000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Mdn-Xi-hw5" id="MAY-yT-RRx"/>
@@ -123,7 +135,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1r-p3-u88" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="748" y="-96"/>
+            <point key="canvasLocation" x="631" y="-109"/>
+        </scene>
+        <!--Content Detail View Controller-->
+        <scene sceneID="sNh-y4-cGr">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dZk-Q3-qY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="contentDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTContentDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vnH-OG-6S6"/>
+                        <viewControllerLayoutGuide type="bottom" id="kqQ-lp-G8C"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zQV-KP-GhR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cOC-5q-hYm">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.96689152" blue="0.16893331810000001" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1017" y="-109"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="el1-pA-KHA">
@@ -140,10 +175,10 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DaD-Dl-qid">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETf-hw-FEn">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Your password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETf-hw-FEn">
                                         <rect key="frame" x="18" y="118" width="102" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="15"/>
+                                        <color key="textColor" red="0.43921568630000002" green="0.43921568630000002" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ew7-th-jr1">
@@ -161,25 +196,15 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XO6-BR-H7c">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Your email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XO6-BR-H7c">
                                         <rect key="frame" x="18" y="50" width="72" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="15"/>
+                                        <color key="textColor" red="0.4392156862745098" green="0.4392156862745098" blue="0.4392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-tK-Elc">
-                                        <rect key="frame" x="100" y="228" width="120" height="40"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                        <state key="normal" title="LOGIN" backgroundImage="login_button">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="click_login:" destination="B7W-Qr-dZp" eventType="touchUpInside" id="CrB-sN-8uH"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Remember me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUq-3z-VFM">
-                                        <rect key="frame" x="48" y="186" width="102" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <rect key="frame" x="48" y="183" width="117" height="24"/>
+                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -209,6 +234,16 @@
                                             <constraint firstAttribute="bottom" secondItem="2fu-xf-7LC" secondAttribute="bottom" constant="9" id="b6i-ht-lY7"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZR-tK-Elc">
+                                        <rect key="frame" x="16" y="233" width="120" height="46"/>
+                                        <fontDescription key="fontDescription" name="UTM-Bebas" family="UTM Bebas" pointSize="27"/>
+                                        <state key="normal" title="LOGIN" backgroundImage="login_button">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="click_login:" destination="B7W-Qr-dZp" eventType="touchUpInside" id="CrB-sN-8uH"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="CiN-9I-0r5" firstAttribute="trailing" secondItem="gNc-WZ-hDZ" secondAttribute="trailing" id="19f-Ta-7Jz"/>
@@ -225,17 +260,15 @@
                                     <constraint firstItem="gNc-WZ-hDZ" firstAttribute="top" secondItem="DaD-Dl-qid" secondAttribute="top" constant="146" id="diq-pp-4pU"/>
                                     <constraint firstItem="CiN-9I-0r5" firstAttribute="top" secondItem="XO6-BR-H7c" secondAttribute="bottom" constant="10" id="iR4-Br-lpQ"/>
                                     <constraint firstItem="ETf-hw-FEn" firstAttribute="top" secondItem="CiN-9I-0r5" secondAttribute="bottom" constant="10" id="ikF-mw-cqX"/>
-                                    <constraint firstItem="eZR-tK-Elc" firstAttribute="top" secondItem="QUq-3z-VFM" secondAttribute="bottom" constant="21" id="j5l-uY-ovV"/>
                                     <constraint firstItem="CiN-9I-0r5" firstAttribute="top" secondItem="DaD-Dl-qid" secondAttribute="top" constant="78" id="ji9-il-5ST"/>
                                     <constraint firstItem="CiN-9I-0r5" firstAttribute="leading" secondItem="DaD-Dl-qid" secondAttribute="leading" constant="16" id="k2s-NR-h16"/>
                                     <constraint firstItem="QUq-3z-VFM" firstAttribute="leading" secondItem="DaD-Dl-qid" secondAttribute="leading" constant="48" id="kPr-vt-DCe"/>
-                                    <constraint firstItem="CiN-9I-0r5" firstAttribute="centerX" secondItem="eZR-tK-Elc" secondAttribute="centerX" id="uLH-fW-Dqc"/>
                                     <constraint firstAttribute="trailing" secondItem="kUL-HA-kwf" secondAttribute="trailing" id="xqu-lQ-CBZ"/>
                                     <constraint firstItem="ETf-hw-FEn" firstAttribute="leading" secondItem="DaD-Dl-qid" secondAttribute="leading" constant="18" id="zZ4-KJ-3BF"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.96689152" blue="0.16893331810000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="DaD-Dl-qid" secondAttribute="bottom" id="1UZ-g8-ExM"/>
                             <constraint firstItem="DaD-Dl-qid" firstAttribute="leading" secondItem="KtA-07-jBq" secondAttribute="leading" id="lbH-nX-axV"/>
@@ -255,7 +288,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WEE-BI-2Ok" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1146" y="-162"/>
+            <point key="canvasLocation" x="303" y="-838"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mLW-YH-4ci">
@@ -292,7 +325,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KRz-4p-fj9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="310" y="-104"/>
+            <point key="canvasLocation" x="270" y="-109"/>
         </scene>
     </scenes>
     <resources>

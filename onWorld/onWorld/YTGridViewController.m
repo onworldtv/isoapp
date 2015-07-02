@@ -80,37 +80,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-- (void)willMoveToParentViewController:(UIViewController *)parent
-{
-    [super willMoveToParentViewController:parent];
-}
-
-- (void)didMoveToParentViewController:(UIViewController *)parent
-{
-    [super didMoveToParentViewController:parent];
-}
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -124,8 +93,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     YTGirdItemCell *itemCell =
-    [collectionView dequeueReusableCellWithReuseIdentifier:itemCellIdentify
-                                              forIndexPath:indexPath];
+    [collectionView dequeueReusableCellWithReuseIdentifier:itemCellIdentify forIndexPath:indexPath];
     NSDictionary *contentItem = contentItems[indexPath.section];
     itemCell.txtCategory.text = [contentItem valueForKey:@"category"];
     itemCell.txtTitle.text = [contentItem valueForKey:@"name"];

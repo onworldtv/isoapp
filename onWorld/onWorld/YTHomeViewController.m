@@ -29,6 +29,7 @@
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -39,15 +40,12 @@
         _btnRecent.enabled = NO;
         _btnRecomemdation.enabled = NO;
     }
-
-    _btnPopular.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    _btnPopular.layer.borderWidth = 1.0f;
     
-    _btnRecent.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    _btnRecent.layer.borderWidth = 1.0f;
+    _tabView.layer.borderWidth = 0.5f;
+    _tabView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     
     _btnRecomemdation.layer.borderColor = [UIColor blueColor].CGColor;
-    _btnRecomemdation.layer.borderWidth = 1.0f;
+    _btnRecomemdation.layer.borderWidth = 0.5f;
     [_txtTitle setText:m_title.uppercaseString];
     
 }
@@ -80,17 +78,41 @@
 
 - (void)handleSelectedButton {
     if(selectedIndex == 0) {
-         _btnRecomemdation.layer.borderColor = [UIColor blueColor].CGColor;
-        _btnPopular.layer.borderColor = [UIColor darkGrayColor].CGColor;
-         _btnRecent.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        
+        _btnRecomemdation.layer.borderWidth = 0.5;
+         _btnRecomemdation.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
+        
+         [_btnRecomemdation setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
+         [_btnPopular setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
+         [_btnRecent setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
+        
+        
+        _btnPopular.layer.borderWidth = 0;
+        _btnRecent.layer.borderWidth = 0;
     }else if(selectedIndex == 1) {
-         _btnRecomemdation.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        _btnRecent.layer.borderColor = [UIColor blueColor].CGColor;
-         _btnPopular.layer.borderColor = [UIColor darkGrayColor].CGColor;
+
+        
+        
+        [_btnRecomemdation setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
+        [_btnPopular setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
+        [_btnRecent setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
+        
+        
+        _btnRecomemdation.layer.borderWidth = 0;
+        _btnRecent.layer.borderWidth = 0.5;
+        _btnRecent.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
+        _btnPopular.layer.borderWidth = 0;
+        
     }else if (selectedIndex == 2) {
-         _btnRecomemdation.layer.borderColor = [UIColor darkGrayColor].CGColor;
-         _btnRecent.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        _btnPopular.layer.borderColor = [UIColor blueColor].CGColor;
+        
+        [_btnRecomemdation setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
+        [_btnPopular setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
+        [_btnRecent setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
+        _btnRecomemdation.layer.borderWidth = 0;
+        _btnRecent.layer.borderWidth  = 0;
+        _btnPopular.layer.borderWidth = 0.5;
+        _btnPopular.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
+        
     }
    
 }

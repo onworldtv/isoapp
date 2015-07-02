@@ -5,47 +5,52 @@
         <attribute name="karaoke" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="mode" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="genre" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTGenre" inverseName="category" inverseEntity="YTGenre" syncable="YES"/>
     </entity>
     <entity name="YTContent" representedClassName="YTContent" syncable="YES">
+        <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="contentID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="karaoke" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="provID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTContentDetail" inverseName="content" inverseEntity="YTContentDetail" syncable="YES"/>
+        <relationship name="gen" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTGenre" inverseName="content" inverseEntity="YTGenre" syncable="YES"/>
     </entity>
-    <entity name="YTContentDetail" syncable="YES">
-        <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    <entity name="YTContentDetail" representedClassName="YTContentDetail" syncable="YES">
         <attribute name="contDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="contLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="episodes" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imdb" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="langID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="mode" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="provID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="content" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTContent" inverseName="detail" inverseEntity="YTContent" syncable="YES"/>
     </entity>
     <entity name="YTGenre" representedClassName="YTGenre" syncable="YES">
-        <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="genName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTCategory" inverseName="genre" inverseEntity="YTCategory" syncable="YES"/>
+        <relationship name="content" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTContent" inverseName="gen" inverseEntity="YTContent" syncable="YES"/>
     </entity>
     <entity name="YTProvider" representedClassName="YTProvider" syncable="YES">
         <attribute name="provID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="provName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="YTCategory" positionX="-54" positionY="0" width="128" height="105"/>
-        <element name="YTContent" positionX="-36" positionY="135" width="128" height="135"/>
-        <element name="YTContentDetail" positionX="-18" positionY="45" width="128" height="285"/>
-        <element name="YTGenre" positionX="-36" positionY="27" width="128" height="90"/>
-        <element name="YTProvider" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="YTCategory" positionX="-576" positionY="-117" width="128" height="118"/>
+        <element name="YTContent" positionX="-45" positionY="-180" width="128" height="208"/>
+        <element name="YTContentDetail" positionX="189" positionY="-297" width="128" height="253"/>
+        <element name="YTGenre" positionX="-270" positionY="-144" width="128" height="103"/>
+        <element name="YTProvider" positionX="-263" positionY="-342" width="128" height="75"/>
     </elements>
 </model>

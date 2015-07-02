@@ -113,7 +113,6 @@ static YTDataManager *m_instance;
                                                 genre = [YTGenre MR_createEntityInContext:localContext];
                                             }
                                             genre.genID = @([[item valueForKey:@"id"] intValue]);
-                                            genre.cateID = @(cateID);
                                             genre.genName = [item valueForKey:@"name"];
                                         }
                                     } completion:^(BOOL contextDidSave, NSError *error) {

@@ -21,8 +21,8 @@
     if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) return nil;
     
     UICollectionViewFlowLayout  *layout = [[UICollectionViewFlowLayout alloc] init];
-    [layout setMinimumLineSpacing:1.0f];
-    [layout setMinimumInteritemSpacing:1.0f];
+    [layout setMinimumLineSpacing:0];
+    [layout setMinimumInteritemSpacing:0];
     [layout setSectionInset:UIEdgeInsetsMake(5, 5, 5, 5)];
     self.collectionView = [[YTIndexedCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     [self.collectionView registerClass:[YTGirdItemCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];

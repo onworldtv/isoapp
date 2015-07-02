@@ -20,3 +20,4 @@
 #define USERID            @"userid"
 
 
+#define HEIGHT_COLLECTION_ITEM      200

@@ -83,11 +83,11 @@
     
     audioViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's listen today"];
     [audioViewCtrl setViewControllers:@[l1,l2,l3]];
-    audioViewCtrl.view.frame=CGRectMake(frame.origin.x,630,CGRectGetWidth(frame),630);
+    audioViewCtrl.view.frame=CGRectMake(frame.origin.x,635,CGRectGetWidth(frame),630);
     
     [audioViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
-    [_scrollView setContentSize:CGSizeMake(frame.size.width,630*2)];
+    [_scrollView setContentSize:CGSizeMake(frame.size.width,630 * 2 + 5)];
     
     [_scrollView addSubview:videoViewCtrl.view];
     [_scrollView addSubview:audioViewCtrl.view];
@@ -113,11 +113,11 @@
     CGSize audiosize = currentAudioCtrl.collectionViewLayout.collectionViewContentSize;
     CGRect audioFrame = currentAudioCtrl.view.frame;
     audioFrame.size.height = audiosize.height + 80;
-    audioFrame.origin.y = videoFrame.size.height;
+    audioFrame.origin.y = videoFrame.size.height + 5;
     
     [audioViewCtrl.view setFrame:audioFrame];
     
-    CGSize scrollviewSize = CGSizeMake(_scrollView.frame.size.width, audioFrame.size.height + videoFrame.size.height);
+    CGSize scrollviewSize = CGSizeMake(_scrollView.frame.size.width, audioFrame.size.height + videoFrame.size.height + 5);
     [_scrollView setContentSize:scrollviewSize];
     
     

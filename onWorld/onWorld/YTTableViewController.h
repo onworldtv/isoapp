@@ -10,4 +10,5 @@
 
 @interface YTTableViewController : UITableViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+
 @end

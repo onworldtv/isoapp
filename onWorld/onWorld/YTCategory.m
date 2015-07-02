@@ -2,18 +2,20 @@
 //  YTCategory.m
 //  OnWorld
 //
-//  Created by yestech1 on 6/24/15.
+//  Created by yestech1 on 7/1/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
 #import "YTCategory.h"
+#import "YTGenre.h"
 
 
 @implementation YTCategory
 
 @dynamic cateID;
-@dynamic name;
-@dynamic mode;
 @dynamic karaoke;
+@dynamic mode;
+@dynamic name;
+@dynamic genre;
 
 @end

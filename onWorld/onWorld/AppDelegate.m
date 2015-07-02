@@ -10,6 +10,9 @@
 #import "YTNetWorkManager.h"
 #import "YTHomeViewController.h"
 #import "YTGridViewController.h"
+#import "YTRelativeViewController.h"
+#import "YTEpisodesViewController.h"
+#import "YTTimelineViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -19,7 +22,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    DATA_MANAGER;
+//    DATA_MANAGER;
+    
+    YTRelativeViewController *viewcontroller = [[YTRelativeViewController alloc]init];
+    [self.window setRootViewController:viewcontroller];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
