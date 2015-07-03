@@ -11,6 +11,7 @@
 @interface YTRelativeViewController ()
 {
     int defaultNumber;
+    
 }
 @end
 
@@ -18,7 +19,7 @@
 
 
 -(id)init {
-    self = [super init];
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
         _numberOfItem = defaultNumber = 2;
         
@@ -37,16 +38,19 @@
 
 }
 
-
+- (void)setItems:(NSMutableArray *)items {
+    _items = items;
+    [_collectionView reloadData];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [[NSNotificationCenter defaultCenter]removeObserver:self
-                                                   name:UIDeviceOrientationDidChangeNotification
-                                                 object:nil];
 }
 
-
+- (void)setNumberOfItem:(int)numberOfItem {
+    _numberOfItem = numberOfItem;
+    defaultNumber = _numberOfItem;
+}
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
     
@@ -59,12 +63,12 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 2;
+    return 1;
     
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return _items.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -83,5 +87,12 @@
 }
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIDeviceOrientationDidChangeNotification
+                                                 object:nil];
+
 }
 @end

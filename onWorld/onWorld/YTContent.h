@@ -20,8 +20,6 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * status;
 @property (nonatomic, retain) NSNumber * provID;
-@property (nonatomic, retain) NSNumber * genID;
-@property (nonatomic, retain) NSNumber * cateID;
 @property (nonatomic, retain) YTGenre *gen;
 @property (nonatomic, retain) YTContentDetail *detail;
 

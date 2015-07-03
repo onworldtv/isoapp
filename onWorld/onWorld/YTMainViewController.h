@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YTSelectedItemProtocol.h"
 
-@interface YTMainViewController : UIViewController
+
+@interface YTMainViewController : UIViewController <YTSelectedItemProtocol>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 

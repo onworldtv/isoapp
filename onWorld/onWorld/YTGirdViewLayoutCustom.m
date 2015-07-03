@@ -153,13 +153,19 @@ static NSString * const YTLayoutItemCell = @"itemCell";
     _numberOfColumns = numberOfColumns;
     CGRect frame = self.collectionView.bounds;
     CGFloat width = floorf(frame.size.width -  self.itemInsets.left - self.itemInsets.right)/ self.numberOfColumns;
-    self.itemSize = CGSizeMake(width, 180);
+    self.itemSize = CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
     [self invalidateLayout];
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return self.layoutInfo[YTLayoutItemCell][indexPath];
+}
+
+
+
+-(void)dealloc {
+    
 }
 
 @end

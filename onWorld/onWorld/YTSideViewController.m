@@ -12,8 +12,10 @@
 #import "SWRevealViewController.h"
 #import "YTLoginViewController.h"
 #import "PDKeychainBindings.h"
-
 #import "YTTableViewController.h"
+
+
+#import "YTMainDetailViewController.h"
 static const NSString * kYTMenuHome = @"HOME";
 static const NSString * kYTMenuLogin = @"LOGIN";
 static const NSString * kYTSearch = @"SEARCH";
@@ -225,6 +227,15 @@ static const NSString * kYTSearch = @"SEARCH";
         
     }else if(indexPath.section == 1){
         selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
+        
+        selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
+        
+        [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+        
+        
+        YTMainDetailViewController *categoriesViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];;
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:categoriesViewController];
+        [self.revealViewController pushFrontViewController:navigationController animated:YES];
         
     }else if (indexPath.section == 2) {
         

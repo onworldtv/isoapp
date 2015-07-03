@@ -31,7 +31,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="160" height="40"/>
                             <fontDescription key="fontDescription" name="UTM-Bebas" family="UTM Bebas" pointSize="20"/>
                             <state key="normal" title="TIMELINE">
-                                <color key="titleColor" red="0.9137254901960784" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleColor" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -54,7 +54,6 @@
                     <constraints>
                         <constraint firstItem="NQN-kV-vo4" firstAttribute="width" secondItem="TIr-ae-W2b" secondAttribute="width" id="6PM-KR-eNT"/>
                         <constraint firstItem="TIr-ae-W2b" firstAttribute="leading" secondItem="NQN-kV-vo4" secondAttribute="trailing" id="CLk-Fr-uaB"/>
-                        <constraint firstItem="NQN-kV-vo4" firstAttribute="height" secondItem="TIr-ae-W2b" secondAttribute="height" id="D8b-Xq-R5b"/>
                         <constraint firstItem="TIr-ae-W2b" firstAttribute="top" secondItem="tkw-cs-PNW" secondAttribute="top" id="KZ7-bm-5zV"/>
                         <constraint firstAttribute="bottom" secondItem="TIr-ae-W2b" secondAttribute="bottom" id="S3i-ya-Azy"/>
                         <constraint firstAttribute="bottom" secondItem="NQN-kV-vo4" secondAttribute="bottom" id="UpS-14-hfs"/>

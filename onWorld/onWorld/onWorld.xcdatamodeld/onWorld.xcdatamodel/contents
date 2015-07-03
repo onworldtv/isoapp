@@ -8,10 +8,8 @@
         <relationship name="genre" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTGenre" inverseName="category" inverseEntity="YTGenre" syncable="YES"/>
     </entity>
     <entity name="YTContent" representedClassName="YTContent" syncable="YES">
-        <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="contentID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="karaoke" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -48,7 +46,7 @@
     </entity>
     <elements>
         <element name="YTCategory" positionX="-576" positionY="-117" width="128" height="118"/>
-        <element name="YTContent" positionX="-45" positionY="-180" width="128" height="208"/>
+        <element name="YTContent" positionX="-45" positionY="-180" width="128" height="178"/>
         <element name="YTContentDetail" positionX="189" positionY="-297" width="128" height="253"/>
         <element name="YTGenre" positionX="-270" positionY="-144" width="128" height="103"/>
         <element name="YTProvider" positionX="-263" positionY="-342" width="128" height="75"/>

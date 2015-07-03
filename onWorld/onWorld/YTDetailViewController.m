@@ -14,6 +14,15 @@
 
 @implementation YTDetailViewController
 
+
+- (id)init {
+    self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if(self) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

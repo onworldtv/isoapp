@@ -12,7 +12,7 @@
         </mutableArray>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YTCollectionView">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YTHomeViewController">
             <connections>
                 <outlet property="btnMore" destination="56L-Dp-ru0" id="4Sc-bg-SL6"/>
                 <outlet property="btnPopular" destination="EYT-jL-V64" id="6Kg-C9-MFt"/>
@@ -51,6 +51,9 @@
                             <state key="normal" image="more_white">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="click_showMore:" destination="-1" eventType="touchUpInside" id="u3Z-l2-DsM"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>

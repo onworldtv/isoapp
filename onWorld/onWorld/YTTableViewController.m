@@ -11,9 +11,12 @@
 #import "YTGirdItemCell.h"
 #import "YTTableHeaderCell.h"
 #include "SWRevealViewController.h"
+#import "YTMainDetailViewController.h"
 @interface YTTableViewController ()
 {
     NSMutableArray * datalist;
+    NSArray *titles;
+    int defaultNumberItems;
 }
 
 
@@ -21,7 +24,19 @@
 
 @implementation YTTableViewController
 
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
+    if(self) {
+        _numberItems = defaultNumberItems = 2;
+    }
+    return self;
+}
 
+
+-(void)setNumberItems:(int)numberItems {
+    _numberItems = numberItems;
+    defaultNumberItems =_numberItems;
+}
 
 - (void)viewDidLoad
 {
@@ -31,6 +46,7 @@
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name: UIDeviceOrientationDidChangeNotification
                                                object: nil];
+    
     SWRevealViewController *revealViewController = self.revealViewController;
     if (revealViewController )
     {
@@ -46,11 +62,14 @@
             self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
         }
     }
-    
-
-	// Do any additional setup after loading the view, typically from a nib.
 }
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
+    
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        _numberItems = defaultNumberItems + 1;
+    }else {
+        _numberItems = defaultNumberItems;
+    }
     [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning
@@ -64,7 +83,7 @@
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return titles.count;
 }
 
 
@@ -88,7 +107,6 @@
 {
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
     
-//    [cell.collectionView setContentOffset:CGPointMake(horizontalOffset, 0)];
 }
 
 #pragma mark - UITableViewDelegate Methods
@@ -96,7 +114,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 3*180 + 10;
+    NSArray *items = datalist[indexPath.section];
+    if(items.count < _numberItems)
+        return HEIGHT_COLLECTION_ITEM + 10;
+    return (items.count / _numberItems) * HEIGHT_COLLECTION_ITEM + 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -109,11 +130,24 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([YTTableHeaderCell class]) owner:self options:nil];
         headerCell = [nib objectAtIndex:0];
     }
-//    NSString *title = [[arrMenu[section] allKeys] objectAtIndex:0] ;
-//    [headerCell.txtTitle setText:title];
+    
+    if(_enableMoreButton) {
+        [headerCell.btnMore setHidden:NO];
+        [headerCell.btnMore addTarget:self
+                               action:@selector(click_showMore)
+                     forControlEvents:UIControlEventTouchUpInside];
+    }else {
+        [headerCell.btnMore setHidden:YES];
+    }
+    
+    [headerCell.txtTitle setText:titles[section]];
     return headerCell;
 }
 
+
+- (void)click_showMore {
+    
+}
 
 #pragma mark - UICollectionViewDataSource Methods
 
@@ -123,12 +157,26 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 6;
+    return datalist.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {    
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
+    
+    NSArray *itemsAt = datalist[[(YTIndexedCollectionView *)collectionView indexPath].row];
+    
+    NSDictionary * item = itemsAt[indexPath.item];
+    [cell.txtCategory setText:[item valueForKey:@"category"]];
+    [cell.txtTitle setText:[item valueForKey:@"name"]];
+    
+     __weak UIImageView *imageView = cell.imgView;
+    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
+        if(error == nil) {
+            [imageView setImage:image];
+        }
+    }];
+    
     return cell;
 }
 
@@ -137,26 +185,25 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    
     CGRect frame = collectionView.frame;
-    
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
     
     CGFloat width = frame.size.width - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing;
-    
-    if (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-        return CGSizeMake(width / 3,180);
-    }else{
-        return CGSizeMake(width / 2, 180);
-    }
+    if(width > 0)
+        return CGSizeMake(width / _numberItems,HEIGHT_COLLECTION_ITEM);
+    return CGSizeZero;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self.tableView reloadData];
-}
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *itemAtTableRow = datalist[[(YTIndexedCollectionView *)collectionView indexPath].row];
+    NSDictionary *item = itemAtTableRow[indexPath.row];
+#warning todo
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+    YTMainDetailViewController *detailViewCtrl = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];;
+    UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
+    [navigationController pushViewController:detailViewCtrl animated:YES];
+}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];

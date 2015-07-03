@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YTSelectedItemProtocol.h"
 @interface YTGridViewController : UICollectionViewController
 
-
+@property (weak) id<YTSelectedItemProtocol> delegate;
 
 - (id)initWithIdentify:(NSString *)identify numberItem:(int)numberItem;
 - (id)initWithArray:(NSArray *)array numberItem:(int)number;

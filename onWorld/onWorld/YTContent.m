@@ -20,8 +20,6 @@
 @dynamic name;
 @dynamic status;
 @dynamic provID;
-@dynamic genID;
-@dynamic cateID;
 @dynamic gen;
 @dynamic detail;
 

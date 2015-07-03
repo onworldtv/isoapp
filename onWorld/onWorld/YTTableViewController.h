@@ -10,5 +10,7 @@
 
 @interface YTTableViewController : UITableViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (nonatomic,assign)int numberItems;
+@property (nonatomic,assign)BOOL enableMoreButton;
 
 @end

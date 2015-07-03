@@ -8,6 +8,8 @@
 
 #import "YTHomeViewController.h"
 #import "YTGridViewController.h"
+
+
 @interface YTHomeViewController ()
 {
     NSMutableArray *viewControllers;
@@ -259,5 +261,12 @@
 - (IBAction)click_popular:(id)sender {
     [self setSelectedIndex:2 animated:YES];
     [self handleSelectedButton];
+}
+
+
+- (IBAction)click_showMore:(id)sender {
+    if([_delegate respondsToSelector:@selector(didClickedShowMoreCategory:)]) {
+        [_delegate didClickedShowMoreCategory:10];
+    }
 }
 @end

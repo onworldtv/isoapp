@@ -52,6 +52,7 @@
     return 98;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
     return contentItem.count;
 }
 

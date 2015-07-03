@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *m_title;
 @property (nonatomic,assign)int numberOfItem;
+@property (nonatomic,strong) NSMutableArray * items;
 
 @end

@@ -1,36 +1,29 @@
 //
-//  YTMoreViewController.m
+//  YTMainDetailViewController.m
 //  OnWorld
 //
-//  Created by yestech1 on 6/30/15.
+//  Created by yestech1 on 7/3/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
-#import "YTMoreViewController.h"
-#import "YTTableViewController.h"
-@interface YTMoreViewController () {
-    YTTableViewController *moreViewController;
+#import "YTMainDetailViewController.h"
+#import "YTContentDetailViewController.h"
+@interface YTMainDetailViewController ()
+{
+    YTContentDetailViewController * mainViewCtrl;
 }
-
 @end
 
-@implementation YTMoreViewController
+@implementation YTMainDetailViewController
 
-
-- (id)init {
-    self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
-    if(self) {
-        moreViewController = [[YTTableViewController alloc]init];
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    moreViewController.view.frame = self.view.bounds;
-    
-    [moreViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    mainViewCtrl = [[YTContentDetailViewController alloc]init];
+    [self.m_scrollView setContentSize:CGSizeMake(self.m_scrollView.frame.size.width, mainViewCtrl.view.frame.size.height)];
+    [mainViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    [self.m_scrollView addSubview:mainViewCtrl.view];
     // Do any additional setup after loading the view.
 }
 

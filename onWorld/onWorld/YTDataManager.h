@@ -27,4 +27,6 @@
 
 - (BFTask *)contentItemsHomeView;
 
+- (BFTask *)pullGroupContent;
+
 @end

@@ -7,9 +7,15 @@
 //
 
 #import "YTContentDetailViewController.h"
-
+#import "YTDetailViewController.h"
+#import "YTRelativeViewController.h"
+#import "YTTimelineViewController.h"
 @interface YTContentDetailViewController ()
-
+{
+    YTDetailViewController *detailViewCtrl;
+    YTTimelineViewController *timelineViewCtrl;
+    YTRelativeViewController *relativeViewCtrl;
+}
 @end
 
 @implementation YTContentDetailViewController
@@ -18,12 +24,31 @@
 -(id) init {
     self = [super initWithNibName:@"YTContentDetailViewController" bundle:nil];
     if(self) {
-        
+        detailViewCtrl = [[YTDetailViewController alloc]init];
+        timelineViewCtrl = [[YTTimelineViewController alloc]init];
+        relativeViewCtrl = [[YTRelativeViewController alloc]init];
     }
     return self;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    detailViewCtrl.view.frame = _topView.bounds;
+    [detailViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    [_topView addSubview:detailViewCtrl.view];
+
+    timelineViewCtrl.view.frame = _middleView.bounds;
+    [timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    [_middleView addSubview:timelineViewCtrl.view];
+    
+    relativeViewCtrl.view.frame = _bottomView.bounds;
+    [relativeViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    [_bottomView addSubview:relativeViewCtrl.view];
+    
+    
+    
+    
+    
     // Do any additional setup after loading the view.
 }
 

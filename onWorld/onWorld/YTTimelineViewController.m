@@ -23,7 +23,8 @@
 
 - (id)init {
     self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil]; {
-    
+        m_timelineViewController = [[YTTimelineTableview alloc]initWithStyle:UITableViewStylePlain];
+        m_episodesViewController = [[YTEpisodesViewController alloc]initWithStyle:UITableViewStylePlain];
     }
     return self;
 }
@@ -37,9 +38,6 @@
     _btnTimeLine.layer.borderColor = [UIColor blueColor].CGColor;
     _btnEpisodes.layer.borderWidth = 0.5f;
     [_btnTimeLine setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    
-    m_timelineViewController = [[YTTimelineTableview alloc]initWithStyle:UITableViewStylePlain];
-    m_episodesViewController = [[YTEpisodesViewController alloc]initWithStyle:UITableViewStylePlain];
     [self setViewControllers:@[m_timelineViewController,m_episodesViewController]];
     if(viewControllers.count > 0) {
         [self setup];
@@ -73,8 +71,8 @@
         
         [_btnTimeLine setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
         [_btnEpisodes setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
-        
         _btnEpisodes.layer.borderWidth = 0;
+        
     }else if(selectedIndex == 1) {
         
         

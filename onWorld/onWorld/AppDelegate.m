@@ -7,11 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "YTNetWorkManager.h"
-#import "YTHomeViewController.h"
-#import "YTGridViewController.h"
-#import "YTRelativeViewController.h"
-#import "YTEpisodesViewController.h"
+
 #import "YTTimelineViewController.h"
 @interface AppDelegate ()
 
@@ -22,11 +18,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    DATA_MANAGER;
+    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+        return [DATA_MANAGER pullGroupContent];
+    }];
     
-    YTRelativeViewController *viewcontroller = [[YTRelativeViewController alloc]init];
-    [self.window setRootViewController:viewcontroller];
-    [self.window makeKeyAndVisible];
+//    YTTimelineViewController *viewcontroller = [[YTTimelineViewController alloc]init];
+//    [self.window setRootViewController:viewcontroller];
+//    [self.window makeKeyAndVisible];
     return YES;
 }
 

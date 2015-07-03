@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YTSelectedItemProtocol.h"
 @interface YTHomeViewController : UIViewController
 
 
@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
+@property (weak)id<YTSelectedItemProtocol>delegate;
 
 @property (nonatomic, weak) UIViewController *selectedViewController;
 
@@ -33,6 +34,8 @@
 - (IBAction)click_recent:(id)sender;
 - (IBAction)click_popular:(id)sender;
 
+
+- (IBAction)click_showMore:(id)sender;
 
 - (void)setViewControllers:(NSArray *)newViewControllers;
 - (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem;

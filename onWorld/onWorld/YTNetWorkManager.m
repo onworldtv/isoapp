@@ -175,7 +175,7 @@ static YTNetWorkManager *m_instance;
 
 #pragma mark - provider
 - (void)pullProvidersWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
-    NSString *urlPath = [NSString stringWithFormat:@"%@/provider&lang_id=%ld&token=%@", kServerBaseURL,languageId,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/provider&lang_id=%ld&token=%@", kServerBaseURL,(long)languageId,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
@@ -196,7 +196,7 @@ static YTNetWorkManager *m_instance;
 
 #pragma mark - category
 - (void)pullCategoriesWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
-    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&token=%@", kServerBaseURL,languageId,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&token=%@", kServerBaseURL,(long)languageId,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
@@ -215,7 +215,7 @@ static YTNetWorkManager *m_instance;
 }
 
 - (void)pullCategoriesByProvider:(int)provID successBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
-    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&provider_id=%d&token=%@", kServerBaseURL,languageId,provID,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&provider_id=%d&token=%@", kServerBaseURL,(long)languageId,provID,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
@@ -240,7 +240,7 @@ static YTNetWorkManager *m_instance;
                successBlock:(SuccessBlock)successBlock
                failureBlock:(FailureBlock)failureBlock {
 
-    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&provider_id=%d&category_id=%d&token=%@", kServerBaseURL,languageId,provID,cateID,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&provider_id=%d&category_id=%d&token=%@", kServerBaseURL,(long)languageId,provID,cateID,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
@@ -262,7 +262,7 @@ static YTNetWorkManager *m_instance;
 - (void)pullGenreByCategory:(int)cateID  successBlock:(SuccessBlock)successBlock
                failureBlock:(FailureBlock)failureBlock {
     
-    NSString *urlPath = [NSString stringWithFormat:@"%@/genre&lang_id=%ld&category_id=%d&token=%@", kServerBaseURL,languageId,cateID,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/genre&lang_id=%ld&category_id=%d&token=%@", kServerBaseURL,(long)languageId,cateID,access_token];
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
                        requestMethod:@"GET"
@@ -283,7 +283,7 @@ static YTNetWorkManager *m_instance;
 - (void)contentDetail:(int)contentID
          successBlock:(SuccessBlock)successBlock
          failureBlock:(FailureBlock)failureBlock {
-    NSString *urlPath = [NSString stringWithFormat:@"%@/detail/index/%d&lang_id=%ld&token=%@", kServerBaseURL,contentID,languageId,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/detail/index/%d&lang_id=%ld&token=%@", kServerBaseURL,contentID,(long)languageId,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
@@ -300,9 +300,36 @@ static YTNetWorkManager *m_instance;
                         }];
 }
 
+
+- (void)getContentByCategory:(int)contentID genre:(int)genID
+                successBlock:(SuccessBlock)successBlock
+                failureBlock:(FailureBlock)failureBlock {
+    
+    
+    NSString *urlPath = [NSString stringWithFormat:@"%@/contentgroup&category_id=%d&genre_id=%d&lang_id=%d&token=%@", kServerBaseURL,contentID,genID,languageId,access_token];
+    
+    [self sendRequestWithServicePath:urlPath
+                         postContent:nil
+                       requestMethod:@"GET"
+                        successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                            int errorcode =[[response valueForKey:@"error"] intValue];
+                            if(errorcode == 1) {
+                                failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.ContentDetail" code:errorcode userInfo:response]);
+                            }else {
+                                successBlock(operation,response);
+                            }
+                        } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            failureBlock(operation,error);
+                        }];
+    
+}
+
+
+
+
 - (void)contentItemsHomeWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
     
-    NSString *urlPath = [NSString stringWithFormat:@"%@/home&lang_id=%ld&item_count=6&token=%@", kServerBaseURL,languageId,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/home&lang_id=%ld&item_count=6&token=%@", kServerBaseURL,(long)languageId,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil

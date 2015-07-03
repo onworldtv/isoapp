@@ -108,12 +108,16 @@ static YTDataManager *m_instance;
                                     
                                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                         for(NSDictionary *item in items) {
+                                            YTCategory *category = [YTCategory MR_findFirstByAttribute:@"cateID" withValue:@(cateID) inContext:localContext];
                                             YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@([[item valueForKey:@"id"] intValue]) inContext:localContext];
                                             if(genre == nil) {
                                                 genre = [YTGenre MR_createEntityInContext:localContext];
                                             }
                                             genre.genID = @([[item valueForKey:@"id"] intValue]);
                                             genre.genName = [item valueForKey:@"name"];
+                                            if(category){
+                                               [category addGenreObject:genre];
+                                            }
                                         }
                                     } completion:^(BOOL contextDidSave, NSError *error) {
                                         if(error == nil)
@@ -207,4 +211,78 @@ static YTDataManager *m_instance;
     return completionSource.task;
 }
 
+- (BFTask *)pullGroupContent {
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    NSArray *categories = [YTCategory MR_findAll];
+    
+    if(categories.count > 0) {
+        BFTask *task = [BFTask taskWithResult:nil];
+        for (YTCategory *category in categories) {
+            NSArray *gens = [category.genre allObjects];
+            for (YTGenre *gen in gens) {
+                task = [task continueWithBlock:^id(BFTask *task) {
+                    return [self pullContentByCate:category.cateID.intValue genre:gen.genID.intValue];
+                }];
+            }
+        }
+    }else {
+        [completionSource setResult:nil];
+    }
+    return completionSource.task;
+}
+
+- (BFTask *)pullContentByCate:(int)cateID genre:(int)genID {
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    [NETWORK_MANAGER getContentByCategory:cateID genre:genID
+                             successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                                 
+                                 NSArray *groups = [response valueForKey:@"groups"];
+                                 NSDictionary *dictItem = groups[0];
+                                 [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                     
+                                     for (NSDictionary *dictionary in [dictItem valueForKey:@"items"]) {
+                                      
+                                         YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@(genID) inContext:localContext];
+                                         int contentID = [[dictionary valueForKey:@"id"] intValue];
+                                         YTContent *content = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID) inContext:localContext];
+                                         if(!content) {
+                                             content = [YTContent MR_createEntityInContext:localContext];
+                                         }
+                                         content.contentID = @(contentID);
+                                         content.name = [dictionary valueForKey:@"name"];
+                                         content.desc = [dictionary valueForKey:@"description"];
+                                         content.image = [dictionary valueForKey:@"image"];
+                                         content.karaoke = @([[dictionary valueForKey:@"karaoke"] intValue]);
+                                         [genre addContentObject:content];
+                                        
+                                         /*
+                                          id	:	242
+                                          name	:	Mundo Television Channel
+                                          description	:
+                                          image	:	http://img.onworldtv.com/wxh//banner/2015/05/25/409711-200515_mundotv_logo.jpg
+                                          karaoke	:
+                                          @property (nonatomic, retain) NSNumber * contentID;
+                                          @property (nonatomic, retain) NSString * desc;
+                                          @property (nonatomic, retain) NSString * image;
+                                          @property (nonatomic, retain) NSNumber * karaoke;
+                                          @property (nonatomic, retain) NSString * name;
+                                          @property (nonatomic, retain) NSNumber * status;
+                                          @property (nonatomic, retain) NSNumber * provID;
+                                          */
+                                         
+                                         
+                                     }
+                                 } completion:^(BOOL contextDidSave, NSError *error) {
+                                     if(error)
+                                        [completionSource setError:error];
+                                     else
+                                         [completionSource setResult:nil];
+                                 }];
+                                
+                                 
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+    return completionSource.task;
+}
 @end

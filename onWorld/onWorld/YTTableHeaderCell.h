@@ -12,5 +12,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtTitle;
 @property (weak, nonatomic) IBOutlet UIButton *btnMore;
 
-- (IBAction)click_more:(id)sender;
 @end

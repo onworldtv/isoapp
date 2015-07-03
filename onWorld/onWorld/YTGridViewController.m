@@ -114,10 +114,15 @@ static NSString * const reuseIdentifier = @"Cell";
     self.mylayout.numberOfColumns = item;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
+
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if([_delegate respondsToSelector:@selector(itemDidSelectedWithValue:forKey:)]) {
+        [_delegate itemDidSelectedWithValue:nil forKey:@"selected_item"];
+    }
 }
+
 
 #pragma mark <UICollectionViewDelegate>
 

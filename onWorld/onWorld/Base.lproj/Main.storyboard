@@ -137,11 +137,10 @@
             </objects>
             <point key="canvasLocation" x="631" y="-109"/>
         </scene>
-        <!--Content Detail View Controller-->
+        <!--Main Detail View Controller-->
         <scene sceneID="sNh-y4-cGr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dZk-Q3-qY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="contentDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTContentDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTMainDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vnH-OG-6S6"/>
                         <viewControllerLayoutGuide type="bottom" id="kqQ-lp-G8C"/>
@@ -150,15 +149,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cOC-5q-hYm">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOC-5q-hYm">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.96689152" blue="0.16893331810000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="cOC-5q-hYm" secondAttribute="bottom" id="75Q-tF-WPG"/>
+                            <constraint firstItem="cOC-5q-hYm" firstAttribute="leading" secondItem="zQV-KP-GhR" secondAttribute="leading" id="PJZ-TR-NLD"/>
+                            <constraint firstAttribute="trailing" secondItem="cOC-5q-hYm" secondAttribute="trailing" id="gq1-1F-OBX"/>
+                            <constraint firstItem="cOC-5q-hYm" firstAttribute="top" secondItem="zQV-KP-GhR" secondAttribute="top" id="yXd-Cu-Oli"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="m_scrollView" destination="cOC-5q-hYm" id="PUL-wz-sWL"/>
+                    </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dZk-Q3-qY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="-109"/>
+            <point key="canvasLocation" x="1091" y="-117"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="el1-pA-KHA">
