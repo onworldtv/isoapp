@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YTEpisodesViewController : UITableViewController
-
+@property (retain,nonatomic)NSMutableArray *contentItems;
 @end

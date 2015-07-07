@@ -29,4 +29,11 @@
 
 - (BFTask *)pullGroupContent;
 
+
+- (BFTask *)pullAndSaveContentDetail:(int)contentID;
+
+- (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID;
+    
+
+
 @end

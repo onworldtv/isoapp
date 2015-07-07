@@ -266,7 +266,7 @@
 
 - (IBAction)click_showMore:(id)sender {
     if([_delegate respondsToSelector:@selector(didClickedShowMoreCategory:)]) {
-        [_delegate didClickedShowMoreCategory:10];
+        [_delegate didClickedShowMoreCategory:-1];
     }
 }
 @end

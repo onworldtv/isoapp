@@ -106,6 +106,7 @@ static YTNetWorkManager *m_instance;
     if(requestData) {
         [request setHTTPBody:[requestData dataUsingEncoding:NSUTF8StringEncoding]];
     }
+    [request setTimeoutInterval:30]; // timeout 30s
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     
@@ -323,7 +324,6 @@ static YTNetWorkManager *m_instance;
                         }];
     
 }
-
 
 
 

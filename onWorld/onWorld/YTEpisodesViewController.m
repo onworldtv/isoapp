@@ -9,9 +9,7 @@
 #import "YTEpisodesViewController.h"
 #import "YTEpisodesViewCell.h"
 @interface YTEpisodesViewController ()
-{
-    NSArray *contentItem;
-}
+
 
 @end
 
@@ -22,7 +20,7 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if(self) {
-        contentItem = [[NSArray alloc]init];
+        _contentItems = [[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -41,6 +39,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)setContentItems:(NSMutableArray *)contentItems {
+    _contentItems = contentItems;
+    
+    [self.tableView reloadData];
+}
 
 #pragma mark - Table view data source
 
@@ -52,13 +55,13 @@
     return 98;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
-    return contentItem.count;
+    return _contentItems.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  
+    NSDictionary *item = _contentItems[indexPath.row];
     YTEpisodesViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"cellIdentify"];
     if (!cell)
     {
@@ -70,8 +73,16 @@
     cell.avatar.clipsToBounds = YES;
     [cell setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     
-//    cell.txtContentName.text = @"";
-//    cell.txtEpisodes.text = @"";
+    __weak UIImageView *imageView = cell.avatar;
+    
+    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
+        [imageView setImage:image];
+    }];
+    
+
+    
+    cell.txtContentName.text = @"Noi tinh Yeu bat dau";
+    cell.txtEpisodes.text = @"Tap 2";
     
     return cell;
 }

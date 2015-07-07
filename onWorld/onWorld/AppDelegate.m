@@ -17,14 +17,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    DATA_MANAGER;
     
     [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
         return [DATA_MANAGER pullGroupContent];
     }];
-    
-//    YTTimelineViewController *viewcontroller = [[YTTimelineViewController alloc]init];
-//    [self.window setRootViewController:viewcontroller];
-//    [self.window makeKeyAndVisible];
     return YES;
 }
 

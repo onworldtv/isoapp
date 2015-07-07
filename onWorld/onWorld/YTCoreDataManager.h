@@ -10,4 +10,10 @@
 #import "YTProvider.h"
 #import "YTGenre.h"
 #import "YTContent.h"
-
+#import "YTDetail.h"
+#import "YTCountry.h"
+#import "YTTag.h"
+#import "YTDirector.h"
+#import "YTTimeline.h"
+#import "YTEpisodes.h"
+#import "YTActor.h"

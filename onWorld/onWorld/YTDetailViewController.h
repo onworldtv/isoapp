@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface YTDetailViewController : UIViewController
+@property (assign,nonatomic)int contentID;
 @property (weak, nonatomic) IBOutlet UILabel *txtGenre;
 @property (weak, nonatomic) IBOutlet UILabel *txtNational;
 @property (weak, nonatomic) IBOutlet UILabel *txtDuration;
 @property (weak, nonatomic) IBOutlet UILabel *txtYear;
 @property (weak, nonatomic) IBOutlet UILabel *lbDescription;
 @property (weak, nonatomic) IBOutlet UIButton *btnDown;
+
+
 - (IBAction)click_show:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgBanner;

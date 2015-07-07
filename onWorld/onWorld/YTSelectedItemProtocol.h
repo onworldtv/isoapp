@@ -12,7 +12,7 @@
 
 
 @optional
-- (void)itemDidSelectedWithValue:(id)value forKey:(NSString*)key;
+- (void)didSelectItemWithCategoryID:(int)contentID;
 
 
 - (void)didClickedShowMoreCategory:(int)categoryID;

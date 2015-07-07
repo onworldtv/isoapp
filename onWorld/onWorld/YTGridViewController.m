@@ -80,6 +80,10 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
+
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"");
+}
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -117,9 +121,12 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if([_delegate respondsToSelector:@selector(itemDidSelectedWithValue:forKey:)]) {
-        [_delegate itemDidSelectedWithValue:nil forKey:@"selected_item"];
+    NSDictionary *contentItem = contentItems[indexPath.section];
+    if(contentItem) {
+        int contentID = [[contentItem valueForKey:@"id"] intValue];
+        if([_delegate respondsToSelector:@selector(didSelectItemWithCategoryID:)]) {
+            [_delegate didSelectItemWithCategoryID:contentID];
+        }
     }
 }
 

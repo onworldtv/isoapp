@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YTTimelineViewController : UIViewController 
+@interface YTTimelineViewController : UIViewController
+@property (assign,nonatomic)int contentID;
 @property (weak, nonatomic) IBOutlet UIButton *btnTimeLine;
 @property (weak, nonatomic) IBOutlet UIButton *btnEpisodes;
 @property (weak, nonatomic) IBOutlet UIView *tabView;

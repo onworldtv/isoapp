@@ -9,9 +9,7 @@
 #import "YTTimelineTableview.h"
 #import "YTTimelineViewCell.h"
 @interface YTTimelineTableview ()
-{
-    NSArray  *contentItem;
-}
+
 @end
 
 @implementation YTTimelineTableview
@@ -19,7 +17,7 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if(self) {
-        contentItem = [[NSArray alloc]init];
+        _contentItems = [[NSMutableArray alloc]init];
     }
     return self;
 }
@@ -35,6 +33,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)setContentItems:(NSMutableArray *)contentItems {
+    _contentItems = contentItems;
+    [self.tableView reloadData];
+}
 
 #pragma mark - Table view data source
 
@@ -43,8 +45,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
-    return contentItem.count;
+    return _contentItems.count;
 }
 
 
@@ -54,6 +55,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSDictionary *item = _contentItems[indexPath.row];
     YTTimelineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellIdentify" forIndexPath:indexPath];
     if (!cell)
     {
@@ -63,6 +65,14 @@
     cell.avartar.layer.borderColor = [UIColor darkGrayColor].CGColor;
     cell.avartar.layer.cornerRadius = cell.avartar.frame.size.width / 2;
     cell.avartar.clipsToBounds = YES;
+    cell.txtContentName.text = [item valueForKey:@"name"];
+    __weak UIImageView *imageView = cell.avartar;
+    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
+        [imageView setImage:image];
+    }];
+    cell.txtSinger.text = @"";
+    cell.txtTimeline.text = [NSString stringWithFormat:@"%f - %f",[[item valueForKey:@"start"] floatValue],[[item valueForKey:@"end"] floatValue]];
+    
     [cell setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     return cell;
 }

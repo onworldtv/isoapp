@@ -322,6 +322,7 @@ static DejalActivityView *dejalActivityView = nil;
 	
     // Calculate the position of the indicator: vertically centered and at the left of the border view:
     CGRect indicatorFrame = self.activityIndicator.frame;
+    
 	indicatorFrame.origin.x = 10.0;
 	indicatorFrame.origin.y = 0.5 * (borderFrame.size.height - indicatorFrame.size.height);
     self.activityIndicator.frame = indicatorFrame;

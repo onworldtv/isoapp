@@ -31,4 +31,11 @@
     }
 }
 
++ (UIStoryboard *)appStoryboard {
+    UIApplication *application = [UIApplication sharedApplication];
+    UIWindow *backWindow = application.windows[0];
+    UIStoryboard *storyboard = backWindow.rootViewController.storyboard;
+    return storyboard;
+}
+
 @end

@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "tv.png"
+      "filename" : "livetv.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "tv@2x.png"
+      "filename" : "livetv-1.png"
     },
     {
       "idiom" : "universal",

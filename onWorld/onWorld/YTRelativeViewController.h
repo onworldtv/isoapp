@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *m_title;
 @property (nonatomic,assign)int numberOfItem;
 @property (nonatomic,strong) NSMutableArray * items;
+@property (weak)id<YTSelectedItemProtocol>delegate;
 
 @end

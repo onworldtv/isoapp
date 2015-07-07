@@ -73,7 +73,15 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSDictionary *item = _items[indexPath.row];
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"itemCell" forIndexPath:indexPath];
+    cell.txtTitle.text = [item valueForKey:@"name"];
+    [cell.txtCategory setHidden:YES];
+    __weak UIImageView *imageView = cell.imgView;
+    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
+        [imageView setImage:image];
+    }];
+    
     return cell;
 }
 
@@ -85,8 +93,17 @@
    
     return CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
 }
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+
+
+
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *item  =_items[indexPath.row];
+    if(item) {
+        if([_delegate respondsToSelector:@selector(didSelectItemWithCategoryID:)]) {
+            [_delegate didSelectItemWithCategoryID:[[item valueForKey:@"id"] intValue]];
+        }
+    }
 }
 
 - (void)dealloc {

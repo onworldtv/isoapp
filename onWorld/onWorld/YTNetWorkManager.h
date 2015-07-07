@@ -67,6 +67,8 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
                successBlock:(SuccessBlock)successBlock
                failureBlock:(FailureBlock)failureBlock;
 
+
+
 - (void)getContentByCategory:(int)contentID genre:(int)genID
          successBlock:(SuccessBlock)successBlock
          failureBlock:(FailureBlock)failureBlock;

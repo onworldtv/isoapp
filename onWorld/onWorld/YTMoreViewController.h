@@ -10,4 +10,5 @@
 
 @interface YTMoreViewController : UIViewController
 
+- (id)initWithArray:(NSArray *)array;
 @end

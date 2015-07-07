@@ -33,12 +33,12 @@
     // Initialization code
 }
 
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-//    UIView * selectedBackgroundView = [[UIView alloc] init];
-//    [selectedBackgroundView setBackgroundColor:[UIColor yellowColor]]; // set color here
-//    [self setSelectedBackgroundView:selectedBackgroundView];
-//    // Configure the view for the selected state
-//}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    UIView * selectedBackgroundView = [[UIView alloc] init];
+    [selectedBackgroundView setBackgroundColor:[UIColor colorWithHexString:@"5EA3FD"]]; // set color here
+    [self setSelectedBackgroundView:selectedBackgroundView];
+    // Configure the view for the selected state
+}
 
 @end

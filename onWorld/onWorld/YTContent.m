@@ -2,25 +2,24 @@
 //  YTContent.m
 //  OnWorld
 //
-//  Created by yestech1 on 7/1/15.
+//  Created by yestech1 on 7/6/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
 #import "YTContent.h"
-#import "YTContentDetail.h"
+#import "YTCategory.h"
+#import "YTDetail.h"
 #import "YTGenre.h"
 
 
 @implementation YTContent
 
 @dynamic contentID;
-@dynamic desc;
-@dynamic image;
-@dynamic karaoke;
 @dynamic name;
-@dynamic status;
-@dynamic provID;
-@dynamic gen;
+@dynamic desc;
+@dynamic karaoke;
+@dynamic image;
 @dynamic detail;
+@dynamic gen;
 
 @end

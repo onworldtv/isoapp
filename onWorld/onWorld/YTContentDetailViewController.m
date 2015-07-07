@@ -12,6 +12,7 @@
 #import "YTTimelineViewController.h"
 @interface YTContentDetailViewController ()
 {
+    
     YTDetailViewController *detailViewCtrl;
     YTTimelineViewController *timelineViewCtrl;
     YTRelativeViewController *relativeViewCtrl;
@@ -32,26 +33,70 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    detailViewCtrl.view.frame = _topView.bounds;
-    [detailViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-    [_topView addSubview:detailViewCtrl.view];
-
-    timelineViewCtrl.view.frame = _middleView.bounds;
-    [timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-    [_middleView addSubview:timelineViewCtrl.view];
-    
-    relativeViewCtrl.view.frame = _bottomView.bounds;
-    [relativeViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-    [_bottomView addSubview:relativeViewCtrl.view];
-    
-    
-    
-    
+    [self initViewController];
     
     // Do any additional setup after loading the view.
 }
 
+
+- (void)setContentID:(int)contentID {
+    
+    _contentID = contentID;
+    [self initViewController];
+}
+
+
+- (void)initViewController {
+    if(_contentID > 0) {
+        
+        [DejalBezelActivityView activityViewForView:self.view withLabel:nil];
+        BFTask *task = nil;
+        YTContent *contentItem = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(_contentID)];
+        if(contentItem.detail) {
+            task = [BFTask taskWithResult:nil];
+        }else {
+            task = [DATA_MANAGER pullAndSaveContentDetail:_contentID];
+        }
+        
+        [task continueWithBlock:^id(BFTask *task) {
+            
+            YTContent *contentItem = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(_contentID)];
+            YTGenre *ralative = [YTGenre MR_findFirstByAttribute:@"genID" withValue:contentItem.gen.genID];
+            NSMutableArray *relatives = [NSMutableArray array];
+            for (YTContent *content in [ralative.content allObjects]) {
+                [relatives addObject:@{@"id":content.contentID,
+                                       @"name":content.name,
+                                       @"image":content.image}];
+            }
+            detailViewCtrl.view.frame = _topView.bounds;
+            timelineViewCtrl.view.frame = _middleView.bounds;
+            relativeViewCtrl.view.frame = _bottomView.bounds;
+            [relativeViewCtrl setDelegate:self];
+           
+            [relativeViewCtrl setItems:relatives];
+            [timelineViewCtrl setContentID:_contentID];
+            [detailViewCtrl setContentID:_contentID];
+            
+            [detailViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [_topView addSubview:detailViewCtrl.view];
+            
+            [timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [_middleView addSubview:timelineViewCtrl.view];
+            
+            [relativeViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [_bottomView addSubview:relativeViewCtrl.view];
+
+            [DejalBezelActivityView removeViewAnimated:YES];
+            
+            return nil;
+        }];
+
+    }
+}
+
+- (void)didSelectItemWithCategoryID:(int)contentID {
+    [self setContentID:contentID];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

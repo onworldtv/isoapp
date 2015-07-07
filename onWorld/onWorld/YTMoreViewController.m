@@ -10,6 +10,7 @@
 #import "YTTableViewController.h"
 @interface YTMoreViewController () {
     YTTableViewController *moreViewController;
+    NSArray * items;
 }
 
 @end
@@ -17,11 +18,19 @@
 @implementation YTMoreViewController
 
 
-- (id)init {
-    self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+- (id)initWithArray:(NSArray *)array {
+    self = [super init];
     if(self) {
-        moreViewController = [[YTTableViewController alloc]init];
+        moreViewController = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:array numberItem:2];
     }
+    return self;
+}
+- (id)init{
+    self =[super init];
+    if(self) {
+        
+        moreViewController = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain];
+    }  
     return self;
 }
 
@@ -29,8 +38,8 @@
     [super viewDidLoad];
     
     moreViewController.view.frame = self.view.bounds;
-    
     [moreViewController.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    [self.view addSubview:moreViewController.view];
     // Do any additional setup after loading the view.
 }
 

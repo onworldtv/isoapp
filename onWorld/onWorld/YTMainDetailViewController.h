@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YTMainDetailViewController : UIViewController
+@interface YTMainDetailViewController : UIViewController 
 @property (weak, nonatomic) IBOutlet UIScrollView *m_scrollView;
+@property (assign,nonatomic) int contentID;
 
 @end

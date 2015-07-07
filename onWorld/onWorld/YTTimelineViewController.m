@@ -48,7 +48,11 @@
     
 }
 
-
+- (void)setContentID:(int)contentID {
+    _contentID = contentID;
+    
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

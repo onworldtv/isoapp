@@ -10,4 +10,6 @@
 
 @interface YTTimelineTableview : UITableViewController
 
+@property (retain,nonatomic)NSMutableArray *contentItems;
+
 @end

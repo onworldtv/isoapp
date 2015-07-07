@@ -19,4 +19,6 @@ static NSString *kYTPassword = @"kYTPassword";
 + (UIFont *)getFontWithSize:(CGFloat)size;
 + (void)showError:(NSString *)error;
 
++ (UIStoryboard *)appStoryboard;
+
 @end

@@ -11,6 +11,8 @@
 #import "YTHomeViewController.h"
 #import "YTGridViewController.h"
 #import "YTMainDetailViewController.h"
+#import "YTTableViewController.h"
+
 
 @interface YTMainViewController ()
 {
@@ -76,6 +78,7 @@
     
     videoViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's view today"];
     [videoViewCtrl setViewControllers:viewControllers];
+    [videoViewCtrl setDelegate:self];
     
     videoViewCtrl.view.frame =CGRectMake(frame.origin.x, frame.origin.y, CGRectGetWidth(frame), 630);
     [videoViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
@@ -92,6 +95,9 @@
     
     audioViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's listen today"];
     [audioViewCtrl setViewControllers:@[audioRecomemdation,audioRecent,audioPopular]];
+    [audioViewCtrl setDelegate:self];
+    
+    
     audioViewCtrl.view.frame=CGRectMake(frame.origin.x,635,CGRectGetWidth(frame),630);
     
     [audioViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
@@ -135,13 +141,56 @@
 }
 
 
-- (void)itemDidSelectedWithValue:(id)value forKey:(NSString *)key {
+- (void)didSelectItemWithCategoryID:(int)contentID {
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
     
-    YTMainDetailViewController *detailViewCtrl = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];;
+    YTMainDetailViewController *detailViewCtrl = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];
+    [detailViewCtrl setContentID:contentID];
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];
 }
+
+
+- (void)didClickedShowMoreCategory:(int)categoryID {
+    
+    NSArray *categories = nil;
+    if(categoryID == -1) { // show all category
+        categories = [YTCategory MR_findAll];
+    }else {
+        categories = [YTCategory MR_findByAttribute:@"cateId" withValue:@(categoryID)];
+    }
+    NSMutableArray *items = [[NSMutableArray alloc]init];
+    for (YTCategory *catgory in categories) {
+        NSArray *genries = [[catgory genre]allObjects];
+        if(genries.count > 0) {
+            for (YTGenre *genre in genries) {
+                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName};
+                NSMutableArray *subItems = [NSMutableArray array];
+                
+                NSArray *contents = [[genre content]allObjects];
+                for (YTContent *content in contents) {
+                    
+                    NSDictionary *contentDict = @{@"id":content.contentID,
+                                                  @"name":content.name,
+                                                  @"image":content.image,@"desc":content.desc,
+                                                  @"category":catgory.name};
+                    
+                    [subItems addObject:contentDict];
+                }
+                if(subItems.count > 0) {
+                    NSDictionary *object = @{@"gen":genreDict, @"content":subItems};
+                    [items addObject:object];
+                }
+            }
+        }
+    }
+    [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items numberItem:2];
+    UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
+    [navCtrll pushViewController:moreViewController animated:YES];
+
+}
+
 
 @end

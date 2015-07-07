@@ -14,7 +14,7 @@
 #import "YTMainDetailViewController.h"
 @interface YTTableViewController ()
 {
-    NSMutableArray * datalist;
+    NSMutableArray * m_items;
     NSArray *titles;
     int defaultNumberItems;
 }
@@ -24,13 +24,15 @@
 
 @implementation YTTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style {
+- (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items numberItem:(int)numberItems {
     self = [super initWithStyle:style];
     if(self) {
-        _numberItems = defaultNumberItems = 2;
+        _numberItems = defaultNumberItems = numberItems;
+        m_items = [[NSMutableArray alloc]initWithArray:items];
     }
     return self;
 }
+
 
 
 -(void)setNumberItems:(int)numberItems {
@@ -48,7 +50,7 @@
                                                object: nil];
     
     SWRevealViewController *revealViewController = self.revealViewController;
-    if (revealViewController )
+    if (_showRevealNavigator )
     {
         
         UIBarButtonItem *revealButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu"]
@@ -58,10 +60,21 @@
         [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
         
         if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
-            self.navigationItem.title = nil;
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+            self.navigationItem.title = _navigatorTitle;
+//              self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+        }
+    }else {
+        if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
+            self.navigationItem.title = _navigatorTitle;
         }
     }
+    
+    if(_numberItems == 0) {
+        _numberItems = defaultNumberItems = 2;
+    }
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    [self.tableView reloadData];
 }
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
     
@@ -83,12 +96,13 @@
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return titles.count;
+    return m_items.count;
 }
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
     return 1;
 }
 
@@ -114,10 +128,19 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *items = datalist[indexPath.section];
-    if(items.count < _numberItems)
+    
+    NSDictionary *itemsDict = m_items[indexPath.section];
+    NSArray *subItems = [itemsDict valueForKey:@"content"];
+    if(subItems.count < _numberItems)
         return HEIGHT_COLLECTION_ITEM + 10;
-    return (items.count / _numberItems) * HEIGHT_COLLECTION_ITEM + 10;
+    int delta = subItems.count % _numberItems;
+    if(delta > 0) {
+        delta = 1;
+    }
+    int item = (subItems.count / _numberItems) + delta;
+    CGFloat height =item * HEIGHT_COLLECTION_ITEM + 10;
+
+    return height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -140,7 +163,11 @@
         [headerCell.btnMore setHidden:YES];
     }
     
-    [headerCell.txtTitle setText:titles[section]];
+    
+    NSDictionary *item = m_items[section];
+    NSDictionary *titleDict = [item valueForKey:@"gen"];
+    
+    [headerCell.txtTitle setText:[titleDict valueForKey:@"name"]];
     return headerCell;
 }
 
@@ -151,23 +178,23 @@
 
 #pragma mark - UICollectionViewDataSource Methods
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return datalist.count;
+    
+    NSDictionary *itemsAtPath = m_items[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    NSArray *subItems = [itemsAtPath valueForKey:@"content"];
+    return subItems.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {    
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
     
-    NSArray *itemsAt = datalist[[(YTIndexedCollectionView *)collectionView indexPath].row];
+    NSDictionary *itemsAtPath = m_items[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    NSArray *subItems = [itemsAtPath valueForKey:@"content"];
     
-    NSDictionary * item = itemsAt[indexPath.item];
-    [cell.txtCategory setText:[item valueForKey:@"category"]];
+    NSDictionary * item = subItems[indexPath.item];
     [cell.txtTitle setText:[item valueForKey:@"name"]];
     
      __weak UIImageView *imageView = cell.imgView;
@@ -196,11 +223,15 @@
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *itemAtTableRow = datalist[[(YTIndexedCollectionView *)collectionView indexPath].row];
-    NSDictionary *item = itemAtTableRow[indexPath.row];
-#warning todo
+    
+    NSDictionary *itemdict = m_items[[(YTIndexedCollectionView *)collectionView indexPath].row];
+
+    NSDictionary *item = [[itemdict valueForKey:@"content"] objectAtIndex:indexPath.row];
+    
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-    YTMainDetailViewController *detailViewCtrl = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];;
+    
+    YTMainDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
+    [detailViewCtrl setContentID:[[item valueForKey:@"id"] intValue]];
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];
 }
