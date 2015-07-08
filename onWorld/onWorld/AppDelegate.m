@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "YTPlayerViewController.h"
 #import "YTTimelineViewController.h"
 @interface AppDelegate ()
 
@@ -18,11 +18,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    DATA_MANAGER;
+//    DATA_MANAGER;
+//    
+//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+//        return [DATA_MANAGER pullGroupContent];
+//    }];
     
-    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-        return [DATA_MANAGER pullGroupContent];
-    }];
+    YTPlayerViewController *playerView = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil];
+    [self.window setRootViewController:playerView];
+    [self.window makeKeyAndVisible] ;
     return YES;
 }
 

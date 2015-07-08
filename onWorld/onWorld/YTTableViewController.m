@@ -10,8 +10,8 @@
 #import "YTTableViewCell.h"
 #import "YTGirdItemCell.h"
 #import "YTTableHeaderCell.h"
-#include "SWRevealViewController.h"
-#import "YTMainDetailViewController.h"
+#import "YTContentDetailViewController.h"
+
 @interface YTTableViewController ()
 {
     NSMutableArray * m_items;
@@ -24,10 +24,10 @@
 
 @implementation YTTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items numberItem:(int)numberItems {
+- (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items{
     self = [super initWithStyle:style];
     if(self) {
-        _numberItems = defaultNumberItems = numberItems;
+        _numberItems = defaultNumberItems = [YTOnWorldUtility collectionViewItemPerRow];
         m_items = [[NSMutableArray alloc]initWithArray:items];
     }
     return self;
@@ -60,12 +60,20 @@
         [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
         
         if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
-            self.navigationItem.title = _navigatorTitle;
-//              self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+            
+            if(_navigatorTitle != nil) {
+                self.navigationItem.title = _navigatorTitle;
+            }else {
+                 self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+            }
+           
         }
     }else {
         if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
-            self.navigationItem.title = _navigatorTitle;
+            if(_navigatorTitle != nil)
+                self.navigationItem.title = _navigatorTitle;
+            else
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
         }
     }
     
@@ -78,11 +86,11 @@
 }
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
     
-    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-        _numberItems = defaultNumberItems + 1;
-    }else {
-        _numberItems = defaultNumberItems;
-    }
+//    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+//        _numberItems = defaultNumberItems + 1;
+//    }else {
+//        _numberItems = defaultNumberItems;
+//    }
     [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning
@@ -129,18 +137,26 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    CGFloat width  = tableView.frame.size.width - 10;
     NSDictionary *itemsDict = m_items[indexPath.section];
+    NSDictionary *titleDic = [itemsDict valueForKey:@"title"];
+    int mode = [[titleDic valueForKey:@"mode"] intValue];
+    int height = 0;
+    if(mode == 0) {
+        height = floorf(width / _numberItems);
+    }else {
+        height = floorf((width * 9)/(16 * _numberItems));
+    }
     NSArray *subItems = [itemsDict valueForKey:@"content"];
     if(subItems.count < _numberItems)
-        return HEIGHT_COLLECTION_ITEM + 10;
+        return height + 10;
     int delta = subItems.count % _numberItems;
     if(delta > 0) {
         delta = 1;
     }
-    int item = (subItems.count / _numberItems) + delta;
-    CGFloat height =item * HEIGHT_COLLECTION_ITEM + 10;
+    float item = (subItems.count / _numberItems) + delta;
+    return item * height + 10;
 
-    return height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -165,7 +181,7 @@
     
     
     NSDictionary *item = m_items[section];
-    NSDictionary *titleDict = [item valueForKey:@"gen"];
+    NSDictionary *titleDict = [item valueForKey:@"title"];
     
     [headerCell.txtTitle setText:[titleDict valueForKey:@"name"]];
     return headerCell;
@@ -198,12 +214,17 @@
     [cell.txtTitle setText:[item valueForKey:@"name"]];
     
      __weak UIImageView *imageView = cell.imgView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
+    [[DLImageLoader sharedInstance]loadImageFromUrl:@"http://img.onworldtv.com/250x250/banner/2015/03/11/884908-livetv_sgn_banner.jpg"/*[item valueForKey:@"image"]*/ completed:^(NSError *error, UIImage *image) {
         if(error == nil) {
             [imageView setImage:image];
         }
     }];
     
+    if(_showByCategory){
+        cell.txtCategory.text = [item valueForKey:@"category"];
+    }else {
+        [cell.txtCategory setHidden:YES];
+    }
     return cell;
 }
 
@@ -212,12 +233,23 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSDictionary *itemsAtPath = m_items[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    NSDictionary *title = [itemsAtPath valueForKey:@"title"];
     CGRect frame = collectionView.frame;
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
     
     CGFloat width = frame.size.width - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing;
-    if(width > 0)
-        return CGSizeMake(width / _numberItems,HEIGHT_COLLECTION_ITEM);
+    if(width > 0) {
+        width = width / _numberItems;
+        CGFloat height = 0;
+        if([[title valueForKey:@"mode"] intValue] == 0) {// listen
+            height = width;
+        }else {//view
+            height =floorf((9 * width)/16);
+        }
+        return CGSizeMake(width,height);
+    }
     return CGSizeZero;
 }
 
@@ -229,8 +261,7 @@
     NSDictionary *item = [[itemdict valueForKey:@"content"] objectAtIndex:indexPath.row];
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-    
-    YTMainDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
+    YTContentDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
     [detailViewCtrl setContentID:[[item valueForKey:@"id"] intValue]];
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];

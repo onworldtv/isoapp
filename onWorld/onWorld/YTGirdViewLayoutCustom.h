@@ -14,5 +14,6 @@
 @property (nonatomic) CGSize itemSize;
 @property (nonatomic) CGFloat interItemSpacingY;
 @property (nonatomic) NSInteger numberOfColumns;
+@property (assign,nonatomic) int mode;
 
 @end

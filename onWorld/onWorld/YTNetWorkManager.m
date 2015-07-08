@@ -128,7 +128,7 @@ static YTNetWorkManager *m_instance;
 - (void)loginWithUserName:(NSString *)userName passWord:(NSString *)pass successBlock:(SuccessBlock)successBlock failure:(FailureBlock)failureBlock{
     
     NSString *urlPath =[NSString stringWithFormat:@"%@/login",kServerBaseURL];
-    NSString *postData = [NSString stringWithFormat:@"lang_id=%ld&username=%@&password=%@",languageId, userName, pass];
+    NSString *postData = [NSString stringWithFormat:@"lang_id=%ld&username=%@&password=%@",(long)languageId, userName, pass];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:postData
@@ -307,7 +307,7 @@ static YTNetWorkManager *m_instance;
                 failureBlock:(FailureBlock)failureBlock {
     
     
-    NSString *urlPath = [NSString stringWithFormat:@"%@/contentgroup&category_id=%d&genre_id=%d&lang_id=%d&token=%@", kServerBaseURL,contentID,genID,languageId,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/content&category_id=%d&genre_id=%d&lang_id=%ld&token=%@", kServerBaseURL,contentID,genID,(long)languageId,access_token];
     
     [self sendRequestWithServicePath:urlPath
                          postContent:nil

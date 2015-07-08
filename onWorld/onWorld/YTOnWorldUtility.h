@@ -21,4 +21,8 @@ static NSString *kYTPassword = @"kYTPassword";
 
 + (UIStoryboard *)appStoryboard;
 
+
++ (int)collectionViewItemPerRow;
+
+
 @end

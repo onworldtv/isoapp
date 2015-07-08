@@ -48,6 +48,8 @@
         _txtGenre.text = content.gen.genName;
         _txtNational.text = content.detail.country.name;
         _txtDuration.text  =  [NSString stringWithFormat:@"%f",content.detail.duration.floatValue];
+        _lbDescription.text = content.desc;
+        _txtContentName.text = content.name;
         __weak UIImageView *imageView = _imgBanner;
         [[DLImageLoader sharedInstance]loadImageFromUrl:content.image completed:^(NSError *error, UIImage *image) {
             [imageView setImage:image];

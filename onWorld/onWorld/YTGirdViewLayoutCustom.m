@@ -39,7 +39,7 @@ static NSString * const YTLayoutItemCell = @"itemCell";
 
 - (void)setup
 {
-    self.itemInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f);
+    self.itemInsets = UIEdgeInsetsMake(0.0f, 2.0f, 0.0f, 2.0f);
     self.interItemSpacingY = 0.0f;
     self.numberOfColumns = 2;
 }
@@ -120,7 +120,7 @@ static NSString * const YTLayoutItemCell = @"itemCell";
     CGFloat height = self.itemInsets.top +
     rowCount * self.itemSize.height + (rowCount - 1) * self.interItemSpacingY +
     self.itemInsets.bottom;
-    return CGSizeMake(self.collectionView.bounds.size.width, height);
+    return CGSizeMake(self.collectionView.bounds.size.width, height+10);
 }
 
 - (void)setItemInsets:(UIEdgeInsets)itemInsets
@@ -153,7 +153,11 @@ static NSString * const YTLayoutItemCell = @"itemCell";
     _numberOfColumns = numberOfColumns;
     CGRect frame = self.collectionView.bounds;
     CGFloat width = floorf(frame.size.width -  self.itemInsets.left - self.itemInsets.right)/ self.numberOfColumns;
-    self.itemSize = CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
+    if(_mode == 0) {
+        self.itemSize =CGSizeMake(width, width);
+    }else {
+        self.itemSize = CGSizeMake(width , (width * 9)/16);
+    }
     [self invalidateLayout];
 }
 

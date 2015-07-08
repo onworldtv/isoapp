@@ -24,6 +24,7 @@
             <connections>
                 <outlet property="imgBanner" destination="H90-dU-AtU" id="dI6-TY-DX4"/>
                 <outlet property="lbDescription" destination="95B-qD-9qK" id="yPh-o4-nxV"/>
+                <outlet property="txtContentName" destination="Nxz-PN-Dsh" id="5SW-Me-33M"/>
                 <outlet property="txtDuration" destination="1Ve-eS-2EH" id="rRc-Ai-1n9"/>
                 <outlet property="txtGenre" destination="F9A-bg-Rqm" id="ySU-Sx-cPK"/>
                 <outlet property="txtNational" destination="Bap-KP-jT2" id="LHf-3T-alo"/>
@@ -39,7 +40,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mne-7F-02Q">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="download.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="H90-dU-AtU">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H90-dU-AtU">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0lH-eN-teM">
@@ -173,7 +174,6 @@
         </view>
     </objects>
     <resources>
-        <image name="download.jpeg" width="225" height="225"/>
         <image name="play_content" width="58" height="58"/>
     </resources>
 </document>

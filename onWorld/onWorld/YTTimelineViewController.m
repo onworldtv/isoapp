@@ -32,11 +32,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    _tabView.layer.borderWidth = 0.5f;
+    _tabView.layer.borderWidth = 1.0f;
     _tabView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     
     _btnTimeLine.layer.borderColor = [UIColor blueColor].CGColor;
-    _btnEpisodes.layer.borderWidth = 0.5f;
+    _btnEpisodes.layer.borderWidth = 1.0f;
     [_btnTimeLine setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [self setViewControllers:@[m_timelineViewController,m_episodesViewController]];
     if(viewControllers.count > 0) {
@@ -70,7 +70,7 @@
     
     if(selectedIndex == 0) {
         
-        _btnTimeLine.layer.borderWidth = 0.5;
+        _btnTimeLine.layer.borderWidth = 1.0f;
         _btnEpisodes.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
         
         [_btnTimeLine setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
@@ -85,7 +85,7 @@
         [_btnEpisodes setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
         
         _btnTimeLine.layer.borderWidth = 0;
-        _btnEpisodes.layer.borderWidth = 0.5;
+        _btnEpisodes.layer.borderWidth = 1.0f;
     }
 }
 

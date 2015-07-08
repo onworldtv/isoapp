@@ -90,11 +90,9 @@
 		04EE8A9D1B4517D5004133A5 /* YTTimelineTableview.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE8A9C1B4517D5004133A5 /* YTTimelineTableview.m */; };
 		04EE8AA21B4526A9004133A5 /* YTRelativeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE8AA01B4526A9004133A5 /* YTRelativeViewController.m */; };
 		04EE8AA31B4526A9004133A5 /* YTRelativeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EE8AA11B4526A9004133A5 /* YTRelativeViewController.xib */; };
-		04EE8AA51B45491F004133A5 /* YTContentDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EE8AA41B45491F004133A5 /* YTContentDetailViewController.xib */; };
 		04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */; };
 		04F0AEC61B3BF51300615D90 /* YTHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */; };
 		04F0AED31B3C0D7B00615D90 /* download.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AED21B3C0D7B00615D90 /* download.jpeg */; };
-		04F3A1401B461E5800C8DCCD /* YTMainDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F3A13F1B461E5800C8DCCD /* YTMainDetailViewController.m */; };
 		04FC895F1B3D462700C496A8 /* YTGirdViewLayoutCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC895E1B3D462700C496A8 /* YTGirdViewLayoutCustom.m */; };
 		04FC89631B3D465100C496A8 /* YTGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC89611B3D465100C496A8 /* YTGridViewController.m */; };
 		04FC89641B3D465100C496A8 /* YTGridViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FC89621B3D465100C496A8 /* YTGridViewController.xib */; };
@@ -233,13 +231,10 @@
 		04EE8A9F1B4526A9004133A5 /* YTRelativeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTRelativeViewController.h; sourceTree = "<group>"; };
 		04EE8AA01B4526A9004133A5 /* YTRelativeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTRelativeViewController.m; sourceTree = "<group>"; };
 		04EE8AA11B4526A9004133A5 /* YTRelativeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTRelativeViewController.xib; sourceTree = "<group>"; };
-		04EE8AA41B45491F004133A5 /* YTContentDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTContentDetailViewController.xib; sourceTree = "<group>"; };
 		04F0AEC21B3BF51300615D90 /* YTHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTHomeViewController.h; sourceTree = "<group>"; };
 		04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTHomeViewController.m; sourceTree = "<group>"; };
 		04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTHomeViewController.xib; sourceTree = "<group>"; };
 		04F0AED21B3C0D7B00615D90 /* download.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = download.jpeg; sourceTree = "<group>"; };
-		04F3A13E1B461E5800C8DCCD /* YTMainDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTMainDetailViewController.h; sourceTree = "<group>"; };
-		04F3A13F1B461E5800C8DCCD /* YTMainDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTMainDetailViewController.m; sourceTree = "<group>"; };
 		04F3A1421B466B7600C8DCCD /* YTSelectedItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSelectedItemProtocol.h; sourceTree = "<group>"; };
 		04FC895D1B3D462700C496A8 /* YTGirdViewLayoutCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTGirdViewLayoutCustom.h; sourceTree = "<group>"; };
 		04FC895E1B3D462700C496A8 /* YTGirdViewLayoutCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTGirdViewLayoutCustom.m; sourceTree = "<group>"; };
@@ -549,8 +544,6 @@
 				04F3A1411B461E7200C8DCCD /* Sub View Controller */,
 				04EE8A9E1B452649004133A5 /* TimeLine & Episodes */,
 				04EE8A971B44F22D004133A5 /* Tableview Cell */,
-				04F3A13E1B461E5800C8DCCD /* YTMainDetailViewController.h */,
-				04F3A13F1B461E5800C8DCCD /* YTMainDetailViewController.m */,
 			);
 			name = "Content Detail";
 			sourceTree = "<group>";
@@ -610,7 +603,6 @@
 			children = (
 				04EE8A7F1B44CE45004133A5 /* YTContentDetailViewController.h */,
 				04EE8A801B44CE45004133A5 /* YTContentDetailViewController.m */,
-				04EE8AA41B45491F004133A5 /* YTContentDetailViewController.xib */,
 				04EE8A881B44D171004133A5 /* YTDetailViewController.h */,
 				04EE8A891B44D171004133A5 /* YTDetailViewController.m */,
 				04EE8A8A1B44D171004133A5 /* YTDetailViewController.xib */,
@@ -743,7 +735,6 @@
 				04E1FA251B3A4DB300D68AF4 /* SourceSansPro-BlackIt.otf in Resources */,
 				04E1FA371B3A4DD500D68AF4 /* SourceSansPro-Semibold.otf in Resources */,
 				04E1FA311B3A4DCA00D68AF4 /* SourceSansPro-Light.otf in Resources */,
-				04EE8AA51B45491F004133A5 /* YTContentDetailViewController.xib in Resources */,
 				04EE8A871B44D0D0004133A5 /* YTTimelineViewController.xib in Resources */,
 				04E1FA351B3A4DD200D68AF4 /* SourceSansPro-Regular.otf in Resources */,
 				04E1FA2F1B3A4DC600D68AF4 /* SourceSansPro-It.otf in Resources */,
@@ -831,7 +822,6 @@
 				04EE62D01B4288A000AB6FCD /* YTTableHeaderCell.m in Sources */,
 				04E8A9921B4A70F500B63C46 /* YTCountry.m in Sources */,
 				0499C89E1B4BC5A000A71D55 /* YTDetail.m in Sources */,
-				04F3A1401B461E5800C8DCCD /* YTMainDetailViewController.m in Sources */,
 				040232501B37E4CC0093E85C /* YTNetWorkManager.m in Sources */,
 				04EE8A8B1B44D171004133A5 /* YTDetailViewController.m in Sources */,
 				04FC895F1B3D462700C496A8 /* YTGirdViewLayoutCustom.m in Sources */,

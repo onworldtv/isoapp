@@ -10,7 +10,6 @@
 
 @interface YTContentDetailViewController : UIViewController<YTSelectedItemProtocol>
 @property (nonatomic,assign)int contentID;
-@property (weak,nonatomic)IBOutlet UIView *topView;
-@property (weak,nonatomic)IBOutlet UIView *middleView;
-@property (weak,nonatomic)IBOutlet UIView *bottomView;
+@property (weak,nonatomic)IBOutlet UIScrollView *scrollView;
+
 @end

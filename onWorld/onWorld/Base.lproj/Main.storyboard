@@ -120,10 +120,10 @@
             </objects>
             <point key="canvasLocation" x="631" y="-109"/>
         </scene>
-        <!--Main Detail View Controller-->
+        <!--Content Detail View Controller-->
         <scene sceneID="sNh-y4-cGr">
             <objects>
-                <viewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTMainDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTContentDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vnH-OG-6S6"/>
                         <viewControllerLayoutGuide type="bottom" id="kqQ-lp-G8C"/>
@@ -145,7 +145,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="m_scrollView" destination="cOC-5q-hYm" id="PUL-wz-sWL"/>
+                        <outlet property="scrollView" destination="cOC-5q-hYm" id="t34-xM-HN4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZk-Q3-qY2" userLabel="First Responder" sceneMemberID="firstResponder"/>

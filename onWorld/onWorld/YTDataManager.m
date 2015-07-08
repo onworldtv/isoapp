@@ -105,8 +105,12 @@ static YTDataManager *m_instance;
                                 if(items.count > 0) {
                                     
                                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                        YTCategory *category = [YTCategory MR_findFirstByAttribute:@"cateID"
+                                                                                         withValue:@(cateID)
+                                                                                         inContext:localContext];
+//                                        NSLog(@"Category: %@, gen :%@",category.name,response);
                                         for(NSDictionary *item in items) {
-                                            YTCategory *category = [YTCategory MR_findFirstByAttribute:@"cateID" withValue:@(cateID) inContext:localContext];
+                                            
                                             YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@([[item valueForKey:@"id"] intValue]) inContext:localContext];
                                             if(genre == nil) {
                                                 genre = [YTGenre MR_createEntityInContext:localContext];
@@ -232,13 +236,13 @@ static YTDataManager *m_instance;
     [NETWORK_MANAGER getContentByCategory:cateID genre:genID
                              successBlock:^(AFHTTPRequestOperation *operation, id response) {
                                  
-                                 NSArray *groups = [response valueForKey:@"groups"];
-                                 NSDictionary *dictItem = groups[0];
+                                 NSArray *items = [response valueForKey:@"items"];
                                  [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                      
-                                     for (NSDictionary *dictionary in [dictItem valueForKey:@"items"]) {
+                                     YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@(genID) inContext:localContext];
+                                     
+                                     for (NSDictionary *dictionary in items) {
                                       
-                                         YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@(genID) inContext:localContext];
                                          int contentID = [[dictionary valueForKey:@"id"] intValue];
                                          YTContent *content = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID) inContext:localContext];
                                          if(!content) {
@@ -248,25 +252,8 @@ static YTDataManager *m_instance;
                                          content.name = [dictionary valueForKey:@"name"];
                                          content.desc = [dictionary valueForKey:@"description"];
                                          content.image = [dictionary valueForKey:@"image"];
+                                         content.karaoke = @([[dictionary valueForKey:@"karaoke"] intValue]);
                                          [genre addContentObject:content];
-                                        
-                                         /*
-                                          id	:	242
-                                          name	:	Mundo Television Channel
-                                          description	:
-                                          image	:	http://img.onworldtv.com/wxh//banner/2015/05/25/409711-200515_mundotv_logo.jpg
-                                          karaoke	:
-                                          
-                                          @property (nonatomic, retain) NSNumber * contentID;
-                                          @property (nonatomic, retain) NSString * desc;
-                                          @property (nonatomic, retain) NSString * image;
-                                          @property (nonatomic, retain) NSNumber * karaoke;
-                                          @property (nonatomic, retain) NSString * name;
-                                          @property (nonatomic, retain) NSNumber * status;
-                                          @property (nonatomic, retain) NSNumber * provID;
-                                          */
-                                         
-                                         
                                      }
                                  } completion:^(BOOL contextDidSave, NSError *error) {
                                      if(error)
@@ -274,7 +261,6 @@ static YTDataManager *m_instance;
                                      else
                                          [completionSource setResult:nil];
                                  }];
-                                
                                  
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         
@@ -297,7 +283,7 @@ static YTDataManager *m_instance;
         NSArray *genries = [[catgory genre]allObjects];
         if(genries.count > 0) {
             for (YTGenre *genre in genries) {
-                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName};
+                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName,@"mode":catgory.mode};
                 NSMutableArray *subItems = [NSMutableArray array];
                 
                 NSArray *contents = [[genre content]allObjects];
@@ -311,7 +297,7 @@ static YTDataManager *m_instance;
                     [subItems addObject:contentDict];
                 }
                 if(subItems.count > 0) {
-                    NSDictionary *object = @{@"gen":genreDict, @"content":subItems};
+                    NSDictionary *object = @{@"title":genreDict, @"content":subItems};
                     [items addObject:object];
                 }
             }

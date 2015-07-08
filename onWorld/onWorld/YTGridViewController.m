@@ -15,6 +15,7 @@ static NSString * const itemCellIdentify = @"itemCell";
     NSMutableArray *contentItems;
     int numberItem;
     NSString *m_identify;
+    int m_mode;
 }
 
 @property (nonatomic, weak) IBOutlet YTGirdViewLayoutCustom *mylayout;
@@ -25,7 +26,7 @@ static NSString * const itemCellIdentify = @"itemCell";
 static NSString * const reuseIdentifier = @"Cell";
 
 
-- (id)initWithArray:(NSArray *)array numberItem:(int)number{
+- (id)initWithArray:(NSArray *)array{
     self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
         if(array) {
@@ -34,16 +35,17 @@ static NSString * const reuseIdentifier = @"Cell";
         }else {
             contentItems = [NSMutableArray array];
         }
-        numberItem = number;
+        numberItem = [YTOnWorldUtility collectionViewItemPerRow];
     }
     return self;
 }
 
-- (id)initWithIdentify:(NSString *)identify numberItem:(int)number {
+- (id)initWithIdentify:(NSString *)identify mode:(int)mode{
     self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
+        m_mode = mode;
         m_identify = identify;
-        numberItem = number;
+        numberItem = [YTOnWorldUtility collectionViewItemPerRow];
     }
     return self;
 }
@@ -54,7 +56,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+   [self.mylayout setMode:m_mode];
     if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
         self.mylayout.numberOfColumns = numberItem +1;
     }else {
@@ -72,6 +74,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+     [self.mylayout setMode:m_mode];
     [super viewWillAppear:animated];
     if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
         self.mylayout.numberOfColumns = numberItem + 1;
@@ -81,9 +84,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 
-- (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"");
-}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -101,16 +102,15 @@ static NSString * const reuseIdentifier = @"Cell";
     NSDictionary *contentItem = contentItems[indexPath.section];
     itemCell.txtCategory.text = [contentItem valueForKey:@"category"];
     itemCell.txtTitle.text = [contentItem valueForKey:@"name"];
-    __weak UIImageView *loadMe = itemCell.imgView;
+    __weak UIImageView *imageView = itemCell.imgView;
     [[DLImageLoader sharedInstance]loadImageFromUrl:[contentItem valueForKey:@"image"]
                                           completed:^(NSError *error, UIImage *image) {
-                                              if ( loadMe == nil ) return;
+                                              if ( imageView == nil ) return;
                                               
                                               if (error == nil)
                                               {
-                                                  loadMe.image = image;
+                                                  imageView.image = image;
                                               }}];
-    
     return itemCell;
 }
 
@@ -123,9 +123,8 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *contentItem = contentItems[indexPath.section];
     if(contentItem) {
-        int contentID = [[contentItem valueForKey:@"id"] intValue];
         if([_delegate respondsToSelector:@selector(didSelectItemWithCategoryID:)]) {
-            [_delegate didSelectItemWithCategoryID:contentID];
+            [_delegate didSelectItemWithCategoryID:[[contentItem valueForKey:@"id"] intValue]];
         }
     }
 }

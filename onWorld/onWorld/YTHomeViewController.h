@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
+@property (assign,nonatomic)int mode;
 @property (weak)id<YTSelectedItemProtocol>delegate;
 
 @property (nonatomic, weak) UIViewController *selectedViewController;

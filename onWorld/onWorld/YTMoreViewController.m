@@ -21,7 +21,7 @@
 - (id)initWithArray:(NSArray *)array {
     self = [super init];
     if(self) {
-        moreViewController = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:array numberItem:2];
+        moreViewController = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain];
     }
     return self;
 }

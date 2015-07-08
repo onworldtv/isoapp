@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -15,7 +16,7 @@
                 <outlet property="btnEpisodes" destination="TIr-ae-W2b" id="HIe-Vj-y1D"/>
                 <outlet property="btnTimeLine" destination="NQN-kV-vo4" id="2o0-pz-YLR"/>
                 <outlet property="contentView" destination="8pN-dK-r3Z" id="Q6Z-sB-BAb"/>
-                <outlet property="tabView" destination="tkw-cs-PNW" id="nfA-MD-9xK"/>
+                <outlet property="tabView" destination="UY0-JM-w9B" id="mqe-yC-ORh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,6 +25,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UY0-JM-w9B">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                    <color key="backgroundColor" red="0.36862745099999999" green="0.63921568630000003" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="3uJ-aX-fsU"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tkw-cs-PNW">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                     <subviews>
@@ -50,7 +58,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="NQN-kV-vo4" firstAttribute="width" secondItem="TIr-ae-W2b" secondAttribute="width" id="6PM-KR-eNT"/>
                         <constraint firstItem="TIr-ae-W2b" firstAttribute="leading" secondItem="NQN-kV-vo4" secondAttribute="trailing" id="CLk-Fr-uaB"/>
@@ -74,9 +81,12 @@
                 <constraint firstItem="tkw-cs-PNW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4Us-io-fAv"/>
                 <constraint firstItem="8pN-dK-r3Z" firstAttribute="top" secondItem="tkw-cs-PNW" secondAttribute="bottom" constant="4" id="Jzn-H1-FX2"/>
                 <constraint firstAttribute="bottom" secondItem="8pN-dK-r3Z" secondAttribute="bottom" id="TrU-IC-EF6"/>
+                <constraint firstAttribute="trailing" secondItem="UY0-JM-w9B" secondAttribute="trailing" id="Y4v-6H-GFy"/>
                 <constraint firstAttribute="trailing" secondItem="8pN-dK-r3Z" secondAttribute="trailing" id="aJi-Tu-xYZ"/>
                 <constraint firstItem="tkw-cs-PNW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="kAM-Jv-PAy"/>
+                <constraint firstItem="UY0-JM-w9B" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sQJ-P9-ckZ"/>
                 <constraint firstAttribute="trailing" secondItem="tkw-cs-PNW" secondAttribute="trailing" id="tU1-BI-MaC"/>
+                <constraint firstItem="UY0-JM-w9B" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vqS-ej-esU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="273" y="427"/>

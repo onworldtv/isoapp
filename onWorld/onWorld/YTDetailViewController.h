@@ -11,6 +11,7 @@
 @interface YTDetailViewController : UIViewController
 @property (assign,nonatomic)int contentID;
 @property (weak, nonatomic) IBOutlet UILabel *txtGenre;
+@property (weak, nonatomic) IBOutlet UILabel *txtContentName;
 @property (weak, nonatomic) IBOutlet UILabel *txtNational;
 @property (weak, nonatomic) IBOutlet UILabel *txtDuration;
 @property (weak, nonatomic) IBOutlet UILabel *txtYear;

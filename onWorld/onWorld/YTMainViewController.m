@@ -7,12 +7,10 @@
 //
 
 #import "YTMainViewController.h"
-#import "SWRevealViewController.h"
 #import "YTHomeViewController.h"
 #import "YTGridViewController.h"
-#import "YTMainDetailViewController.h"
 #import "YTTableViewController.h"
-
+#import "YTContentDetailViewController.h"
 
 @interface YTMainViewController ()
 {
@@ -33,7 +31,8 @@
         [self.sidebarButton setAction: @selector(revealToggle:)];
         [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     }
-    
+
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bg_navigarbar"] forBarMetrics:UIBarMetricsDefault];
     if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
         self.navigationItem.title = nil;
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
@@ -64,11 +63,11 @@
 
 - (void)initalizeHomeView{
 
-    YTGridViewController *recommendationViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"recommend" numberItem:2];
+    YTGridViewController *recommendationViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"recommend" mode:1];
     [recommendationViewCtrl setDelegate:self];
-    YTGridViewController *recentAddViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"added" numberItem:2];
+    YTGridViewController *recentAddViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"added"mode:1];
     [recentAddViewCtrl setDelegate:self];
-    YTGridViewController *popularViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"popular" numberItem:2];
+    YTGridViewController *popularViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"popular" mode:1];
     [popularViewCtrl setDelegate:self];
     
     NSArray *viewControllers = @[recommendationViewCtrl, recentAddViewCtrl, popularViewCtrl];
@@ -77,6 +76,7 @@
     
     
     videoViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's view today"];
+    [videoViewCtrl setMode:1];
     [videoViewCtrl setViewControllers:viewControllers];
     [videoViewCtrl setDelegate:self];
     
@@ -85,15 +85,16 @@
     
     
     
-    YTGridViewController *audioRecomemdation = [[YTGridViewController alloc]initWithIdentify:@"recommend" numberItem:2];
+    YTGridViewController *audioRecomemdation = [[YTGridViewController alloc]initWithIdentify:@"recommend" mode:0];
     [audioRecomemdation setDelegate:self];
-    YTGridViewController *audioRecent = [[YTGridViewController alloc]initWithIdentify:@"added" numberItem:2];
+    YTGridViewController *audioRecent = [[YTGridViewController alloc]initWithIdentify:@"added" mode:0];
     [audioRecent setDelegate:self];
-    YTGridViewController *audioPopular = [[YTGridViewController alloc]initWithIdentify:@"popular" numberItem:2];
+    YTGridViewController *audioPopular = [[YTGridViewController alloc]initWithIdentify:@"popular" mode:0];
     [audioPopular setDelegate:self];
     
     
     audioViewCtrl = [[YTHomeViewController alloc]initWithTitle:@"What's listen today"];
+    [audioViewCtrl setMode:0];
     [audioViewCtrl setViewControllers:@[audioRecomemdation,audioRecent,audioPopular]];
     [audioViewCtrl setDelegate:self];
     
@@ -145,27 +146,22 @@
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
     
-    YTMainDetailViewController *detailViewCtrl = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];
+    YTContentDetailViewController *detailViewCtrl = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];
     [detailViewCtrl setContentID:contentID];
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];
 }
 
 
-- (void)didClickedShowMoreCategory:(int)categoryID {
+- (void)delegateDisplayMoreCategoryMode:(int)mode {
     
-    NSArray *categories = nil;
-    if(categoryID == -1) { // show all category
-        categories = [YTCategory MR_findAll];
-    }else {
-        categories = [YTCategory MR_findByAttribute:@"cateId" withValue:@(categoryID)];
-    }
+    NSArray *categories = [YTCategory MR_findByAttribute:@"mode" withValue:@(mode)];
     NSMutableArray *items = [[NSMutableArray alloc]init];
     for (YTCategory *catgory in categories) {
         NSArray *genries = [[catgory genre]allObjects];
         if(genries.count > 0) {
             for (YTGenre *genre in genries) {
-                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName};
+                NSDictionary *genreDict = @{@"id":catgory.cateID, @"name": catgory.name,@"mode":@(mode)};
                 NSMutableArray *subItems = [NSMutableArray array];
                 
                 NSArray *contents = [[genre content]allObjects];
@@ -173,20 +169,22 @@
                     
                     NSDictionary *contentDict = @{@"id":content.contentID,
                                                   @"name":content.name,
-                                                  @"image":content.image,@"desc":content.desc,
+                                                  @"image":content.image,
+                                                  @"desc":content.desc,
                                                   @"category":catgory.name};
                     
                     [subItems addObject:contentDict];
                 }
                 if(subItems.count > 0) {
-                    NSDictionary *object = @{@"gen":genreDict, @"content":subItems};
+                    NSDictionary *object = @{@"title":genreDict, @"content":subItems};
                     [items addObject:object];
                 }
             }
         }
     }
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items numberItem:2];
+    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items];
+    [moreViewController setEnableMoreButton:YES];
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
     [navCtrll pushViewController:moreViewController animated:YES];
 

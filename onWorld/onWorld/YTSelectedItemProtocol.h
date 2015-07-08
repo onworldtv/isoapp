@@ -15,5 +15,5 @@
 - (void)didSelectItemWithCategoryID:(int)contentID;
 
 
-- (void)didClickedShowMoreCategory:(int)categoryID;
+- (void)delegateDisplayMoreCategoryMode:(int)mode;
 @end

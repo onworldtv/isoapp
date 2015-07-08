@@ -43,11 +43,12 @@
         _btnRecomemdation.enabled = NO;
     }
     
-    _tabView.layer.borderWidth = 0.5f;
+    _tabView.layer.borderWidth = 1.0f;
     _tabView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     
     _btnRecomemdation.layer.borderColor = [UIColor blueColor].CGColor;
-    _btnRecomemdation.layer.borderWidth = 0.5f;
+    _btnRecomemdation.layer.borderWidth = 1.0f;
+    _btnRecomemdation.layer.zPosition = 1;
     [_txtTitle setText:m_title.uppercaseString];
     
 }
@@ -81,7 +82,7 @@
 - (void)handleSelectedButton {
     if(selectedIndex == 0) {
         
-        _btnRecomemdation.layer.borderWidth = 0.5;
+        _btnRecomemdation.layer.borderWidth = 1.0f;
          _btnRecomemdation.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
         
          [_btnRecomemdation setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
@@ -101,7 +102,7 @@
         
         
         _btnRecomemdation.layer.borderWidth = 0;
-        _btnRecent.layer.borderWidth = 0.5;
+        _btnRecent.layer.borderWidth = 1.0f;
         _btnRecent.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
         _btnPopular.layer.borderWidth = 0;
         
@@ -112,7 +113,7 @@
         [_btnRecent setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
         _btnRecomemdation.layer.borderWidth = 0;
         _btnRecent.layer.borderWidth  = 0;
-        _btnPopular.layer.borderWidth = 0.5;
+        _btnPopular.layer.borderWidth = 1.0f;
         _btnPopular.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
         
     }
@@ -265,8 +266,8 @@
 
 
 - (IBAction)click_showMore:(id)sender {
-    if([_delegate respondsToSelector:@selector(didClickedShowMoreCategory:)]) {
-        [_delegate didClickedShowMoreCategory:-1];
+    if([_delegate respondsToSelector:@selector(delegateDisplayMoreCategoryMode:)]) {
+        [_delegate delegateDisplayMoreCategoryMode:_mode];
     }
 }
 @end

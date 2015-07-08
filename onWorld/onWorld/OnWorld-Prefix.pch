@@ -32,4 +32,5 @@
 #import "YTConstant.h"
 #import "DLImageLoader.h"
 #import "YTSelectedItemProtocol.h"
+#import "SWRevealViewController.h"
 #endif

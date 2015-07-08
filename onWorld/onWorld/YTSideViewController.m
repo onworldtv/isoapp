@@ -9,13 +9,11 @@
 #import "YTSideViewController.h"
 #import "YTSideViewCell.h"
 #import "YTSideHeaderViewCell.h"
-#import "SWRevealViewController.h"
 #import "YTLoginViewController.h"
 #import "PDKeychainBindings.h"
 #import "YTTableViewController.h"
 #import "YTSearchViewCell.h"
 #import "YTMainViewController.h"
-#import "YTMainDetailViewController.h"
 static const NSString * kYTMenuHome = @"HOME";
 static const NSString * kYTMenuLogin = @"LOGIN";
 static const NSString * kYTSearch = @"SEARCH";
@@ -242,9 +240,8 @@ static const NSString * kYTSearch = @"SEARCH";
         if(selectedProviderID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
             selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            YTMainDetailViewController *categoriesViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"detailViewController"];;
-            UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
-            [navCtrll pushViewController:categoriesViewController animated:YES];
+            
+           
         }
         
         
@@ -254,10 +251,11 @@ static const NSString * kYTSearch = @"SEARCH";
         
         if(selectedCategoryID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
             selectedCategoryID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
+
             NSArray *items = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID providerID:selectedProviderID];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items numberItem:2];
-            [moreViewController setShowByCategory:YES];
+            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items];
+            [moreViewController setShowByCategory:NO];
             [moreViewController setShowRevealNavigator:YES];
             [moreViewController setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
             UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];

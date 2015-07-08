@@ -12,8 +12,8 @@
 
 @property (weak) id<YTSelectedItemProtocol> delegate;
 
-- (id)initWithIdentify:(NSString *)identify numberItem:(int)numberItem;
-- (id)initWithArray:(NSArray *)array numberItem:(int)number;
+- (id)initWithIdentify:(NSString *)identify mode:(int)mode;
+- (id)initWithArray:(NSArray *)array;
 - (void)setNumberItem:(int)item;
 - (void)setContentsView:(NSArray *)contents;
 - (NSString *)identify;

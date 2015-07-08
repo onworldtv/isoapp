@@ -21,14 +21,18 @@
 -(id)init {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
-        _numberOfItem = defaultNumber = 2;
+        _numberOfItem = defaultNumber = [YTOnWorldUtility collectionViewItemPerRow];
         
     }
     return self;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    if(_mode == 0){
+        _m_title.text = @"LISTEN RELATED";
+    }else {
+        _m_title.text = @"VIEW RELATED";
+    }
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name: UIDeviceOrientationDidChangeNotification
@@ -42,7 +46,14 @@
     _items = items;
     [_collectionView reloadData];
 }
-
+- (void)setMode:(int)mode {
+    _mode = mode;
+    if(_mode == 0){
+        _m_title.text = @"LISTEN RELATED";
+    }else {
+        _m_title.text = @"VIEW RELATED";
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -91,6 +102,17 @@
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
     CGFloat width = (frame.size.width - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing) / _numberOfItem;
    
+    if(width > 0) {
+        CGFloat height = 0;
+        if(_mode == 0) {// listen
+            height = width;
+        }else {//view
+            height =floorf((9 * width)/16);
+        }
+        return CGSizeMake(width,height);
+    }
+
+    
     return CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
 }
 
@@ -104,6 +126,10 @@
             [_delegate didSelectItemWithCategoryID:[[item valueForKey:@"id"] intValue]];
         }
     }
+    [UIView animateWithDuration:0.5 animations:^{
+        [collectionView setContentOffset:CGPointMake(0, 0)];
+    }];
+    
 }
 
 - (void)dealloc {

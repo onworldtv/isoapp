@@ -38,4 +38,24 @@
     return storyboard;
 }
 
+
++ (int)collectionViewItemPerRow {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return 2;
+    }else if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 4;
+    }
+    return 2;
+}
+
++ (CGSize)collectionViewCellSizeByWidth:(int)width{
+    int delta = width % [self collectionViewItemPerRow];
+    if(delta == 0) {
+        return CGSizeMake(width / [self collectionViewItemPerRow], HEIGHT_COLLECTION_ITEM);
+    }else {
+        
+    }
+    
+    return CGSizeZero;
+}
 @end
