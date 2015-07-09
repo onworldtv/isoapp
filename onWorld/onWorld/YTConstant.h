@@ -21,3 +21,9 @@
 
 
 #define HEIGHT_COLLECTION_ITEM      200
+
+
+typedef NS_ENUM(NSUInteger, FileType) {
+    TypeVideo,
+    TypeImage,
+};

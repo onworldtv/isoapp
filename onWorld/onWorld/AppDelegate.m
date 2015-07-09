@@ -25,6 +25,8 @@
 //    }];
     
     YTPlayerViewController *playerView = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil];
+    NSURL *ulrPath = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/liveorigin/stream_lstv/playlist.m3u8?worldtokenstarttime=1436411142&worldtokenendtime=1436495742&worldtokenhash=OceWL9xxvx_vjoca1ju-njEW6FjyqxbqToo8TI4gSWY="];
+    [playerView setUrlPath:ulrPath];
     [self.window setRootViewController:playerView];
     [self.window makeKeyAndVisible] ;
     return YES;

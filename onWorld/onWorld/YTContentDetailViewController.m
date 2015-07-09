@@ -116,6 +116,9 @@
 }
 
 - (void)didSelectItemWithCategoryID:(int)contentID {
+    [UIView animateWithDuration:0.5 animations:^{
+        [_scrollView setContentOffset:CGPointMake(0, 0)];
+    }];
     
     [self setContentID:contentID];
     

@@ -15,7 +15,6 @@
 		040467661B3B9ED5005E58C3 /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040467611B3B9ED5005E58C3 /* DejalActivityView.m */; };
 		040467671B3B9ED5005E58C3 /* PDKeychainBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 040467631B3B9ED5005E58C3 /* PDKeychainBindings.m */; };
 		040467681B3B9ED5005E58C3 /* PDKeychainBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 040467651B3B9ED5005E58C3 /* PDKeychainBindingsController.m */; };
-		0499C89E1B4BC5A000A71D55 /* YTDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499C89D1B4BC5A000A71D55 /* YTDetail.m */; };
 		04E10FF31B38EF6F001958C3 /* YTSideViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FF11B38EF6F001958C3 /* YTSideViewCell.m */; };
 		04E10FF41B38EF6F001958C3 /* YTSideViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E10FF21B38EF6F001958C3 /* YTSideViewCell.xib */; };
 		04E10FFE1B390776001958C3 /* YTSideHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FFC1B390776001958C3 /* YTSideHeaderViewCell.m */; };
@@ -23,6 +22,10 @@
 		04E110031B393279001958C3 /* YTLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E110021B393279001958C3 /* YTLoginViewController.m */; };
 		04E16E201B43F3F10075F75E /* YTPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E16E1E1B43F3F10075F75E /* YTPlayerViewController.m */; };
 		04E16E211B43F3F10075F75E /* YTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E16E1F1B43F3F10075F75E /* YTPlayerViewController.xib */; };
+		04E1A4451B4E2B990052558B /* YTPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A4441B4E2B990052558B /* YTPlayerView.m */; };
+		04E1A44E1B4E5DB80052558B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E1A44D1B4E5DB80052558B /* MediaPlayer.framework */; };
+		04E1A4511B4E67A30052558B /* YTDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A4501B4E67A30052558B /* YTDetail.m */; };
+		04E1A4541B4E67A40052558B /* YTAdv.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E1A4531B4E67A40052558B /* YTAdv.m */; };
 		04E1FA151B3A466E00D68AF4 /* YTOnWorldUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E1FA141B3A466E00D68AF4 /* YTOnWorldUtility.m */; };
 		04E1FA241B3A4DB000D68AF4 /* SourceSansPro-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E1FA171B3A46BC00D68AF4 /* SourceSansPro-Black.otf */; };
 		04E1FA251B3A4DB300D68AF4 /* SourceSansPro-BlackIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E1FA181B3A46BC00D68AF4 /* SourceSansPro-BlackIt.otf */; };
@@ -130,8 +133,6 @@
 		040467641B3B9ED5005E58C3 /* PDKeychainBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindingsController.h; sourceTree = "<group>"; };
 		040467651B3B9ED5005E58C3 /* PDKeychainBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindingsController.m; sourceTree = "<group>"; };
 		040467691B3BA349005E58C3 /* YTConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTConstant.h; sourceTree = "<group>"; };
-		0499C89C1B4BC5A000A71D55 /* YTDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTDetail.h; sourceTree = "<group>"; };
-		0499C89D1B4BC5A000A71D55 /* YTDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTDetail.m; sourceTree = "<group>"; };
 		04E10FEC1B38EC06001958C3 /* YTCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTCoreDataManager.h; sourceTree = "<group>"; };
 		04E10FF01B38EF6F001958C3 /* YTSideViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSideViewCell.h; sourceTree = "<group>"; };
 		04E10FF11B38EF6F001958C3 /* YTSideViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSideViewCell.m; sourceTree = "<group>"; };
@@ -144,6 +145,13 @@
 		04E16E1D1B43F3F10075F75E /* YTPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTPlayerViewController.h; sourceTree = "<group>"; };
 		04E16E1E1B43F3F10075F75E /* YTPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerViewController.m; sourceTree = "<group>"; };
 		04E16E1F1B43F3F10075F75E /* YTPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTPlayerViewController.xib; sourceTree = "<group>"; };
+		04E1A4431B4E2B990052558B /* YTPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTPlayerView.h; sourceTree = "<group>"; };
+		04E1A4441B4E2B990052558B /* YTPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTPlayerView.m; sourceTree = "<group>"; };
+		04E1A44D1B4E5DB80052558B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		04E1A44F1B4E67A30052558B /* YTDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTDetail.h; sourceTree = "<group>"; };
+		04E1A4501B4E67A30052558B /* YTDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTDetail.m; sourceTree = "<group>"; };
+		04E1A4521B4E67A40052558B /* YTAdv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTAdv.h; sourceTree = "<group>"; };
+		04E1A4531B4E67A40052558B /* YTAdv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTAdv.m; sourceTree = "<group>"; };
 		04E1FA131B3A466E00D68AF4 /* YTOnWorldUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTOnWorldUtility.h; sourceTree = "<group>"; };
 		04E1FA141B3A466E00D68AF4 /* YTOnWorldUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTOnWorldUtility.m; sourceTree = "<group>"; };
 		04E1FA171B3A46BC00D68AF4 /* SourceSansPro-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.otf"; sourceTree = "<group>"; };
@@ -253,6 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E1A44E1B4E5DB80052558B /* MediaPlayer.framework in Frameworks */,
 				04FC896F1B3D677100C496A8 /* CoreGraphics.framework in Frameworks */,
 				04E1FA501B3ABC0400D68AF4 /* Security.framework in Frameworks */,
 				99D071B6766AA0DD2E88CCF7 /* libPods.a in Frameworks */,
@@ -357,8 +366,10 @@
 		04E16E0C1B438B060075F75E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0499C89C1B4BC5A000A71D55 /* YTDetail.h */,
-				0499C89D1B4BC5A000A71D55 /* YTDetail.m */,
+				04E1A4521B4E67A40052558B /* YTAdv.h */,
+				04E1A4531B4E67A40052558B /* YTAdv.m */,
+				04E1A44F1B4E67A30052558B /* YTDetail.h */,
+				04E1A4501B4E67A30052558B /* YTDetail.m */,
 				04E8A9901B4A70F500B63C46 /* YTCountry.h */,
 				04E8A9911B4A70F500B63C46 /* YTCountry.m */,
 				04E8A98D1B4A70F500B63C46 /* YTGenre.h */,
@@ -389,6 +400,8 @@
 				04E16E1D1B43F3F10075F75E /* YTPlayerViewController.h */,
 				04E16E1E1B43F3F10075F75E /* YTPlayerViewController.m */,
 				04E16E1F1B43F3F10075F75E /* YTPlayerViewController.xib */,
+				04E1A4431B4E2B990052558B /* YTPlayerView.h */,
+				04E1A4441B4E2B990052558B /* YTPlayerView.m */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -625,6 +638,7 @@
 		1466DC379BDAE1A6B7E7A125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04E1A44D1B4E5DB80052558B /* MediaPlayer.framework */,
 				04FC896E1B3D677100C496A8 /* CoreGraphics.framework */,
 				04E1FA4F1B3ABC0400D68AF4 /* Security.framework */,
 				057883AA109A0B65946A3D87 /* libPods.a */,
@@ -821,7 +835,7 @@
 				04EAA6821B4B67260099BE8E /* YTSearchViewCell.m in Sources */,
 				04EE62D01B4288A000AB6FCD /* YTTableHeaderCell.m in Sources */,
 				04E8A9921B4A70F500B63C46 /* YTCountry.m in Sources */,
-				0499C89E1B4BC5A000A71D55 /* YTDetail.m in Sources */,
+				04E1A4511B4E67A30052558B /* YTDetail.m in Sources */,
 				040232501B37E4CC0093E85C /* YTNetWorkManager.m in Sources */,
 				04EE8A8B1B44D171004133A5 /* YTDetailViewController.m in Sources */,
 				04FC895F1B3D462700C496A8 /* YTGirdViewLayoutCustom.m in Sources */,
@@ -839,6 +853,7 @@
 				04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */,
 				04E23B7E1B37C08F0097A2D5 /* main.m in Sources */,
 				04EE62C51B427A5D00AB6FCD /* YTCategoryController.m in Sources */,
+				04E1A4451B4E2B990052558B /* YTPlayerView.m in Sources */,
 				04EE8A9A1B44F3AE004133A5 /* YTEpisodesViewController.m in Sources */,
 				0402325F1B38110D0093E85C /* SWRevealViewController.m in Sources */,
 				04EE8A9D1B4517D5004133A5 /* YTTimelineTableview.m in Sources */,
@@ -857,6 +872,7 @@
 				04E8A9801B4A70F400B63C46 /* YTEpisodes.m in Sources */,
 				040232541B37E5CA0093E85C /* YTDataManager.m in Sources */,
 				04EE8A861B44D0D0004133A5 /* YTTimelineViewController.m in Sources */,
+				04E1A4541B4E67A40052558B /* YTAdv.m in Sources */,
 				04E23B841B37C08F0097A2D5 /* OnWorld.xcdatamodeld in Sources */,
 				04E8A97A1B4A70F400B63C46 /* YTActor.m in Sources */,
 				04FC89671B3D468A00C496A8 /* YTGirdItemCell.m in Sources */,

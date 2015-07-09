@@ -388,6 +388,24 @@ static YTDataManager *m_instance;
                                   }
                                   
                               }
+                              if([response valueForKeyPath:@"adv"]) {
+                                  NSArray *advs = [response valueForKey:@"adv"];
+                                  if(detail.adv.count > 0) {
+                                      for (YTAdv *adv in detail.adv.allObjects) {
+                                          [adv MR_deleteEntityInContext:localContext];
+                                      }
+                                  }
+                                  for (NSDictionary *advDict in advs) {
+                                      YTAdv * adv = [YTAdv MR_createEntityInContext:localContext];
+                                      adv.link = [advDict valueForKey:@"link"];
+                                      adv.start = @([[advDict valueForKey:@"start"] intValue]);
+                                      adv.duration = @([[advDict valueForKey:@"duration"]intValue]);
+                                      adv.skip = @([[advDict valueForKey:@"skipe"]intValue]);
+                                      adv.skipeTime = @([[advDict valueForKey:@"skippable_time"]intValue]);
+                                      adv.type = @([[advDict valueForKey:@"type"]intValue]);
+                                      [detail addAdvObject:adv];
+                                  }
+                              }
                               
                               if(detail) {
                                   [contentItem setDetail:detail];
