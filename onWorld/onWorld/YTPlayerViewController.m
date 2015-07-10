@@ -7,6 +7,7 @@
 //
 
 #import "YTPlayerViewController.h"
+#import "YTTimelineViewCell.h"
 
 /* Asset keys */
 NSString * const kTracksKey         = @"tracks";
@@ -29,16 +30,40 @@ static void *YTPlayerViewControllerRateObserverContext = &YTPlayerViewController
 static void *YTPlayerViewControllerStatusObservationContext = &YTPlayerViewControllerStatusObservationContext;
 static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewControllerCurrentItemObserverContext;
 
+static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerItemStatusObservationContext;
+
 @interface YTPlayerViewController ()
 {
     BOOL seekToZeroBeforePlay;
-    
     AVPlayer* mPlayer;
     AVPlayerItem* mPlayerItem;
+    
+    YTAdv *currentAdv;
+    AVPlayerItem *playerItemAdv;
+    AVPlayer *playerAdv;
+    YTContent * contentObj;
+    YTDetail * detail;
+    BOOL isSwipeRight;
+    int contentID;
+    
+    id mTimeObserver;
+    NSString *linkPlay;
+
 }
 @end
 
 @implementation YTPlayerViewController
+
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil itemID:(int)ID {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if(self) {
+        contentID = ID;
+    }
+    return self;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,8 +72,147 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
     [self setUpGesture];
     [self initSystemVolumn];
     [self animationHiddenView];
+    [self playerAdv];
+    
+    [_tbvTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [_tbvTableView setHidden:YES];
+    [_tbvTableView setAlpha:0];
 }
 
+
+- (void)initViewToPrepareBeginPlay {
+    if(detail.isLive) {
+        // hiden slider tracking
+        [self.sliderTrackView setEnabled:NO];
+        [self.sliderTrackView setHidden:YES];
+        [self.txtDurated setHidden:YES];
+        [self.txtDuration setHidden:YES];
+    }else { // display isLive
+
+    }
+    
+    if(detail.episode.allObjects.count == 0) {
+        [self.btnPlayList setEnabled:NO];
+    }
+}
+
+- (void)loadDataForPlayer {
+    
+    contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID)];
+    BFTask *task = nil;
+    if(contentObj.detail) {
+        task = [BFTask taskWithResult:nil];
+    }else {
+        task = [DATA_MANAGER pullAndSaveContentDetail:contentID];
+    }
+    
+    [task continueWithBlock:^id(BFTask *task) {
+        if(!task.error) {
+            if(contentObj == nil) {
+                contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID)];
+                detail = contentObj.detail;
+                [_txtTitle setText:contentObj.name];
+            }
+        }else {
+#warning TODO
+        }
+        return nil;
+    }];
+}
+
+
+
+#pragma mark - player
+
+
+- (void)playerAdv {
+    
+//    if(!contentObj.detail) {
+//#warning TODO
+//        return ;
+//    }
+    NSArray *advs = [contentObj.detail.adv allObjects];
+    for(YTAdv *adv in advs) {
+        if(adv.type.intValue == TypeVideo) {
+            currentAdv =  adv;
+        }
+    }
+    
+    NSURL *advUrl = [NSURL URLWithString:currentAdv.link];
+    NSURL *url = [NSURL URLWithString:@"http://tracker.onworldtv.com/www/delivery/fc.php?script=bannerTypeHtml:vastInlineBannerTypeHtml:vastInlineHtml&nz=1&format=vast&zones=overlay:0.0-0%3D19"];
+    
+    AVPlayerItem *adPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoAdvPlayerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:adPlayerItem];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(videoAdPlayerItemFailedToReachEnd:)
+                                                 name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                               object:adPlayerItem];
+    
+    [adPlayerItem addObserver:self forKeyPath:kStatusKey
+                      options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+                      context:YTPlayerAdPlayerItemStatusObservationContext];
+    
+    
+    
+    playerItemAdv = adPlayerItem;
+    
+    playerAdv = [[AVPlayer alloc]initWithPlayerItem:playerItemAdv];
+    
+    
+    // update duration & current time
+    __weak YTPlayerViewController * weakSelf = self;
+    [playerAdv addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, 1) queue:NULL usingBlock:^(CMTime time) {
+
+        int i = (int)(currentAdv.duration.intValue - CMTimeGetSeconds(playerAdv.currentTime));
+        if (i >= 0) {
+            NSString *lbAdvSecond = [NSString stringWithFormat:@"This ad will close in %d", i];
+            [weakSelf.lbAdvSecondTime setText:lbAdvSecond];
+        }
+        else {
+            [weakSelf.lbAdvSecondTime setText:@""];
+
+        }
+    }];
+    [mPlayer pause];
+    [playerAdv play];
+    
+}
+
+
+
+
+
+- (void)startPlayer {
+    [self.loadingView setHidden:NO];
+    [self.loadingView startAnimating];
+    if (linkPlay == nil)
+    {
+        
+         NSURL *ulrPath = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/liveorigin/stream_lstv/playlist.m3u8?worldtokenstarttime=1436411142&worldtokenendtime=1436495742&worldtokenhash=OceWL9xxvx_vjoca1ju-njEW6FjyqxbqToo8TI4gSWY="];
+        /*
+         Create an asset for inspection of a resource referenced by a given URL.
+         Load the values for the asset key "playable".
+         */
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:ulrPath options:nil];
+        
+        NSArray *requestedKeys = @[kPlayableKey];
+        
+        /* Tells the asset to load the values of any of the specified keys that are not already loaded. */
+        [asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
+         ^{
+             dispatch_async( dispatch_get_main_queue(),
+                            ^{
+                                /* IMPORTANT: Must dispatch to main queue in order to operate on the AVPlayer and AVPlayerItem. */
+                                [self prepareToPlayAsset:asset withKeys:requestedKeys];
+                            });
+         }];
+    }
+}
 
 - (void)setUpGesture {
     UITapGestureRecognizer *playerViewTap= [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playerTapped:)];
@@ -56,18 +220,25 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
     playerViewTap.delegate = self;
     [self.playerView addGestureRecognizer:playerViewTap];
     
-    UITapGestureRecognizer *rightViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playerTapped:)];
-    [rightViewTap setNumberOfTapsRequired:1];
-    rightViewTap.delegate = self;
-    [self.playerView addGestureRecognizer:rightViewTap];
-    
-    [self.timelineView addGestureRecognizer:rightViewTap];
     
     UITapGestureRecognizer *doubleTapGuestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playerDoubleTapped:)];
     [doubleTapGuestureRecognizer setNumberOfTapsRequired:2];
     doubleTapGuestureRecognizer.delegate = self;
     [self.playerView addGestureRecognizer:doubleTapGuestureRecognizer];
     [playerViewTap requireGestureRecognizerToFail:doubleTapGuestureRecognizer];
+    
+    
+    
+    
+    //timeline
+    UISwipeGestureRecognizer * swipeleft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(timelineViewSwipeLeft:)];
+    swipeleft.direction=UISwipeGestureRecognizerDirectionLeft;
+    [self.tbvTableView addGestureRecognizer:swipeleft];
+    
+    
+    UISwipeGestureRecognizer * swiperight=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(timelineViewSwipeRight:)];
+    swiperight.direction=UISwipeGestureRecognizerDirectionRight;
+    [self.tbvTableView addGestureRecognizer:swiperight];
 }
 
 - (void)initSystemVolumn {
@@ -205,13 +376,7 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
     /* Make our new AVPlayerItem the AVPlayer's current item. */
     if (mPlayer.currentItem != mPlayerItem)
     {
-        /* Replace the player item with a new player item. The item replacement occurs
-         asynchronously; observe the currentItem property to find out when the
-         replacement will/did occur
-         
-         If needed, configure player item here (example: adding outputs, setting text style rules,
-         selecting media options) before associating it with a player
-         */
+        
         [mPlayer replaceCurrentItemWithPlayerItem:mPlayerItem];
         
         [self syncPlayPauseButtons];
@@ -248,16 +413,15 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
             case AVPlayerItemStatusReadyToPlay:
             {
                 NSLog(@"AVPlayerItemStatusReadyToPlay");
-                
+                [self.loadingView stopAnimating];
+                [self.loadingView setHidden:YES];
                 [mPlayer play];
+                
                 /* Once the AVPlayerItem becomes ready to play, i.e.
                  [playerItem status] == AVPlayerItemStatusReadyToPlay,
                  its duration can be fetched from the item. */
                 
-//                [self initScrubberTimer];
-//                
-//                [self enableScrubber];
-//                [self enablePlayerButtons];
+                [self initScrubberTimer];
             }
                 break;
                 
@@ -303,8 +467,30 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
             
             [self syncPlayPauseButtons];
         }
-    }
-    else
+        
+        
+    }else if(context == YTPlayerAdPlayerItemStatusObservationContext) {
+        AVPlayerItemStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+        switch (status)
+        {
+            /* Indicates that the status of the player is not yet known because
+                 it has not tried to load new media resources for playback */
+            case AVPlayerItemStatusUnknown:
+                break;
+                
+            case AVPlayerItemStatusReadyToPlay:
+            {
+                [self.playerView setPlayer:playerAdv];
+            }
+            break;
+                
+            case AVPlayerItemStatusFailed:
+            {
+                [self didFinishAdvPlayer];
+            }
+                break;
+        }
+    }else
     {
         NSLog(@"AVPlayerItemStatusFailed =============");
         [super observeValueForKeyPath:path ofObject:object change:change context:context];
@@ -330,28 +516,36 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
 }
 
 -(void)initScrubberTimer{
-    double interval = .1f;
-    
-    CMTime playerDuration = [self playerItemDuration];
-    if (CMTIME_IS_INVALID(playerDuration))
-    {
-        return;
+    if(detail.isLive.intValue == 0) {
+        double interval = .1f;
+        
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration))
+        {
+            return;
+        }
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
+            interval = 0.5f * duration / width;
+        }
+        
+        /* Update the scrubber during normal playback. */
+        __weak YTPlayerViewController *weakSelf = self;
+        //    mTimeObserver = [mPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
+        //                                                               queue:NULL /* If you pass NULL, the main queue is used. */
+        //                                                          usingBlock:^(CMTime time)
+        //                     {
+        //                         [weakSelf syncScrubber];
+        //                     }];
+        
+        mTimeObserver = [mPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
+                                                              queue:NULL /* If you pass NULL, the main queue is used. */
+                                                         usingBlock:^(CMTime time){
+                                                             [weakSelf syncScrubber];
+                                                         }];
     }
-    double duration = CMTimeGetSeconds(playerDuration);
-    if (isfinite(duration))
-    {
-        CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
-        interval = 0.5f * duration / width;
-    }
-    
-    /* Update the scrubber during normal playback. */
-    __weak YTPlayerViewController *weakSelf = self;
-//    mTimeObserver = [self.mPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
-//                                                               queue:NULL /* If you pass NULL, the main queue is used. */
-//                                                          usingBlock:^(CMTime time)
-//                     {
-//                         [weakSelf syncScrubber];
-//                     }];
 }
 
 - (void)syncScrubber{
@@ -368,7 +562,6 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
         float minValue = [self.sliderTrackView minimumValue];
         float maxValue = [self.sliderTrackView maximumValue];
         double time = CMTimeGetSeconds([mPlayer currentTime]);
-        
         [self.sliderTrackView setValue:(maxValue - minValue) * time / duration + minValue];
     }
 }
@@ -383,14 +576,46 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
     return(kCMTimeInvalid);
 }
 
+-(void)removePlayerTimeObserver
+{
+    if (mTimeObserver)
+    {
+        [mPlayer removeTimeObserver:mTimeObserver];
+        mTimeObserver = nil;
+    }
+}
+
+#pragma mark - notification  player Item
+
+- (void)videoAdvPlayerItemDidReachEnd:(NSNotification *)notification {
+    [self didFinishAdvPlayer];
+}
+
+
 - (void)playerItemDidReachEnd:(NSNotification *)notification{
     /* After the movie has played to its end time, seek back to time zero
      to play it again.*/
     seekToZeroBeforePlay = YES;
 }
 
+
+
+
+- (void)didFinishAdvPlayer {
+    
+    [self.topViewAdv setHidden:YES];
+    // begin player
+    if(mPlayer) {
+        [mPlayer play];
+    }else {
+        [self startPlayer];
+    }
+}
+
 -(void)assetFailedToPrepareForPlayback:(NSError *)error {
     
+    [self.loadingView stopAnimating];
+    [self.loadingView setHidden:YES];
     [self syncScrubber];
     /* Display the error. */
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
@@ -428,6 +653,47 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
     }
 }
 
+
+-(void)timelineViewSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    
+    CGRect tblFrame = self.tbvTableView.frame;
+    tblFrame.origin.x -= tblFrame.size.width;
+   
+    [UIView animateWithDuration:2
+                          delay:0.0
+                        options: UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                        [self.tbvTableView setHidden:YES];
+                         [self.tbvTableView setAlpha:0.8];
+                         self.tbvTableView.frame = tblFrame;
+                     }completion:^(BOOL finished){
+                         [self.tbvTableView setAlpha:0.9];
+                     }];
+
+    //Do what you want here
+}
+
+-(void)timelineViewSwipeRight:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    //Do what you want here
+    
+    CGRect tblFrame = self.tbvTableView.frame;
+    tblFrame.origin.x = [UIScreen mainScreen].bounds.size.width;
+    CGRect temp = self.view.frame;
+    temp.origin.x = 300;
+    [UIView animateWithDuration:1
+                          delay:0.0
+                        options: UIViewAnimationOptionOverrideInheritedCurve
+                     animations:^{
+                         [self.tbvTableView setAlpha:0.2];
+                         self.tbvTableView.frame = tblFrame;
+                     }completion:^(BOOL finished){
+                         [self.tbvTableView setHidden:YES];
+                     }];
+    isSwipeRight = YES;
+
+}
 - (void)playerDoubleTapped:(UITapGestureRecognizer *)sender {
     
     if ([[self.playerView getVideoFillMode] isEqualToString:AVLayerVideoGravityResizeAspectFill])
@@ -481,8 +747,6 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
         [_topView setHidden:YES];
         [_bottomView setAlpha:0];
         [_bottomView setHidden:YES];
-        [_timelineView setAlpha:0];
-        [_timelineView setHidden:YES];
     }];
 }
 
@@ -490,16 +754,66 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
     
     [UIView animateWithDuration:1 animations:^{
         [_topView setAlpha:1];
-        [_timelineView setAlpha:1];
         [_bottomView setAlpha:1];
         [_topView setHidden:NO];
         [_bottomView setHidden:NO];
-        [_timelineView setHidden:NO];
     }];
 }
 
 - (IBAction)click_playlist:(id)sender {
     
+    if(isSwipeRight) {
+        
+        if(_tbvTableView.frame.origin.x == [UIScreen mainScreen].bounds.size.width) {
+            CGRect mainFrame = [[UIScreen mainScreen]bounds];
+            CGRect tblFrame = self.tbvTableView.frame;
+            tblFrame.origin.x = mainFrame.size.width - tblFrame.size.width;
+            
+            [UIView animateWithDuration:1
+                                  delay:0.0
+                                options: UIViewAnimationOptionOverrideInheritedCurve
+                             animations:^{
+                                 [self.tbvTableView setHidden:NO];
+                                 [self.tbvTableView setAlpha:0.8];
+                                 self.tbvTableView.frame = tblFrame;
+                             }completion:^(BOOL finished){
+                                 [self.tbvTableView setAlpha:0.9];
+                             }];
+        }else {
+            CGRect tblFrame = self.tbvTableView.frame;
+            tblFrame.origin.x += tblFrame.size.width;
+            CGRect temp = self.view.frame;
+            temp.origin.x = 300;
+            [UIView animateWithDuration:1
+                                  delay:0.0
+                                options: UIViewAnimationOptionOverrideInheritedCurve
+                             animations:^{
+                                 [self.tbvTableView setAlpha:0.2];
+                                 self.tbvTableView.frame = tblFrame;
+                             }completion:^(BOOL finished){
+                                 [self.tbvTableView setHidden:YES];
+                             }];
+
+        }
+        
+    }else {
+        if(_tbvTableView.isHidden) {
+            
+            [UIView animateWithDuration:1.5 animations:^{
+                [_tbvTableView setAlpha:0.9];
+            }];
+            [UIView animateWithDuration:0.5 animations:^{
+                [_tbvTableView setHidden:NO];
+            }];
+        }else {
+            [UIView animateWithDuration:2 animations:^{
+                [_tbvTableView setAlpha:0.3];
+            }];
+            [UIView animateWithDuration:1 animations:^{
+                [_tbvTableView setHidden:YES];
+            }];
+        }
+    }
 }
 
 - (IBAction)click_play:(id)sender {
@@ -517,4 +831,54 @@ static void *YTPlayerViewControllerCurrentItemObserverContext = &YTPlayerViewCon
         [self showStopButton];
     }
 }
+
+
+
+
+
+
+#pragma  mark  - tableview
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 98;
+}
+
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    YTTimelineViewCell * viewCell = (YTTimelineViewCell*)[tableView dequeueReusableCellWithIdentifier:@"playerTableViewCellIdentify"];
+    if (viewCell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"YTTimelineViewCell" owner:self options:nil];
+        viewCell = [nib objectAtIndex:0];
+    }
+    viewCell.avartar.layer.borderWidth = 3.0f;
+    viewCell.avartar.layer.borderColor = [UIColor colorWithHexString:@"#c1c1c1"].CGColor;
+    viewCell.avartar.layer.cornerRadius = viewCell.avartar.frame.size.width / 2;
+    viewCell.avartar.clipsToBounds = YES;
+    [viewCell.txtTimeline setTextColor:[UIColor whiteColor]];
+    [viewCell.txtSinger setTextColor:[UIColor whiteColor]];
+    [viewCell.txtContentName setTextColor:[UIColor whiteColor]];
+    
+//    viewCell.txtTimeline.text = @"";
+//    __weak UIImageView *imageView = viewCell.avartar;
+//    [[DLImageLoader sharedInstance]loadImageFromUrl:@"" completed:^(NSError *error, UIImage *image) {
+//        //            [imageView setImage:image];
+//    }];
+    
+    return viewCell;
+}
+
+
+
 @end
