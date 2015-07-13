@@ -14,6 +14,6 @@
 @optional
 - (void)didSelectItemWithCategoryID:(int)contentID;
 
-
+- (void)delegatePlayitem:(int)itemID;
 - (void)delegateDisplayMoreCategoryMode:(int)mode;
 @end

@@ -73,5 +73,9 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
          successBlock:(SuccessBlock)successBlock
          failureBlock:(FailureBlock)failureBlock;
 
-- (void)contentItemsHomeWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
+- (void)getHomeContentWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
+
+
+
+- (void)getAdvWithUrl:(NSString *)advUrl successBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
 @end

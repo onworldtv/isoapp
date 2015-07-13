@@ -11,5 +11,4 @@
 @interface YTContentDetailViewController : UIViewController<YTSelectedItemProtocol>
 @property (nonatomic,assign)int contentID;
 @property (weak,nonatomic)IBOutlet UIScrollView *scrollView;
-
 @end

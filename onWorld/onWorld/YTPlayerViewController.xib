@@ -14,16 +14,19 @@
         <mutableArray key="UTM BEBAS.TTF">
             <string>UTM-Bebas</string>
             <string>UTM-Bebas</string>
+            <string>UTM-Bebas</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YTPlayerViewController">
             <connections>
                 <outlet property="bottomView" destination="BON-jv-U6I" id="kNL-54-5ek"/>
+                <outlet property="bottomViewAdv" destination="XfS-rs-m98" id="A1b-3R-Ymp"/>
                 <outlet property="btnCast" destination="EIV-pM-Ywc" id="veG-b8-DFD"/>
                 <outlet property="btnPlay" destination="ShU-6d-09D" id="CvW-t2-Vv2"/>
                 <outlet property="btnPlayList" destination="6he-DF-qJA" id="Bnd-TX-rxx"/>
                 <outlet property="lbAdvSecondTime" destination="jGd-rk-lHL" id="YrZ-VT-Xe3"/>
+                <outlet property="liveView" destination="nFe-Gz-EDe" id="WBE-gr-G06"/>
                 <outlet property="loadingView" destination="m6d-7c-VKs" id="Bod-a6-E0r"/>
                 <outlet property="playerView" destination="ps4-EE-CGm" id="hMP-F8-BsT"/>
                 <outlet property="sliderTrackView" destination="VXc-gC-PAR" id="icD-pN-lXp"/>
@@ -47,7 +50,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thN-JW-zs5" userLabel="topViewAdv">
                             <rect key="frame" x="0.0" y="0.0" width="568" height="40"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGd-rk-lHL">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGd-rk-lHL">
                                     <rect key="frame" x="14" y="9" width="500" height="21"/>
                                     <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="19"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -63,11 +66,19 @@
                                 <constraint firstAttribute="height" constant="40" id="M1O-Mg-AIP"/>
                             </constraints>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XfS-rs-m98" userLabel="bottomAdvView">
+                            <rect key="frame" x="0.0" y="280" width="568" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="Eoa-b0-e8v"/>
+                            </constraints>
+                        </view>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="XfS-rs-m98" secondAttribute="trailing" id="BdB-XN-69H"/>
+                        <constraint firstItem="XfS-rs-m98" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="aKK-Jp-lXy"/>
                         <constraint firstItem="thN-JW-zs5" firstAttribute="top" secondItem="ps4-EE-CGm" secondAttribute="top" id="chW-c8-Lo7"/>
                         <constraint firstAttribute="trailing" secondItem="thN-JW-zs5" secondAttribute="trailing" id="eAd-WB-VQy"/>
+                        <constraint firstAttribute="bottom" secondItem="XfS-rs-m98" secondAttribute="bottom" id="p82-hg-8et"/>
                         <constraint firstItem="thN-JW-zs5" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="vk2-YA-sij"/>
                     </constraints>
                 </view>
@@ -245,34 +256,66 @@
                         <constraint firstItem="EIV-pM-Ywc" firstAttribute="leading" secondItem="bme-K2-Yce" secondAttribute="trailing" constant="8" id="w2o-mJ-91X"/>
                     </constraints>
                 </view>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="m6d-7c-VKs">
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="m6d-7c-VKs">
                     <rect key="frame" x="265" y="142" width="37" height="37"/>
                     <color key="color" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                 </activityIndicatorView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFe-Gz-EDe" userLabel="live view">
+                    <rect key="frame" x="271" y="41" width="55" height="28"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_islive" translatesAutoresizingMaskIntoConstraints="NO" id="gSp-0O-RFk">
+                            <rect key="frame" x="6" y="10" width="8" height="8"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Live" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qkn-h4-iW8">
+                            <rect key="frame" x="20" y="0.0" width="26" height="26"/>
+                            <fontDescription key="fontDescription" name="UTM-Bebas" family="UTM Bebas" pointSize="20"/>
+                            <color key="textColor" red="0.38039215686274508" green="0.64313725490196083" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="55" id="hAh-mh-B7D"/>
+                        <constraint firstAttribute="height" constant="28" id="wv7-Gc-m7A"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="ps4-EE-CGm" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="7bl-FK-cya"/>
                 <constraint firstItem="qsM-fq-0Oh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="80b-lb-Rq0"/>
                 <constraint firstAttribute="centerY" secondItem="m6d-7c-VKs" secondAttribute="centerY" id="DVe-6u-PaT"/>
+                <constraint firstItem="nFe-Gz-EDe" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="bottom" constant="1" id="Fdz-rQ-XI0"/>
                 <constraint firstAttribute="trailing" secondItem="ps4-EE-CGm" secondAttribute="trailing" id="ITh-Ih-5JA"/>
                 <constraint firstAttribute="bottom" secondItem="BON-jv-U6I" secondAttribute="bottom" id="Idj-3e-2L1"/>
                 <constraint firstItem="ps4-EE-CGm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="JCW-Lk-oa7"/>
                 <constraint firstItem="BON-jv-U6I" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Oo5-kb-02M"/>
                 <constraint firstAttribute="bottom" secondItem="ps4-EE-CGm" secondAttribute="bottom" id="QHJ-vT-s9m"/>
                 <constraint firstAttribute="centerX" secondItem="m6d-7c-VKs" secondAttribute="centerX" id="QKi-LQ-VRy"/>
+                <constraint firstItem="NQI-Dl-sOo" firstAttribute="leading" secondItem="nFe-Gz-EDe" secondAttribute="trailing" constant="1" id="T6z-qb-t2b"/>
+                <constraint firstItem="NQI-Dl-sOo" firstAttribute="leading" secondItem="nFe-Gz-EDe" secondAttribute="trailing" constant="1" id="b01-Ge-LUc"/>
                 <constraint firstAttribute="trailing" secondItem="qsM-fq-0Oh" secondAttribute="trailing" id="eVj-Us-Exo"/>
                 <constraint firstItem="BON-jv-U6I" firstAttribute="top" secondItem="NQI-Dl-sOo" secondAttribute="bottom" id="eZa-QI-lwA"/>
                 <constraint firstItem="NQI-Dl-sOo" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="bottom" id="izg-77-peq"/>
+                <constraint firstItem="NQI-Dl-sOo" firstAttribute="leading" secondItem="nFe-Gz-EDe" secondAttribute="trailing" constant="1" id="m3f-Zy-uvo"/>
+                <constraint firstItem="nFe-Gz-EDe" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="bottom" constant="1" id="r7B-He-y0z"/>
                 <constraint firstItem="qsM-fq-0Oh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rRF-kQ-7Sn"/>
                 <constraint firstAttribute="trailing" secondItem="BON-jv-U6I" secondAttribute="trailing" id="vRh-wL-KYH"/>
                 <constraint firstAttribute="trailing" secondItem="NQI-Dl-sOo" secondAttribute="trailing" id="xCe-tI-PHg"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="r7B-He-y0z"/>
+                    <exclude reference="T6z-qb-t2b"/>
+                    <exclude reference="b01-Ge-LUc"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="384" y="670"/>
         </view>
     </objects>
     <resources>
+        <image name="icon_islive" width="8" height="8"/>
         <image name="icon_player" width="27" height="32"/>
         <image name="icon_player_back" width="22" height="33"/>
         <image name="icon_player_cast" width="40" height="31"/>

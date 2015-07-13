@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtYear;
 @property (weak, nonatomic) IBOutlet UILabel *lbDescription;
 @property (weak, nonatomic) IBOutlet UIButton *btnDown;
-
+@property (weak)id<YTSelectedItemProtocol>delegate;
 
 - (IBAction)click_show:(id)sender;
 

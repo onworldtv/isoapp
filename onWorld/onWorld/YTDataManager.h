@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "YTAdvInfo.h"
 #define DATA_MANAGER  ([YTDataManager sharedDataManager])
-
 
 
 @interface YTDataManager : NSObject
@@ -34,6 +33,6 @@
 
 - (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID;
     
-
+- (BFTask *)advInfoWithURLString:(NSString *)urlPath;
 
 @end

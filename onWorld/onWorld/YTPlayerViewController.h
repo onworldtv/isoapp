@@ -17,8 +17,9 @@
 @property (weak,nonatomic)IBOutlet YTPlayerView *playerView;
 @property (nonatomic, weak) IBOutlet UIView* topView;
 @property (nonatomic, weak) IBOutlet UIView* topViewAdv;
+@property (nonatomic, weak) IBOutlet UIView* bottomViewAdv;
 @property (weak, nonatomic) IBOutlet UILabel *lbAdvSecondTime;
-
+@property (nonatomic, weak) IBOutlet UIView* liveView;
 @property (nonatomic, weak) IBOutlet UIView* bottomView;
 @property (nonatomic, weak) IBOutlet MPVolumeView * volumnView;
 @property (nonatomic, weak) IBOutlet UIView* scheduleView;
@@ -36,7 +37,7 @@
 - (IBAction)click_playlist:(id)sender;
 - (IBAction)click_play:(id)sender;
 
-
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil itemID:(int)ID;
 
 
 @end

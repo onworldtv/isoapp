@@ -10,6 +10,7 @@
 #import "YTDetailViewController.h"
 #import "YTRelativeViewController.h"
 #import "YTTimelineViewController.h"
+#import "YTPlayerViewController.h"
 @interface YTContentDetailViewController ()
 {
     
@@ -82,6 +83,7 @@
                                                      detailViewCtrl.view.frame.size.height + timelineViewCtrl.view.frame.size.height
                                                      , _scrollView.frame.size.width,
                                                      410);
+            [detailViewCtrl setDelegate:self];
             [relativeViewCtrl setDelegate:self];
             [relativeViewCtrl setItems:relatives];
             [timelineViewCtrl setContentID:_contentID];
@@ -116,16 +118,28 @@
 }
 
 - (void)didSelectItemWithCategoryID:(int)contentID {
+    
     [UIView animateWithDuration:0.5 animations:^{
         [_scrollView setContentOffset:CGPointMake(0, 0)];
     }];
-    
     [self setContentID:contentID];
     
+}
+
+- (void)delegatePlayitem:(int)itemID {
+    if(itemID >0) {
+        YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil itemID:itemID];
+        if(playerViewCtrl) {
+            UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+            [navCtrl pushViewController:playerViewCtrl animated:YES];
+        }
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 @end

@@ -327,7 +327,7 @@ static YTNetWorkManager *m_instance;
 
 
 
-- (void)contentItemsHomeWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
+- (void)getHomeContentWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
     
     NSString *urlPath = [NSString stringWithFormat:@"%@/home&lang_id=%ld&item_count=6&token=%@", kServerBaseURL,(long)languageId,access_token];
     
@@ -345,6 +345,22 @@ static YTNetWorkManager *m_instance;
                             failureBlock(operation,error);
                         }];
 
+}
+- (void)getAdvWithUrl:(NSString *)advUrl successBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
+    
+    NSURL *url = [NSURL URLWithString:advUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:5.0f];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+//    operation.responseSerializer = [AFXMLParserResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        successBlock(operation,responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        failureBlock(operation,error);
+    }];
+    [operation start];
+    
 }
 
 

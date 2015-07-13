@@ -7,7 +7,7 @@
 //
 
 #import "YTDetailViewController.h"
-
+#import "YTPlayerViewController.h"
 @interface YTDetailViewController ()
 
 @end
@@ -58,7 +58,9 @@
 }
 
 - (IBAction)click_player:(id)sender {
-    
+    if([_delegate respondsToSelector:@selector(delegatePlayitem:)]) {
+        [_delegate delegatePlayitem:_contentID];
+    }
 }
 - (IBAction)click_show:(id)sender {
     

@@ -24,5 +24,8 @@ static NSString *kYTPassword = @"kYTPassword";
 
 + (int)collectionViewItemPerRow;
 
++ (NSTimeInterval)timeIntervalWithString:(NSString *)string;
+
++ (NSString *)stringWithTimeInterval:(NSTimeInterval)totalSeconds;
 
 @end
