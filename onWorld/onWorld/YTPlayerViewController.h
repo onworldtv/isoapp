@@ -26,6 +26,7 @@
 
 @property (nonatomic, weak) IBOutlet UIButton* btnSkip;
 @property (nonatomic, weak) IBOutlet MPVolumeView * volumnView;
+
 @property (nonatomic, weak) IBOutlet UIView* scheduleView;
 @property (nonatomic, weak) IBOutlet UIButton* btnPlay;
 @property (nonatomic, weak) IBOutlet UIButton* btnPlayList;

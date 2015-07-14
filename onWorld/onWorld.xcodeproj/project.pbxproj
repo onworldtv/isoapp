@@ -101,6 +101,7 @@
 		04F0AEC51B3BF51300615D90 /* YTHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */; };
 		04F0AEC61B3BF51300615D90 /* YTHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */; };
 		04F0AED31B3C0D7B00615D90 /* download.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 04F0AED21B3C0D7B00615D90 /* download.jpeg */; };
+		04F1F8351B54F92D00A9A76E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F1F8341B54F92D00A9A76E /* AVFoundation.framework */; };
 		04FC895F1B3D462700C496A8 /* YTGirdViewLayoutCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC895E1B3D462700C496A8 /* YTGirdViewLayoutCustom.m */; };
 		04FC89631B3D465100C496A8 /* YTGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC89611B3D465100C496A8 /* YTGridViewController.m */; };
 		04FC89641B3D465100C496A8 /* YTGridViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FC89621B3D465100C496A8 /* YTGridViewController.xib */; };
@@ -257,6 +258,7 @@
 		04F0AEC31B3BF51300615D90 /* YTHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTHomeViewController.m; sourceTree = "<group>"; };
 		04F0AEC41B3BF51300615D90 /* YTHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTHomeViewController.xib; sourceTree = "<group>"; };
 		04F0AED21B3C0D7B00615D90 /* download.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = download.jpeg; sourceTree = "<group>"; };
+		04F1F8341B54F92D00A9A76E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		04F3A1421B466B7600C8DCCD /* YTSelectedItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSelectedItemProtocol.h; sourceTree = "<group>"; };
 		04FC895D1B3D462700C496A8 /* YTGirdViewLayoutCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTGirdViewLayoutCustom.h; sourceTree = "<group>"; };
 		04FC895E1B3D462700C496A8 /* YTGirdViewLayoutCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTGirdViewLayoutCustom.m; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04F1F8351B54F92D00A9A76E /* AVFoundation.framework in Frameworks */,
 				04E1A44E1B4E5DB80052558B /* MediaPlayer.framework in Frameworks */,
 				04FC896F1B3D677100C496A8 /* CoreGraphics.framework in Frameworks */,
 				04E1FA501B3ABC0400D68AF4 /* Security.framework in Frameworks */,
@@ -660,6 +663,7 @@
 		1466DC379BDAE1A6B7E7A125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04F1F8341B54F92D00A9A76E /* AVFoundation.framework */,
 				04DDB4B31B5377E200083F41 /* libxml2.2.dylib */,
 				04E1A44D1B4E5DB80052558B /* MediaPlayer.framework */,
 				04FC896E1B3D677100C496A8 /* CoreGraphics.framework */,
@@ -1049,7 +1053,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = OnWorld/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1075,7 +1079,7 @@
 					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = OnWorld/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
