@@ -403,7 +403,7 @@ static YTDataManager *m_instance;
                                       adv.duration = @([[advDict valueForKey:@"duration"]intValue]);
                                       adv.skip = @([[advDict valueForKey:@"skip"]intValue]);
                                       adv.skipeTime = @([[advDict valueForKey:@"skippable_time"]intValue]);
-                                      if([[advDict valueForKey:@"type"] isEqualToString:@"video"]){
+                                      if([[advDict valueForKey:@"type"] isEqualToString:@"video"]) {
                                           adv.type = @(TypeVideo);
                                       }else {
                                           adv.type = @(TypeImage);
@@ -439,8 +439,8 @@ static YTDataManager *m_instance;
         if(videoAdv) {
             NSString *clickLink = [videoAdv valueForKeyPath:@"VideoClicks.ClickThrough.URL.__text"];
             NSString *advLink = [videoAdv valueForKeyPath:@"MediaFiles.MediaFile.URL"];
-            advInformation.duration = [YTOnWorldUtility timeIntervalWithString:[videoAdv valueForKey:@"Duration"]];
             advInformation.title = title;
+            advInformation.duration = [YTOnWorldUtility timeIntervalWithString:[videoAdv valueForKey:@"Duration"]];
             advInformation.touchLink = clickLink;
             advInformation.url = advLink;
         }else {
@@ -453,6 +453,122 @@ static YTDataManager *m_instance;
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         [completionSource setError:error];
     }];
+    
+    /*[NETWORK_MANAGER getAdvWithUrl:urlPath successBlock:^(AFHTTPRequestOperation *operation, id response) {
+        NSError *error = nil;
+        DDXMLDocument *document = [[DDXMLDocument alloc] initWithData:response options:0 error:&error];
+        if (error) {
+            NSLog(@"%@ %@", [error localizedDescription], [error userInfo]);
+            [completionSource setError:error];
+            return;
+        }
+        DDXMLElement *rootElement = [document rootElement];
+        DDXMLElement *adElement = [[rootElement elementsForName:@"Ad"] firstObject];
+        DDXMLElement *contentElement = (DDXMLElement *)[adElement childAtIndex:0];
+        NSString *adContentName = [contentElement name];
+        if ([adContentName isEqualToString:@"InLine"]) {
+            NSString *adTitle = [[[contentElement elementsForName:@"AdTitle"] firstObject] stringValue];
+            NSString *adSystem = [[[contentElement elementsForName:@"AdSystem"] firstObject] stringValue];
+            // VAST 2.0 - multiple <Impression>
+            NSArray *impressionElements = [contentElement elementsForName:@"Impression"];
+            if (impressionElements.count == 1) {
+                // VAST 1.0 - multiple <URL>
+                impressionElements = [[impressionElements firstObject] elementsForName:@"URL"];
+            }
+            NSMutableArray *impressionURLs = [NSMutableArray array];
+            [impressionElements enumerateObjectsUsingBlock:^(DDXMLElement *impressionElement, NSUInteger idx, BOOL *stop) {
+                if ([[impressionElement stringValue] length] > 0) {
+                    [impressionURLs addObject:[NSURL URLWithString:[impressionElement stringValue]]];
+                }
+            }];
+            //ad.impressionURLs = impressionURLs;
+            
+            NSArray *videos = [contentElement elementsForName:@"Video"];
+            DDXMLElement *videoElement = nil;
+            if (videos && videos.count) {
+                videoElement = [videos firstObject];
+            }
+            else {
+                NSArray *creatives = [contentElement elementsForName:@"Creatives"];
+                if (creatives && creatives.count) {
+                    NSArray *creative = [[creatives firstObject] elementsForName:@"Creative"];
+                    if (creative && creative.count) {
+                        NSArray *linears = [[creative firstObject] elementsForName:@"Linear"];
+                        if (linears && linears.count) {
+                            videoElement = [linears firstObject];
+                        }
+                    }
+                }
+            }
+            // video ad
+            if (videoElement) {
+                YTAdvInfo *advInfomation = [[YTAdvInfo alloc]init];
+                [advInfomation setTitle:adTitle];
+                NSArray *durations = [videoElement elementsForName:@"Duration"];
+                if (durations && durations.count) {
+                    NSString *durationString = [[durations firstObject] stringValue];
+                    advInfomation.duration = [YTOnWorldUtility timeIntervalWithString:durationString];
+                }
+                
+                NSArray *videoClicksElements = [videoElement elementsForName:@"VideoClicks"];
+                if (videoClicksElements && videoClicksElements.count) {
+                    DDXMLElement *clicksElement = [videoClicksElements firstObject];
+                    NSArray *clickThroughs = [clicksElement elementsForName:@"ClickThrough"];
+                    if (clickThroughs && clickThroughs.count) {
+                        advInfomation.touchLink = [[clickThroughs firstObject] stringValue];
+                    }
+                }
+                NSArray *mediaFiles = [videoElement elementsForName:@"MediaFiles"];
+                if (mediaFiles && mediaFiles.count) {
+                    DDXMLElement *mediaFilesElement = [mediaFiles firstObject];
+                    DDXMLElement *mediaFileElement = nil;
+                    for (DDXMLElement *elementMF in [mediaFilesElement elementsForName:@"MediaFile"]) {
+                        NSString *type = [[elementMF attributeForName:@"type"] stringValue];
+                        if ([type isEqualToString:@"mobile/m3u8"] || [type isEqualToString:@"video/mp4"] || [type isEqualToString:@"video/x-mp4"]) {
+                            mediaFileElement = elementMF;
+                            break;
+                        }
+                    }
+                    NSArray *urls = [mediaFileElement elementsForName:@"URL"];
+                    if (urls && urls.count) {
+                        mediaFileElement = [urls firstObject];
+                    }
+                    advInfomation.url = [mediaFileElement stringValue];
+                }
+                [completionSource setResult:advInfomation];
+            }
+            else { // banner ad
+                YTAdvInfo *advInfomation = [[YTAdvInfo alloc]init];
+                [advInfomation setTitle:adTitle];
+                NSArray *nonLinearAds = [contentElement elementsForName:@"NonLinearAds"];
+                if (nonLinearAds && nonLinearAds.count) {
+                    NSArray *nonLinear = [[nonLinearAds firstObject] elementsForName:@"NonLinear"];
+                    if (nonLinear && nonLinear.count) {
+                        NSArray *urls = [[nonLinear firstObject] elementsForName:@"URL"];
+                        if (urls && urls.count) {
+                            NSString *link = [[[urls firstObject] stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                            advInfomation.url = link;
+                        }
+                    }
+                    NSArray *clickThroughs = [[nonLinear firstObject] elementsForName:@"NonLinearClickThrough"];
+                    if (clickThroughs && clickThroughs.count) {
+                        NSArray *urls = [[clickThroughs firstObject] elementsForName:@"URL"];
+                        if (urls && urls.count) {
+                            advInfomation.touchLink = urls[0];
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            [completionSource setError:[NSError errorWithDomain:@"" code:1 userInfo:nil]];
+        }
+
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [completionSource setError:error];
+    }];*/
+    
+    
     
     return completionSource.task;
 }
