@@ -14,11 +14,11 @@
 		<string>https://github.com/onworldtv/isoapp</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>OnWorld/OnWorld.xcworkspace</string>
+	<string>onWorld/OnWorld.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>716E91C84890BE0707E0D31FF427B394FF7E48AF</key>
-		<string>../..</string>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/onworldtv/isoapp</string>
@@ -28,6 +28,14 @@
 	<string>716E91C84890BE0707E0D31FF427B394FF7E48AF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>716E91C84890BE0707E0D31FF427B394FF7E48AF</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
