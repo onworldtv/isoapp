@@ -5,10 +5,8 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="SourceSansPro-Bold.otf">
-            <string>SourceSansPro-Bold</string>
-        </mutableArray>
         <mutableArray key="SourceSansPro-Regular.otf">
+            <string>SourceSansPro-Regular</string>
             <string>SourceSansPro-Regular</string>
         </mutableArray>
         <mutableArray key="UTM BEBAS.TTF">
@@ -25,6 +23,8 @@
                 <outlet property="btnCast" destination="EIV-pM-Ywc" id="veG-b8-DFD"/>
                 <outlet property="btnPlay" destination="ShU-6d-09D" id="CvW-t2-Vv2"/>
                 <outlet property="btnPlayList" destination="6he-DF-qJA" id="Bnd-TX-rxx"/>
+                <outlet property="imageAdvView" destination="V9i-9T-XBQ" id="qg7-Vf-beG"/>
+                <outlet property="imgAdvView" destination="ydq-wv-yIl" id="bH0-lZ-hEA"/>
                 <outlet property="lbAdvSecondTime" destination="jGd-rk-lHL" id="YrZ-VT-Xe3"/>
                 <outlet property="liveView" destination="nFe-Gz-EDe" id="WBE-gr-G06"/>
                 <outlet property="loadingView" destination="m6d-7c-VKs" id="Bod-a6-E0r"/>
@@ -35,6 +35,7 @@
                 <outlet property="topViewAdv" destination="thN-JW-zs5" id="Hhe-Qs-YEm"/>
                 <outlet property="txtDurated" destination="jZx-2r-t5m" id="s8K-lo-ej4"/>
                 <outlet property="txtDuration" destination="ROr-dV-Nc1" id="mYW-Hu-N7f"/>
+                <outlet property="txtTitle" destination="7c6-KW-x7H" id="7jq-aQ-jiE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="volumnView" destination="TAy-aC-pcc" id="nXI-zM-xMi"/>
             </connections>
@@ -47,12 +48,46 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ps4-EE-CGm" userLabel="player" customClass="YTPlayerView">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                     <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydq-wv-yIl" userLabel="view Image">
+                            <rect key="frame" x="0.0" y="0.0" width="568" height="85"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V9i-9T-XBQ">
+                                    <rect key="frame" x="20" y="0.0" width="478" height="85"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="85" id="Uyt-pY-B6e"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ok4-ZS-j2m">
+                                    <rect key="frame" x="512" y="3" width="46" height="60"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="60" id="FtH-cw-Tl8"/>
+                                        <constraint firstAttribute="width" constant="46" id="xl3-Tf-sER"/>
+                                    </constraints>
+                                    <state key="normal" title="X">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="click_closeAdvImageView:" destination="-1" eventType="touchUpInside" id="0IX-ld-GfY"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="V9i-9T-XBQ" firstAttribute="top" secondItem="ydq-wv-yIl" secondAttribute="top" id="O4t-VU-guv"/>
+                                <constraint firstAttribute="bottom" secondItem="V9i-9T-XBQ" secondAttribute="bottom" id="Z7X-Eb-CLi"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="85" id="ZU1-TP-rUX"/>
+                                <constraint firstItem="V9i-9T-XBQ" firstAttribute="leading" secondItem="ydq-wv-yIl" secondAttribute="leading" constant="20" id="aUp-bs-sXD"/>
+                                <constraint firstItem="Ok4-ZS-j2m" firstAttribute="top" secondItem="ydq-wv-yIl" secondAttribute="top" constant="3" id="er2-Wy-cdS"/>
+                                <constraint firstAttribute="height" constant="85" id="f25-37-xc4"/>
+                                <constraint firstAttribute="trailing" secondItem="Ok4-ZS-j2m" secondAttribute="trailing" constant="10" id="ne5-hb-Zz7"/>
+                                <constraint firstItem="Ok4-ZS-j2m" firstAttribute="leading" secondItem="V9i-9T-XBQ" secondAttribute="trailing" constant="14" id="rqa-I3-Oiy"/>
+                            </constraints>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="thN-JW-zs5" userLabel="topViewAdv">
                             <rect key="frame" x="0.0" y="0.0" width="568" height="40"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGd-rk-lHL">
                                     <rect key="frame" x="14" y="9" width="500" height="21"/>
-                                    <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="19"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -68,8 +103,28 @@
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XfS-rs-m98" userLabel="bottomAdvView">
                             <rect key="frame" x="0.0" y="280" width="568" height="40"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4F-wT-IQE">
+                                    <rect key="frame" x="469" y="5" width="82" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="82" id="zRx-B3-xmJ"/>
+                                    </constraints>
+                                    <state key="normal">
+                                        <string key="title" base64-UTF8="YES">
+EFNraXA
+</string>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="click_skip:" destination="-1" eventType="touchUpInside" id="5jh-oj-hA4"/>
+                                    </connections>
+                                </button>
+                            </subviews>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="Eoa-b0-e8v"/>
+                                <constraint firstItem="N4F-wT-IQE" firstAttribute="top" secondItem="XfS-rs-m98" secondAttribute="top" constant="5" id="aX3-Wy-bLS"/>
+                                <constraint firstAttribute="bottom" secondItem="N4F-wT-IQE" secondAttribute="bottom" constant="5" id="dgF-xh-EM0"/>
+                                <constraint firstAttribute="trailing" secondItem="N4F-wT-IQE" secondAttribute="trailing" constant="17" id="x2b-hw-i2o"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -78,7 +133,10 @@
                         <constraint firstItem="XfS-rs-m98" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="aKK-Jp-lXy"/>
                         <constraint firstItem="thN-JW-zs5" firstAttribute="top" secondItem="ps4-EE-CGm" secondAttribute="top" id="chW-c8-Lo7"/>
                         <constraint firstAttribute="trailing" secondItem="thN-JW-zs5" secondAttribute="trailing" id="eAd-WB-VQy"/>
+                        <constraint firstItem="ydq-wv-yIl" firstAttribute="top" secondItem="ps4-EE-CGm" secondAttribute="top" id="ePq-RU-0oc"/>
                         <constraint firstAttribute="bottom" secondItem="XfS-rs-m98" secondAttribute="bottom" id="p82-hg-8et"/>
+                        <constraint firstAttribute="trailing" secondItem="ydq-wv-yIl" secondAttribute="trailing" id="ppQ-jh-WPm"/>
+                        <constraint firstItem="ydq-wv-yIl" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="vhW-ir-xpF"/>
                         <constraint firstItem="thN-JW-zs5" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="vk2-YA-sij"/>
                     </constraints>
                 </view>

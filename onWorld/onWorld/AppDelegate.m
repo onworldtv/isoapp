@@ -22,15 +22,15 @@
 //    [DATA_MANAGER advInfoWithURLString:@"http://tracker.onworldtv.com/www/delivery/fc.php?script=bannerTypeHtml:vastInlineBannerTypeHtml:vastInlineHtml&nz=1&format=vast&zones=overlay:0.0-0%3D20"];
 //    DATA_MANAGER;
 //    
-    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-        return [DATA_MANAGER pullGroupContent];
-    }];
+//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+//        return [DATA_MANAGER pullGroupContent];
+//    }];
     
-//    YTPlayerViewController *playerView = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil];
-//    NSURL *ulrPath = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/liveorigin/stream_lstv/playlist.m3u8?worldtokenstarttime=1436411142&worldtokenendtime=1436495742&worldtokenhash=OceWL9xxvx_vjoca1ju-njEW6FjyqxbqToo8TI4gSWY="];
-////    [playerView setUrlPath:ulrPath];
-//    [self.window setRootViewController:playerView];
-//    [self.window makeKeyAndVisible] ;
+    YTPlayerViewController *playerView = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil];
+    NSURL *ulrPath = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/liveorigin/stream_lstv/playlist.m3u8?worldtokenstarttime=1436411142&worldtokenendtime=1436495742&worldtokenhash=OceWL9xxvx_vjoca1ju-njEW6FjyqxbqToo8TI4gSWY="];
+//    [playerView setUrlPath:ulrPath];
+    [self.window setRootViewController:playerView];
+    [self.window makeKeyAndVisible] ;
     return YES;
 }
 
