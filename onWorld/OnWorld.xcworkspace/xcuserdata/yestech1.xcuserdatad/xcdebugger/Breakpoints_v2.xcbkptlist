@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OnWorld/YTDataManager.m"
-            timestampString = "458556486.363692"
+            timestampString = "458636224.205042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "-advInfoWithURLString:"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,29 +250,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OnWorld/YTDataManager.m"
-            timestampString = "458556486.363692"
+            timestampString = "458636224.205042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
-            landmarkName = "@implementation YTDataManager"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OnWorld/YTPlayerViewController.m"
-            timestampString = "458564457.870763"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "719"
-            endingLineNumber = "719"
-            landmarkName = "@implementation YTPlayerViewController"
-            landmarkType = "3">
+            startingLineNumber = "454"
+            endingLineNumber = "454"
+            landmarkName = "-advInfoWithURLString:"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -282,12 +266,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OnWorld/YTPlayerViewController.m"
-            timestampString = "458564457.870763"
+            timestampString = "458644089.312919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
-            landmarkName = "-assetFailedToPrepareForPlayback:"
+            startingLineNumber = "685"
+            endingLineNumber = "685"
+            landmarkName = "-playerItemDidReachEnd:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OnWorld/YTPlayerViewController.m"
+            timestampString = "458649612.167696"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "-startPlayer"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

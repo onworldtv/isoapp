@@ -3,6 +3,7 @@
     <entity name="YTActor" representedClassName="YTActor" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="actor" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <entity name="YTAdv" representedClassName="YTAdv" syncable="YES">
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -11,6 +12,7 @@
         <attribute name="skipeTime" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="start" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="adv" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <entity name="YTCategory" representedClassName="YTCategory" syncable="YES">
         <attribute name="cateID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -31,6 +33,7 @@
     <entity name="YTCountry" representedClassName="YTCountry" syncable="YES">
         <attribute name="countryID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="country" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <entity name="YTDetail" representedClassName="YTDetail" syncable="YES">
         <attribute name="duration" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -46,23 +49,25 @@
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="year" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="actor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTActor" syncable="YES"/>
-        <relationship name="adv" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTAdv" syncable="YES"/>
-        <relationship name="country" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTCountry" syncable="YES"/>
-        <relationship name="diretory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDirector" syncable="YES"/>
-        <relationship name="episode" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTEpisodes" syncable="YES"/>
-        <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTTag" syncable="YES"/>
-        <relationship name="timeline" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTTimeline" syncable="YES"/>
+        <relationship name="actor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTActor" inverseName="detail" inverseEntity="YTActor" syncable="YES"/>
+        <relationship name="adv" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTAdv" inverseName="detail" inverseEntity="YTAdv" syncable="YES"/>
+        <relationship name="country" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTCountry" inverseName="detail" inverseEntity="YTCountry" syncable="YES"/>
+        <relationship name="diretory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDirector" inverseName="detail" inverseEntity="YTDirector" syncable="YES"/>
+        <relationship name="episode" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTEpisodes" inverseName="detail" inverseEntity="YTEpisodes" syncable="YES"/>
+        <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTTag" inverseName="detail" inverseEntity="YTTag" syncable="YES"/>
+        <relationship name="timeline" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="YTTimeline" inverseName="detail" inverseEntity="YTTimeline" syncable="YES"/>
     </entity>
     <entity name="YTDirector" representedClassName="YTDirector" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="diretory" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <entity name="YTEpisodes" representedClassName="YTEpisodes" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="episodesID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="episode" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <entity name="YTGenre" representedClassName="YTGenre" syncable="YES">
         <attribute name="genID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -77,27 +82,25 @@
     <entity name="YTTag" representedClassName="YTTag" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="tag" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <entity name="YTTimeline" representedClassName="YTTimeline" syncable="YES">
-        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="end" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="start" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="arrayTimeline" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="timeline" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
     <elements>
-        <element name="YTActor" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="YTActor" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="YTAdv" positionX="0" positionY="0" width="128" height="150"/>
         <element name="YTCategory" positionX="0" positionY="0" width="128" height="120"/>
         <element name="YTContent" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="YTCountry" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="YTCountry" positionX="0" positionY="0" width="128" height="90"/>
         <element name="YTDetail" positionX="0" positionY="0" width="128" height="345"/>
-        <element name="YTDirector" positionX="0" positionY="0" width="128" height="75"/>
-        <element name="YTEpisodes" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="YTDirector" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="YTEpisodes" positionX="0" positionY="0" width="128" height="120"/>
         <element name="YTGenre" positionX="0" positionY="0" width="128" height="105"/>
         <element name="YTProvider" positionX="0" positionY="0" width="128" height="75"/>
-        <element name="YTTag" positionX="0" positionY="0" width="128" height="75"/>
-        <element name="YTTimeline" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="YTAdv" positionX="9" positionY="153" width="128" height="135"/>
+        <element name="YTTag" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="YTTimeline" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
 </model>

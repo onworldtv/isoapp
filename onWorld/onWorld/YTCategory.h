@@ -2,14 +2,14 @@
 //  YTCategory.h
 //  OnWorld
 //
-//  Created by yestech1 on 7/6/15.
+//  Created by yestech1 on 7/15/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class YTContent, YTGenre;
+@class YTGenre;
 
 @interface YTCategory : NSManagedObject
 
@@ -26,6 +26,5 @@
 - (void)removeGenreObject:(YTGenre *)value;
 - (void)addGenre:(NSSet *)values;
 - (void)removeGenre:(NSSet *)values;
-
 
 @end

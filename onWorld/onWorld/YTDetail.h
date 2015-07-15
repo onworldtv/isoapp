@@ -2,14 +2,14 @@
 //  YTDetail.h
 //  OnWorld
 //
-//  Created by yestech1 on 7/9/15.
+//  Created by yestech1 on 7/15/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class NSManagedObject, YTActor, YTCountry, YTDirector, YTEpisodes, YTTag, YTTimeline,YTAdv;
+@class YTActor, YTAdv, YTCountry, YTDirector, YTEpisodes, YTTag, YTTimeline;
 
 @interface YTDetail : NSManagedObject
 
@@ -27,15 +27,20 @@
 @property (nonatomic, retain) NSNumber * type;
 @property (nonatomic, retain) NSNumber * year;
 @property (nonatomic, retain) YTActor *actor;
+@property (nonatomic, retain) NSSet *adv;
 @property (nonatomic, retain) YTCountry *country;
 @property (nonatomic, retain) YTDirector *diretory;
 @property (nonatomic, retain) NSSet *episode;
 @property (nonatomic, retain) YTTag *tag;
 @property (nonatomic, retain) NSSet *timeline;
-@property (nonatomic, retain) NSSet *adv;
 @end
 
 @interface YTDetail (CoreDataGeneratedAccessors)
+
+- (void)addAdvObject:(YTAdv *)value;
+- (void)removeAdvObject:(YTAdv *)value;
+- (void)addAdv:(NSSet *)values;
+- (void)removeAdv:(NSSet *)values;
 
 - (void)addEpisodeObject:(YTEpisodes *)value;
 - (void)removeEpisodeObject:(YTEpisodes *)value;
@@ -46,10 +51,5 @@
 - (void)removeTimelineObject:(YTTimeline *)value;
 - (void)addTimeline:(NSSet *)values;
 - (void)removeTimeline:(NSSet *)values;
-
-- (void)addAdvObject:(YTAdv *)value;
-- (void)removeAdvObject:(YTAdv *)value;
-- (void)addAdv:(NSSet *)values;
-- (void)removeAdv:(NSSet *)values;
 
 @end

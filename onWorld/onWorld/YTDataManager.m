@@ -309,7 +309,6 @@ static YTDataManager *m_instance;
 
 - (BFTask *)pullAndSaveContentDetail:(int)contentID {
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
-
     [NETWORK_MANAGER contentDetail:contentID
                       successBlock:^(AFHTTPRequestOperation *operation, id response) {
                           [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -338,20 +337,16 @@ static YTDataManager *m_instance;
                               if([response valueForKeyPath:@"timelines"]) {
                                   NSArray *timelines = [response valueForKey:@"timelines"];
                                   for (NSDictionary *timeline in timelines) {
-                                      YTTimeline *timelineObject = [YTTimeline MR_findFirstByAttribute:@"name" withValue:[timeline valueForKeyPath:@"name"] inContext:localContext];
+                                      YTTimeline *timelineObject = [YTTimeline MR_findFirstByAttribute:@"title" withValue:[timeline valueForKeyPath:@"title"] inContext:localContext];
                                       if(!timelineObject) {
                                           timelineObject = [YTTimeline MR_createEntityInContext:localContext];
                                       }
-                                      timelineObject.name = [timeline valueForKeyPath:@"name"];
-                                      timelineObject.image = [timeline valueForKeyPath:@"image"];
-                                      timelineObject.desc = [timeline valueForKeyPath:@"description"];
-                                      timelineObject.link = [timeline valueForKeyPath:@"link"];
-                                      timelineObject.start = @([[timeline valueForKeyPath:@"start"] floatValue]);
-                                      timelineObject.end = @([[timeline valueForKeyPath:@"end"] floatValue]);
-                                      
+                                      timelineObject.title = [timeline valueForKey:@"title"];
+                                      NSArray *arrayTimeline = [timeline valueForKey:@"timeline"];
+                                      NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:arrayTimeline];
+                                      timelineObject.arrayTimeline = arrayData;
                                       [detail addTimelineObject:timelineObject];
                                   }
-                                  
                               }
                               
                               

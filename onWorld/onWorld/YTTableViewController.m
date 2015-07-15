@@ -214,7 +214,7 @@
     [cell.txtTitle setText:[item valueForKey:@"name"]];
     
      __weak UIImageView *imageView = cell.imgView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:@"http://img.onworldtv.com/250x250/banner/2015/03/11/884908-livetv_sgn_banner.jpg"/*[item valueForKey:@"image"]*/ completed:^(NSError *error, UIImage *image) {
+    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
         if(error == nil) {
             [imageView setImage:image];
         }
