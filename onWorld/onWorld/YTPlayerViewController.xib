@@ -216,7 +216,7 @@ EFNraXA
                                 <action selector="click_playlist:" destination="-1" eventType="touchUpInside" id="4hO-Hh-lPr"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIV-pM-Ywc">
+                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIV-pM-Ywc">
                             <rect key="frame" x="466" y="0.0" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="mVj-dO-Owi"/>
@@ -320,22 +320,7 @@ EFNraXA
                 <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duw-56-xMq" userLabel="timeline">
                     <rect key="frame" x="327" y="40" width="241" height="240"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-Dl-sOo">
-                            <rect key="frame" x="0.0" y="35" width="241" height="205"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="241" id="xoZ-GQ-Tyd"/>
-                            </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="xoZ-GQ-Tyd"/>
-                                </mask>
-                            </variation>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="M5a-1r-dCX"/>
-                                <outlet property="delegate" destination="-1" id="ZJv-I6-e09"/>
-                            </connections>
-                        </tableView>
-                        <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gL8-9X-jma">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gL8-9X-jma">
                             <rect key="frame" x="0.0" y="0.0" width="241" height="35"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFe-Gz-EDe" userLabel="live view">
@@ -372,8 +357,23 @@ EFNraXA
                                 <constraint firstItem="nFe-Gz-EDe" firstAttribute="top" secondItem="gL8-9X-jma" secondAttribute="top" constant="4" id="f4D-iF-3OI"/>
                             </constraints>
                         </view>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-Dl-sOo">
+                            <rect key="frame" x="0.0" y="35" width="241" height="205"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="241" id="xoZ-GQ-Tyd"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="xoZ-GQ-Tyd"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="M5a-1r-dCX"/>
+                                <outlet property="delegate" destination="-1" id="ZJv-I6-e09"/>
+                            </connections>
+                        </tableView>
                     </subviews>
-                    <color key="backgroundColor" red="0.3803921569" green="0.64313725489999995" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.36078431372549019" green="0.56862745098039214" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="NQI-Dl-sOo" secondAttribute="trailing" id="9Hz-Bc-THd"/>
                         <constraint firstItem="gL8-9X-jma" firstAttribute="top" secondItem="Duw-56-xMq" secondAttribute="top" id="Gpg-yH-nZV"/>
@@ -405,7 +405,7 @@ EFNraXA
                 <constraint firstItem="Duw-56-xMq" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="bottom" id="yve-19-cEQ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="384" y="670"/>
+            <point key="canvasLocation" x="457" y="619"/>
         </view>
     </objects>
     <resources>

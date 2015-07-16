@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "YTPlayerViewController.h"
-#import "YTTimelineViewController.h"
+#import "YTAudioViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -28,7 +28,10 @@
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];
     
-    
+    YTAudioViewController *viewCtrl = [[YTAudioViewController alloc]initWithNibName:@"YTAudioViewController" bundle:nil];
+    [viewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    [self.window setRootViewController:viewCtrl];
+    [self.window makeKeyAndVisible];
    
     return YES;
 }

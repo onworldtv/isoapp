@@ -72,6 +72,8 @@
 		04E23B9B1B37C08F0097A2D5 /* OnWorldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B9A1B37C08F0097A2D5 /* OnWorldTests.m */; };
 		04E23C1D1B4F6CE200186B52 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E23C1C1B4F6CE200186B52 /* player.png */; };
 		04E23C201B4F732900186B52 /* YTSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23C1F1B4F732900186B52 /* YTSlider.m */; };
+		04E424411B57BDC1003EFF92 /* YTAudioPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */; };
+		04E424421B57BDC1003EFF92 /* YTAudioPlayerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */; };
 		04EAA6821B4B67260099BE8E /* YTSearchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EAA6801B4B67260099BE8E /* YTSearchViewCell.m */; };
 		04EAA6831B4B67260099BE8E /* YTSearchViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EAA6811B4B67260099BE8E /* YTSearchViewCell.xib */; };
 		04ED438B1B40FB6D00BCC82E /* YTGirdItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04ED438A1B40FB6D00BCC82E /* YTGirdItemCell.xib */; };
@@ -212,6 +214,9 @@
 		04E23C1C1B4F6CE200186B52 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		04E23C1E1B4F732900186B52 /* YTSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSlider.h; sourceTree = "<group>"; };
 		04E23C1F1B4F732900186B52 /* YTSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSlider.m; sourceTree = "<group>"; };
+		04E4243E1B57BDC1003EFF92 /* YTAudioPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTAudioPlayerController.h; path = onWorld/YTAudioPlayerController.h; sourceTree = SOURCE_ROOT; };
+		04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTAudioPlayerController.m; path = onWorld/YTAudioPlayerController.m; sourceTree = SOURCE_ROOT; };
+		04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTAudioPlayerController.xib; path = onWorld/YTAudioPlayerController.xib; sourceTree = SOURCE_ROOT; };
 		04EAA67F1B4B67260099BE8E /* YTSearchViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSearchViewCell.h; sourceTree = "<group>"; };
 		04EAA6801B4B67260099BE8E /* YTSearchViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSearchViewCell.m; sourceTree = "<group>"; };
 		04EAA6811B4B67260099BE8E /* YTSearchViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTSearchViewCell.xib; sourceTree = "<group>"; };
@@ -418,6 +423,9 @@
 				04EE10E71B55283000273628 /* YTPlayerViewController.xib */,
 				04E1A4431B4E2B990052558B /* YTPlayerView.h */,
 				04E1A4441B4E2B990052558B /* YTPlayerView.m */,
+				04E4243E1B57BDC1003EFF92 /* YTAudioPlayerController.h */,
+				04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */,
+				04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -768,6 +776,7 @@
 				04EE8AA31B4526A9004133A5 /* YTRelativeViewController.xib in Resources */,
 				04EAA6831B4B67260099BE8E /* YTSearchViewCell.xib in Resources */,
 				04E23C1D1B4F6CE200186B52 /* player.png in Resources */,
+				04E424421B57BDC1003EFF92 /* YTAudioPlayerController.xib in Resources */,
 				04EE10E91B55283000273628 /* YTPlayerViewController.xib in Resources */,
 				04E10FF41B38EF6F001958C3 /* YTSideViewCell.xib in Resources */,
 				04E1FA241B3A4DB000D68AF4 /* SourceSansPro-Black.otf in Resources */,
@@ -907,6 +916,7 @@
 				04FC89671B3D468A00C496A8 /* YTGirdItemCell.m in Sources */,
 				04EE10E81B55283000273628 /* YTPlayerViewController.m in Sources */,
 				04DF3AC31B56198900BE79B7 /* YTContent.m in Sources */,
+				04E424411B57BDC1003EFF92 /* YTAudioPlayerController.m in Sources */,
 				040467681B3B9ED5005E58C3 /* PDKeychainBindingsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -30,19 +30,8 @@ typedef NS_ENUM(NSUInteger, FileType) {
 
 
 
-//NSString * const kTracksKey         = @"tracks";
-//NSString * const kPlayableKey       = @"playable";
-//NSString * const kYTDuration        = @"duration";
-//
-///* PlayerItem keys */
-//NSString * const kStatusKey         = @"status";
-//NSString * const kPlaybackLikelyToKeepUp = @"playbackLikelyToKeepUp";
-//NSString * const kPlaybackBufferEmpty = @"playbackBufferEmpty";
-//
-///* AVPlayer keys */
-//NSString * const kRateKey           = @"rate";
-//NSString * const kCurrentItemKey    = @"currentItem";
-//NSString * const kAirplayKey		= @"externalPlaybackActive";
-//
-//
+typedef NS_ENUM(NSUInteger, YTMode) {
+    ModeAudio,
+    ModeVideo,
+};
 
