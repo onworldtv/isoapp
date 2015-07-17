@@ -7,18 +7,18 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>D3910F41-6789-4CA0-BAA2-32F50AE64471</string>
 	<key>IDESourceControlProjectName</key>
-	<string>OnWorld</string>
+	<string>onWorld</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>716E91C84890BE0707E0D31FF427B394FF7E48AF</key>
 		<string>https://github.com/onworldtv/isoapp</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>OnWorld/OnWorld.xcodeproj</string>
+	<string>onWorld/onWorld.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>716E91C84890BE0707E0D31FF427B394FF7E48AF</key>
-		<string>../../..</string>
+		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/onworldtv/isoapp</string>
@@ -28,6 +28,14 @@
 	<string>716E91C84890BE0707E0D31FF427B394FF7E48AF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>716E91C84890BE0707E0D31FF427B394FF7E48AF</string>
+			<key>IDESourceControlWCCName</key>
+			<string></string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

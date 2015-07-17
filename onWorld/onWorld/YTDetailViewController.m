@@ -9,7 +9,9 @@
 #import "YTDetailViewController.h"
 #import "YTPlayerViewController.h"
 @interface YTDetailViewController ()
-
+{
+    YTContent *content;
+}
 @end
 
 @implementation YTDetailViewController
@@ -43,7 +45,7 @@
 
 
 - (void)bindingData {
-    YTContent *content = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(_contentID)];
+    content = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(_contentID)];
     if(content) {
         _txtGenre.text = content.gen.genName;
         _txtNational.text = content.detail.country.name;
@@ -58,9 +60,11 @@
 }
 
 - (IBAction)click_player:(id)sender {
-    if([_delegate respondsToSelector:@selector(delegatePlayitem:)]) {
-        [_delegate delegatePlayitem:_contentID];
+    
+    if([_delegate respondsToSelector:@selector(delegatePlayitem:)] && content) {
+        [_delegate delegatePlayitem:content.contentID.intValue];
     }
+
 }
 - (IBAction)click_show:(id)sender {
     

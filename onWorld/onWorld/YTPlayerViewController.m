@@ -46,7 +46,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     YTDetail * detail;
     BOOL isSwipeRight;
     int playItemID;
-    
+    BOOL isSeeking;
     YTAdvInfo *currentAdvInfo;
     YTAdv *currentAdvObject;
 
@@ -62,7 +62,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     NSString * playItemNam;
     NSString * playItemUrl;
     BOOL isPlayingAdv;
-    
+    float mRestoreAfterScrubbingRate;
 }
 @end
 
@@ -79,6 +79,10 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     }
     return self;
 }
+
+
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil itemID:(int)ID {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self) {
@@ -101,7 +105,16 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self hiddenNavigator];
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+}
 #pragma mark - timeline
 
 
@@ -147,9 +160,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 }
 
 
-- (void)viewDidAppear:(BOOL)animated {
-    [self hiddenNavigator];
-}
+
 
 
 - (void)hiddenNavigator {
@@ -189,16 +200,51 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             
             [self firstLoadingAdv];
             [self prepareForPlayerView];
+            
+            if(detail.mode.intValue == ModeView) {
+                
+            }
         }
         return nil;
     }];
 }
 
 
+- (void)initWithAudioMode {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioSessionInterrupted:)
+                                                 name:AVAudioSessionInterruptionNotification
+                                               object:[AVAudioSession sharedInstance]];
+    
+    //set audio category with options - for this demo we'll do playback only
+    NSError *categoryError = nil;
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&categoryError];
+    
+    if (categoryError) {
+        NSLog(@"Error setting category! %@", [categoryError description]);
+    }
+    
+    //activation of audio session
+    NSError *activationError = nil;
+    BOOL success = [[AVAudioSession sharedInstance] setActive: YES error: &activationError];
+    if (!success) {
+        if (activationError) {
+            NSLog(@"Could not activate audio session. %@", [activationError localizedDescription]);
+        } else {
+            NSLog(@"audio session could not be activated!");
+        }
+    }
+}
+
+- (void)audioSessionInterrupted:(NSNotification*)interruptionNotification {
+    NSLog(@"interruption received: %@", interruptionNotification);
+}
 #pragma mark - player
 
 
 - (void)prepareForPlayerView {
+  
     [[self loadUrlAdv] continueWithBlock:^id(BFTask *task) {
         if(!task.error) {
             if(currentAdvObject.start.intValue == 0 && currentAdvObject.type.intValue == TypeVideo){ //play adv right now
@@ -555,9 +601,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 
 - (BOOL)isPlaying {
-    if(playerVideo.rate > 0 && playerVideo.error == nil)
-        return YES;
-    return NO;
+    return mRestoreAfterScrubbingRate != 0.f || [playerVideo rate] != 0.f;
 }
 
 -(void)initScrubberTimer{
@@ -612,6 +656,83 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     }
 }
 
+
+- (IBAction)beginScrubbing:(id)sender
+{
+    mRestoreAfterScrubbingRate = [playerVideo rate];
+    [playerVideo setRate:0.f];
+    
+    /* Remove previous timer. */
+    [self removePlayerTimeObserver];
+}
+- (BOOL)isScrubbing
+{
+    return mRestoreAfterScrubbingRate != 0.f;
+}
+
+/* Set the player current time to match the scrubber position. */
+- (IBAction)scrub:(id)sender
+{
+    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
+    {
+        isSeeking = YES;
+        UISlider* slider = sender;
+        
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration)) {
+            return;
+        }
+        
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            float minValue = [slider minimumValue];
+            float maxValue = [slider maximumValue];
+            float value = [slider value];
+            
+            double time = duration * (value - minValue) / (maxValue - minValue);
+            
+            [playerVideo seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    isSeeking = NO;
+                });
+            }];
+        }
+    }
+}
+
+/* The user has released the movie thumb control to stop scrubbing through the movie. */
+- (IBAction)endScrubbing:(id)sender
+{
+    if (!playerTimerObserver)
+    {
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration))
+        {
+            return;
+        }
+        
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
+            double tolerance = 0.5f * duration / width;
+            
+            __weak YTPlayerViewController *weakSelf = self;
+            playerTimerObserver = [playerVideo addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
+                             ^(CMTime time)
+                             {
+                                 [weakSelf syncScrubber];
+                             }];
+        }
+    }
+    
+    if (mRestoreAfterScrubbingRate)
+    {
+        [playerVideo setRate:mRestoreAfterScrubbingRate];
+        mRestoreAfterScrubbingRate = 0.f;
+    }
+}
 - (CMTime)playerItemDuration{
     AVPlayerItem *playerItem = [playerVideo currentItem];
     if (playerItem.status == AVPlayerItemStatusReadyToPlay)
@@ -624,8 +745,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)beginPlayVideo {
     
-    if(listSchedule >0) {
-        
+    if(listSchedule.count >0) {
         [self.scheduleView setHidden:NO];
         [self.btnPlayList setEnabled:YES];
     }else {
@@ -679,6 +799,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     /* After the movie has played to its end time, seek back to time zero
      to play it again.*/
     seekToZeroBeforePlay = YES;
+    [playerVideo seekToTime:kCMTimeZero];
     [self syncScrubber];
     [self showPlayButton];
 }
@@ -715,7 +836,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         }
         [self.topView setHidden:flag];
         [self.bottomView setHidden:flag];
-        [self.scheduleView setHidden:flag];
+        if(listSchedule.count >0) {
+            [self.scheduleView setHidden:NO];
+        }else{
+            [self.scheduleView setHidden:YES];
+        }
     }];
     
 }
@@ -772,6 +897,10 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             [self.btnCloseImageViewAdv setHidden:NO];
             __weak UIImageView *imageView = self.imageAdvView;
             [[DLImageLoader sharedInstance]loadImageFromUrl:currentAdvInfo.url completed:^(NSError *error, UIImage *image) {
+                imageView.contentMode = UIViewContentModeCenter;
+                if (imageView.bounds.size.width > image.size.width && imageView.bounds.size.height > image.size.height) {
+                    imageView.contentMode = UIViewContentModeScaleToFill;
+                }
                 [imageView setImage:image];
             }];
         }];

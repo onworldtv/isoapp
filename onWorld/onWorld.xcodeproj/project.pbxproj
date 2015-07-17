@@ -28,6 +28,7 @@
 		04DF3AC61B56198900BE79B7 /* YTTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DF3AC51B56198900BE79B7 /* YTTag.m */; };
 		04DF3AC91B56198900BE79B7 /* YTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DF3AC81B56198900BE79B7 /* YTCategory.m */; };
 		04DF3ACC1B56198900BE79B7 /* YTActor.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DF3ACB1B56198900BE79B7 /* YTActor.m */; };
+		04E07F7B1B589FC9009597F1 /* YTMusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E07F7A1B589FC9009597F1 /* YTMusicPlayer.m */; };
 		04E10FF31B38EF6F001958C3 /* YTSideViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FF11B38EF6F001958C3 /* YTSideViewCell.m */; };
 		04E10FF41B38EF6F001958C3 /* YTSideViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E10FF21B38EF6F001958C3 /* YTSideViewCell.xib */; };
 		04E10FFE1B390776001958C3 /* YTSideHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E10FFC1B390776001958C3 /* YTSideHeaderViewCell.m */; };
@@ -167,6 +168,8 @@
 		04DF3AC81B56198900BE79B7 /* YTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTCategory.m; path = onWorld/YTCategory.m; sourceTree = SOURCE_ROOT; };
 		04DF3ACA1B56198900BE79B7 /* YTActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTActor.h; path = onWorld/YTActor.h; sourceTree = SOURCE_ROOT; };
 		04DF3ACB1B56198900BE79B7 /* YTActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTActor.m; path = onWorld/YTActor.m; sourceTree = SOURCE_ROOT; };
+		04E07F791B589FC9009597F1 /* YTMusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTMusicPlayer.h; path = onWorld/YTMusicPlayer.h; sourceTree = SOURCE_ROOT; };
+		04E07F7A1B589FC9009597F1 /* YTMusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTMusicPlayer.m; path = onWorld/YTMusicPlayer.m; sourceTree = SOURCE_ROOT; };
 		04E0927E1B54F63600F5EA62 /* test.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.MP4; sourceTree = "<group>"; };
 		04E10FEC1B38EC06001958C3 /* YTCoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTCoreDataManager.h; sourceTree = "<group>"; };
 		04E10FF01B38EF6F001958C3 /* YTSideViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSideViewCell.h; sourceTree = "<group>"; };
@@ -348,6 +351,18 @@
 			name = StoryBoard;
 			sourceTree = "<group>";
 		};
+		04E07F781B589F9F009597F1 /* Music player */ = {
+			isa = PBXGroup;
+			children = (
+				04E4243E1B57BDC1003EFF92 /* YTAudioPlayerController.h */,
+				04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */,
+				04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */,
+				04E07F791B589FC9009597F1 /* YTMusicPlayer.h */,
+				04E07F7A1B589FC9009597F1 /* YTMusicPlayer.m */,
+			);
+			name = "Music player";
+			sourceTree = "<group>";
+		};
 		04E10FDE1B38EB36001958C3 /* App Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,9 +438,7 @@
 				04EE10E71B55283000273628 /* YTPlayerViewController.xib */,
 				04E1A4431B4E2B990052558B /* YTPlayerView.h */,
 				04E1A4441B4E2B990052558B /* YTPlayerView.m */,
-				04E4243E1B57BDC1003EFF92 /* YTAudioPlayerController.h */,
-				04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */,
-				04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */,
+				04E07F781B589F9F009597F1 /* Music player */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -913,6 +926,7 @@
 				04E10FF31B38EF6F001958C3 /* YTSideViewCell.m in Sources */,
 				04EE8A861B44D0D0004133A5 /* YTTimelineViewController.m in Sources */,
 				04E23B841B37C08F0097A2D5 /* OnWorld.xcdatamodeld in Sources */,
+				04E07F7B1B589FC9009597F1 /* YTMusicPlayer.m in Sources */,
 				04FC89671B3D468A00C496A8 /* YTGirdItemCell.m in Sources */,
 				04EE10E81B55283000273628 /* YTPlayerViewController.m in Sources */,
 				04DF3AC31B56198900BE79B7 /* YTContent.m in Sources */,

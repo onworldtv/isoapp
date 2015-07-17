@@ -22,16 +22,21 @@
 
 #define HEIGHT_COLLECTION_ITEM      200
 
-
+//0:single; 1: serie; 2:episode
 typedef NS_ENUM(NSUInteger, FileType) {
-    TypeVideo,
-    TypeImage,
+    TypeSingle,
+    TypeSerie,
+    TypeEpisode,
 };
 
 
 
 typedef NS_ENUM(NSUInteger, YTMode) {
-    ModeAudio,
-    ModeVideo,
+    ModeListen,
+    ModeView,
 };
 
+typedef NS_ENUM(NSUInteger, YTAdvType) {
+    TypeVideo,
+    TypeImage,
+};

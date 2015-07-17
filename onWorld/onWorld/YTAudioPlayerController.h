@@ -24,6 +24,10 @@
 @property (weak, nonatomic) IBOutlet MPVolumeView *systemVolume;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
+
+
+- (id)initWithID:(int)ID;
+
 - (IBAction)click_play:(id)sender;
 - (IBAction)click_next:(id)sender;
 - (IBAction)click_back:(id)sender;

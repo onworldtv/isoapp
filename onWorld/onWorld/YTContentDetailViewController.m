@@ -11,6 +11,7 @@
 #import "YTRelativeViewController.h"
 #import "YTTimelineViewController.h"
 #import "YTPlayerViewController.h"
+#import "YTAudioPlayerController.h"
 @interface YTContentDetailViewController ()
 {
     
@@ -128,10 +129,21 @@
 
 - (void)delegatePlayitem:(int)itemID {
     if(itemID >0) {
-        YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil itemID:itemID];
-        if(playerViewCtrl) {
-            UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
-            [navCtrl pushViewController:playerViewCtrl animated:YES];
+        
+        YTContent *content = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(itemID)];
+        if(content.detail.mode.intValue == ModeView) {
+        
+            YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithNibName:@"YTPlayerViewController" bundle:nil itemID:itemID];
+            if(playerViewCtrl) {
+                UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+                [navCtrl pushViewController:playerViewCtrl animated:YES];
+            }
+        }else {
+            YTAudioPlayerController *musicPlayerCtrl = [[YTAudioPlayerController alloc]initWithID:itemID];
+            if(musicPlayerCtrl) {
+                UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+                [navCtrl pushViewController:musicPlayerCtrl animated:YES];
+            }
         }
     }
 }

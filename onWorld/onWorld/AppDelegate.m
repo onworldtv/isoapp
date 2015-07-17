@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "YTAudioViewController.h"
+#import "YTAudioPlayerController.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     DATA_MANAGER;
 
 //    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
@@ -28,10 +28,10 @@
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];
     
-    YTAudioViewController *viewCtrl = [[YTAudioViewController alloc]initWithNibName:@"YTAudioViewController" bundle:nil];
-    [viewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-    [self.window setRootViewController:viewCtrl];
-    [self.window makeKeyAndVisible];
+//    YTAudioPlayerController *viewCtrl = [[YTAudioPlayerController alloc]initWithNibName:@"YTAudioPlayerController" bundle:nil];
+//    [viewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+//    [self.window setRootViewController:viewCtrl];
+//    [self.window makeKeyAndVisible];
    
     return YES;
 }
