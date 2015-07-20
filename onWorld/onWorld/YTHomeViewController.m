@@ -43,20 +43,19 @@
         _btnRecomemdation.enabled = NO;
     }
     
-    _tabView.layer.borderWidth = 1.0f;
-    _tabView.layer.borderColor = [UIColor darkGrayColor].CGColor;
-    
-    _btnRecomemdation.layer.borderColor = [UIColor blueColor].CGColor;
-    _btnRecomemdation.layer.borderWidth = 1.0f;
-    _btnRecomemdation.layer.zPosition = 1;
+    _tabView.layer.borderColor = [UIColor colorWithHexString:@"#dfdfdf"].CGColor;
+    _tabView.layer.borderWidth = 0.5f;
+    _btnRecomemdation.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
+    _btnRecomemdation.layer.borderWidth = 0.5f;
     [_txtTitle setText:m_title.uppercaseString];
     
 }
 
+
 - (void)setCategories:(NSDictionary *)categories {
     categoryEachViewCtrl = [NSMutableDictionary dictionaryWithDictionary:categories];
-    for (UIViewController *viewCtrl in viewControllers) {
-        [(YTGridViewController *)viewCtrl setContentsView:[categories valueForKey:([(YTGridViewController *)viewCtrl identify])]];
+    for (YTGridViewController *viewCtrl in viewControllers) {
+        [viewCtrl setContentsView:[categories valueForKey:([viewCtrl identify])]];
     }
 }
 
@@ -68,23 +67,13 @@
 
 }
 
-- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem{
-    
-    YTGridViewController *currentCtrl = (YTGridViewController *)self.selectedViewController;
-    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
-        [currentCtrl setNumberItem:numberItem];
-    } else {
-        [currentCtrl setNumberItem:numberItem+1];
-    }
-}
 
 
 - (void)handleSelectedButton {
     if(selectedIndex == 0) {
         
-        _btnRecomemdation.layer.borderWidth = 1.0f;
+        _btnRecomemdation.layer.borderWidth = 0.5f;
          _btnRecomemdation.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
-        
          [_btnRecomemdation setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
          [_btnPopular setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
          [_btnRecent setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
@@ -102,7 +91,7 @@
         
         
         _btnRecomemdation.layer.borderWidth = 0;
-        _btnRecent.layer.borderWidth = 1.0f;
+        _btnRecent.layer.borderWidth = 0.5f;
         _btnRecent.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
         _btnPopular.layer.borderWidth = 0;
         
@@ -113,7 +102,7 @@
         [_btnRecent setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
         _btnRecomemdation.layer.borderWidth = 0;
         _btnRecent.layer.borderWidth  = 0;
-        _btnPopular.layer.borderWidth = 1.0f;
+        _btnPopular.layer.borderWidth = 0.5f;
         _btnPopular.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
         
     }
@@ -126,6 +115,15 @@
     [super viewWillLayoutSubviews];
 }
 
+- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem{
+    
+    YTGridViewController *currentCtrl = (YTGridViewController *)self.selectedViewController;
+    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+        [currentCtrl setNumberItem:numberItem];
+    } else {
+        [currentCtrl setNumberItem:numberItem+1];
+    }
+}
 
 
 - (void)setSelectedIndex:(NSUInteger)newSelectedIndex animated:(BOOL)animated

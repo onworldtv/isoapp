@@ -32,13 +32,11 @@
         [self.view addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     }
 
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"bg_navigarbar"] forBarMetrics:UIBarMetricsDefault];
     if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
         self.navigationItem.title = nil;
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
     }
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(-2000, -2000) forBarMetrics:UIBarMetricsDefault];
-    
+
     [self initalizeHomeView];
     
     [DejalBezelActivityView activityViewForView:self.view withLabel:nil];

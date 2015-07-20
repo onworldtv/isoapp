@@ -44,9 +44,10 @@
     }
 }
 
-- (void)reload {
-    
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"%s",__func__);
 }
+
 
 - (void)setContentID:(int)contentID {
     _contentID = contentID;

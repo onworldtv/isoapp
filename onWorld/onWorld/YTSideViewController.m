@@ -243,9 +243,7 @@ static const NSString * kYTSearch = @"SEARCH";
             
            
         }
-        
-        
-        
+
         
     }else if (indexPath.section == 2) {
         

@@ -10,7 +10,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 @interface YTMusicPlayer : NSObject
 
-@property(nonatomic,strong) AVPlayer *avQueuePlayer;
+@property(nonatomic,strong) AVQueuePlayer *avQueuePlayer;
 
 + (void)sharedSession;
 

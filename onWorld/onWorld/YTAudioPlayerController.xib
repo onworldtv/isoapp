@@ -70,25 +70,31 @@
                             </connections>
                         </button>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="FDv-QP-7Ag">
-                            <rect key="frame" x="47" y="8" width="218" height="31"/>
+                            <rect key="frame" x="66" y="8" width="187" height="31"/>
+                            <connections>
+                                <action selector="beginScrubbing:" destination="-1" eventType="touchDown" id="A1Q-GY-Jmx"/>
+                                <action selector="endScrubbing:" destination="-1" eventType="touchUpInside" id="SIz-zc-mle"/>
+                                <action selector="endScrubbing:" destination="-1" eventType="touchUpOutside" id="oqK-Gs-5Vf"/>
+                                <action selector="scrub:" destination="-1" eventType="valueChanged" id="reR-J5-IIS"/>
+                            </connections>
                         </slider>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="03:01" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0w-Ec-2jC">
-                            <rect key="frame" x="8" y="14" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0w-Ec-2jC">
+                            <rect key="frame" x="8" y="14" width="56" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="42" id="F0L-W0-veD"/>
+                                <constraint firstAttribute="width" constant="56" id="F0L-W0-veD"/>
                                 <constraint firstAttribute="height" constant="21" id="nGZ-T9-biD"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="18"/>
+                            <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="03:01" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ykv-zY-Xec">
-                            <rect key="frame" x="270" y="12" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ykv-zY-Xec">
+                            <rect key="frame" x="256" y="12" width="56" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="42" id="VVY-Ah-KId"/>
+                                <constraint firstAttribute="width" constant="56" id="VVY-Ah-KId"/>
                                 <constraint firstAttribute="height" constant="21" id="gry-q0-wgi"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="18"/>
+                            <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -131,7 +137,7 @@
                     <constraints>
                         <constraint firstItem="lnu-QS-MLu" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="1oV-TB-Z8E"/>
                         <constraint firstAttribute="height" constant="213" id="4LQ-z0-sSb"/>
-                        <constraint firstItem="FDv-QP-7Ag" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="49" id="6Nz-nT-wXM"/>
+                        <constraint firstItem="FDv-QP-7Ag" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="68" id="6Nz-nT-wXM"/>
                         <constraint firstItem="3uy-hM-pnV" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="7ha-MI-BRa"/>
                         <constraint firstItem="o0w-Ec-2jC" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="8b9-YX-pbh"/>
                         <constraint firstAttribute="trailing" secondItem="lnu-QS-MLu" secondAttribute="trailing" constant="18" id="Nw9-3L-9b4"/>
@@ -147,7 +153,7 @@
                         <constraint firstItem="bYj-Df-3Ad" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="31" id="j0v-Zh-ZMX"/>
                         <constraint firstAttribute="trailing" secondItem="ykv-zY-Xec" secondAttribute="trailing" constant="8" id="kSF-a6-UuL"/>
                         <constraint firstAttribute="trailing" secondItem="3uy-hM-pnV" secondAttribute="trailing" constant="8" id="l2X-7J-nl5"/>
-                        <constraint firstAttribute="trailing" secondItem="FDv-QP-7Ag" secondAttribute="trailing" constant="57" id="o0d-5V-dIW"/>
+                        <constraint firstAttribute="trailing" secondItem="FDv-QP-7Ag" secondAttribute="trailing" constant="69" id="o0d-5V-dIW"/>
                         <constraint firstItem="ykv-zY-Xec" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="12" id="ung-pX-66G"/>
                     </constraints>
                 </view>
@@ -214,7 +220,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="327" y="473"/>
+            <point key="canvasLocation" x="696" y="468"/>
         </view>
     </objects>
     <resources>

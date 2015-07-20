@@ -7,7 +7,12 @@
 //
 
 #import "YTAudioPlayerController.h"
-#import "YTMusicPlayer.h"
+
+static void *itemRateContext = &itemRateContext;
+static void *itemStatusContext = &itemStatusContext;
+static void *itemCurrentContext = &itemCurrentContext;
+static void *itemkeepUpContext = &itemkeepUpContext;
+static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 
 @interface YTAudioPlayerController (){
     int contentID;
@@ -15,8 +20,11 @@
     YTContent *contentObj;
     YTDetail *detail;
     id playerTimerObserver;
+    float mRestoreAfterScrubbingRate;
+    BOOL isSeeking;
 }
-@property (strong, nonatomic) YTMusicPlayer *musicPlayer;
+
+@property (strong, nonatomic) AVQueuePlayer *queuePlayer;
 @end
 
 @implementation YTAudioPlayerController
@@ -24,8 +32,6 @@
 - (id)initWithID:(int)ID {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
-        [YTMusicPlayer sharedSession];
-        self.musicPlayer = [[YTMusicPlayer alloc]init];
         contentID = ID;
     }
     return self;
@@ -40,6 +46,8 @@
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
     }
     
+    [self sharedSession]; // set app run backgroud
+    
     BFTask *task = nil;
     
     contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID)];
@@ -53,35 +61,230 @@
     }
     
     [task continueWithBlock:^id(BFTask *task) {
-        [self startMusicPlayer];
+        
+        [self startAudio];
         return nil;
     }];
-    
+
     
 }
 
-
-- (void)startMusicPlayer {
-    [self.musicPlayer playWithUrlPath:contentObj.detail.link
-                            songTitle:contentObj.name
-                           singerName:detail.actor.name];
-    __weak UIImageView *imageView = self.imageView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:contentObj.image completed:^(NSError *error, UIImage *image) {
-        imageView.contentMode = UIViewContentModeCenter;
-        if (imageView.bounds.size.width > image.size.width && imageView.bounds.size.height > image.size.height) {
-            imageView.contentMode = UIViewContentModeScaleToFill;
+- (void)sharedSession {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(audioSessionInterrupted:)
+                                                 name:AVAudioSessionInterruptionNotification
+                                               object:[AVAudioSession sharedInstance]];
+    
+    //set audio category with options - for this demo we'll do playback only
+    NSError *categoryError = nil;
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&categoryError];
+    
+    if (categoryError) {
+        NSLog(@"Error setting category! %@", [categoryError description]);
+    }
+    
+    //activation of audio session
+    NSError *activationError = nil;
+    BOOL success = [[AVAudioSession sharedInstance] setActive: YES error: &activationError];
+    if (!success) {
+        if (activationError) {
+            NSLog(@"Could not activate audio session. %@", [activationError localizedDescription]);
+        } else {
+            NSLog(@"audio session could not be activated!");
         }
-        [imageView setImage:image];
-    }];
-    [self initScrubberTimer];
+    }
+}
+
+- (void)audioSessionInterrupted:(NSNotification*)interruptionNotification {
+    NSLog(@"interruption received: %@", interruptionNotification);
+}
+
+
+- (void)startAudio {
+    
+    if(contentObj) {
+        [DejalBezelActivityView activityViewForView:self.view withLabel:nil];
+        NSURL *url = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/adstream/ITV.Home.Shopping.Ad.720p.mp4/playlist.m3u8"];
+//        NSURL *url = [NSURL URLWithString:contentObj.detail.link];
+        
+        AVPlayerItem *adPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
+        
+        self.queuePlayer = [[AVQueuePlayer alloc]initWithItems:@[adPlayerItem]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(audioPlayerDidFinish:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:adPlayerItem];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(audioLoadPlayerFailured:)
+                                                     name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                   object:adPlayerItem];
+        
+        [adPlayerItem addObserver:self forKeyPath:@"status"
+                          options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+                          context:itemStatusContext];
+        
+        __weak UIImageView *imageView = self.imageView;
+        [[DLImageLoader sharedInstance]loadImageFromUrl:contentObj.image completed:^(NSError *error, UIImage *image) {
+            
+            [imageView setImage:image];
+        }];
+    }else {
+        [self didFinishAudioPlayerItem];
+    }
+}
+
+- (void)audioPlayerDidFinish:(NSNotification*)notification {
+    [self didFinishAudioPlayerItem];
+}
+
+- (void)audioLoadPlayerFailured:(NSNotification *)notification {
+    [self didFinishAudioPlayerItem];
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if(context == itemStatusContext) {
+        AVPlayerItemStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+        switch (status) {
+            case AVPlayerItemStatusFailed: {
+                [self didFinishAudioPlayerItem];
+                NSLog(@"AVPlayerItemStatusFailed");
+            }
+            
+            break;
+            case AVPlayerItemStatusReadyToPlay:{
+                [DejalBezelActivityView removeViewAnimated:YES];
+                [self.queuePlayer play];
+                [self initScrubberTimer];
+                NSLog(@"AVPlayerItemStatusReadyToPlay");
+                isSeeking = NO;
+            }
+            break;
+            default:
+                break;
+        }
+    }else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+-(void)removePlayerTimeObserver
+{
+    if (playerTimerObserver)
+    {
+        [self.queuePlayer removeTimeObserver:playerTimerObserver];
+        playerTimerObserver = nil;
+    }
+}
+
+- (IBAction)beginScrubbing:(id)sender
+{
+    mRestoreAfterScrubbingRate = [self.queuePlayer rate];
+    [self.queuePlayer setRate:0.f];
+    
+    /* Remove previous timer. */
+    [self removePlayerTimeObserver];
+}
+- (BOOL)isScrubbing
+{
+    return mRestoreAfterScrubbingRate != 0.f;
+}
+
+/* Set the player current time to match the scrubber position. */
+- (IBAction)scrub:(id)sender
+{
+    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
+    {
+        isSeeking = YES;
+        UISlider* slider = sender;
+        
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration)) {
+            return;
+        }
+        
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            float minValue = [slider minimumValue];
+            float maxValue = [slider maximumValue];
+            float value = [slider value];
+            
+            double time = duration * (value - minValue) / (maxValue - minValue);
+            
+            [self.queuePlayer seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    isSeeking = NO;
+                });
+            }];
+        }
+    }
+}
+
+/* The user has released the movie thumb control to stop scrubbing through the movie. */
+- (IBAction)endScrubbing:(id)sender
+{
+    if (!playerTimerObserver)
+    {
+        CMTime playerDuration = [self playerItemDuration];
+        if (CMTIME_IS_INVALID(playerDuration))
+        {
+            return;
+        }
+        
+        double duration = CMTimeGetSeconds(playerDuration);
+        if (isfinite(duration))
+        {
+            CGFloat width = CGRectGetWidth([self.sliderSeek bounds]);
+            double tolerance = 0.5f * duration / width;
+            
+            __weak YTAudioPlayerController *weakSelf = self;
+            playerTimerObserver = [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
+                                   ^(CMTime time)
+                                   {
+                                       [weakSelf syncScrubber];
+                                   }];
+        }
+    }
+    
+    if (mRestoreAfterScrubbingRate)
+    {
+        [self.queuePlayer setRate:mRestoreAfterScrubbingRate];
+        mRestoreAfterScrubbingRate = 0.f;
+    }
+}
+
+
+
+
+- (void)didFinishAudioPlayerItem {
+   
+    [DejalBezelActivityView removeViewAnimated:YES];
+    
+    [self removePlayerTimeObserver];
+    
+    if(self.queuePlayer) {
+        [self.queuePlayer.currentItem removeObserver:self forKeyPath:@"status"];
+    }
+    
+    if(self.queuePlayer.items.count > 0) {
+        [self.queuePlayer advanceToNextItem];
+    }else {
+        
+    }
+    [self.queuePlayer seekToTime:kCMTimeZero];
+    [self.sliderSeek setValue:0.0];
+    [self.txtcurrentTime setText:@"00:00:00"];
+    [self syncScrubber];
+    [self syncButtonPlay];
 }
 
 
 
 
 -(void)initScrubberTimer{
-    
-    if(detail.isLive.intValue == 0) {
+//    if(detail.isLive.intValue == 0) {
         double interval = .1f;
         CMTime playerDuration = [self playerItemDuration];
         if (CMTIME_IS_INVALID(playerDuration))
@@ -98,14 +301,13 @@
         }
         
         /* Update the scrubber during normal playback. */
-//        __weak YTAudioPlayerController *weakSelf = self;
-        
-       playerTimerObserver = [self.musicPlayer.avQueuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
+        __weak YTAudioPlayerController *weakSelf = self;
+       playerTimerObserver = [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
                                                                         queue:NULL /* If you pass NULL, the main queue is used. */
                                                                    usingBlock:^(CMTime time){
-                                                                       NSLog(@"sjhfjkshfklshfjklsh");
+                                                                       [weakSelf syncScrubber];
                                                                    }];
-    }
+//    }
 }
 
 - (void)syncScrubber{
@@ -123,7 +325,7 @@
     {
         float minValue = [self.sliderSeek minimumValue];
         float maxValue = [self.sliderSeek maximumValue];
-        double time = CMTimeGetSeconds([self.musicPlayer.avQueuePlayer currentTime]);
+        double time = CMTimeGetSeconds([self.queuePlayer currentTime]);
         NSString *currentTime = [YTOnWorldUtility stringWithTimeInterval:time];
         [self.txtcurrentTime setText:currentTime];
         [self.sliderSeek setValue:(maxValue - minValue) * time / duration + minValue];
@@ -132,7 +334,7 @@
 
 - (CMTime)playerItemDuration{
     
-    AVPlayerItem *playerItem = [self.musicPlayer.avQueuePlayer currentItem];
+    AVPlayerItem *playerItem = [self.queuePlayer currentItem];
     if (playerItem.status == AVPlayerItemStatusReadyToPlay)
     {
         return([playerItem duration]);
@@ -156,44 +358,90 @@
 {
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [self resignFirstResponder];
-    [self.musicPlayer clear];
+    
+    [self.queuePlayer removeAllItems];
+    [self.queuePlayer pause];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVAudioSessionInterruptionNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                  object:nil];
+    
     [super viewWillDisappear:animated];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
-- (IBAction)click_play:(id)sender {
-    
-    if(self.musicPlayer) {
-        if(self.musicPlayer.avQueuePlayer.rate > 0.0) {
-            [self.musicPlayer pause];
-            //update
-        }else {
-            [self.musicPlayer play];
-        }
+- (void)syncButtonPlay {
+    if(self.queuePlayer.rate >0.0) {
+        [self.queuePlayer pause];
+        [self.btnPlay setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    }else {
+        [self.queuePlayer play];
+        [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
     }
 }
 
+
+- (IBAction)click_play:(id)sender {
+    [self syncButtonPlay];
+    if(self.queuePlayer.rate == 0 && _sliderSeek.value == 0.0){
+        [self startAudio];
+    }
+    
+}
+
 - (IBAction)click_next:(id)sender {
+    if(self.queuePlayer.items.count >0){
+        [self.queuePlayer advanceToNextItem];
+        [self.queuePlayer play];
+    }
 }
 
 - (IBAction)click_back:(id)sender {
 }
 
+
+
 #pragma mark - remote control events
 - (void) remoteControlReceivedWithEvent: (UIEvent *) receivedEvent {
-    [self.musicPlayer remoteControlReceivedWithEvent:receivedEvent];
+    [self _remoteControlReceivedWithEvent:receivedEvent];
 }
 
+
+
+
+
+- (void)_remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    
+    NSLog(@"received event!");
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        switch (receivedEvent.subtype) {
+            case UIEventSubtypeRemoteControlTogglePlayPause: {
+                if ([self queuePlayer].rate > 0.0) {
+                    [[self queuePlayer] pause];
+                } else {
+                    [[self queuePlayer] play];
+                }
+                break;
+            }
+            case UIEventSubtypeRemoteControlPlay: {
+                [[self queuePlayer] play];
+                break;
+            }
+            case UIEventSubtypeRemoteControlPause: {
+                [[self queuePlayer] pause];
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
 #pragma mark - audio session management
 - (BOOL) canBecomeFirstResponder {
     return YES;

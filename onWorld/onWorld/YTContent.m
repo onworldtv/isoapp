@@ -20,5 +20,6 @@
 @dynamic name;
 @dynamic detail;
 @dynamic gen;
+@dynamic provider_id;
 
 @end

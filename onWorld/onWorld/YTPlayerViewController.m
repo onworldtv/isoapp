@@ -744,7 +744,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 }
 
 - (void)beginPlayVideo {
-    
+
+    isSeeking = NO;
     if(listSchedule.count >0) {
         [self.scheduleView setHidden:NO];
         [self.btnPlayList setEnabled:YES];
@@ -802,6 +803,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     [playerVideo seekToTime:kCMTimeZero];
     [self syncScrubber];
     [self showPlayButton];
+    [self stopCurrentPlayer];
 }
 
 
@@ -897,10 +899,10 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             [self.btnCloseImageViewAdv setHidden:NO];
             __weak UIImageView *imageView = self.imageAdvView;
             [[DLImageLoader sharedInstance]loadImageFromUrl:currentAdvInfo.url completed:^(NSError *error, UIImage *image) {
-                imageView.contentMode = UIViewContentModeCenter;
-                if (imageView.bounds.size.width > image.size.width && imageView.bounds.size.height > image.size.height) {
-                    imageView.contentMode = UIViewContentModeScaleToFill;
-                }
+//                imageView.contentMode = UIViewContentModeCenter;
+//                if (imageView.bounds.size.width > image.size.width && imageView.bounds.size.height > image.size.height) {
+//                    imageView.contentMode = UIViewContentModeScaleToFill;
+//                }
                 [imageView setImage:image];
             }];
         }];
@@ -1003,6 +1005,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (IBAction)click_closePlayer:(id)sender {
     
+    [self stopCurrentPlayer];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

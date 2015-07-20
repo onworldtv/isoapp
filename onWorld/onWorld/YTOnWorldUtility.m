@@ -48,6 +48,8 @@
     return 2;
 }
 
+
+
 + (CGSize)collectionViewCellSizeByWidth:(int)width{
     int delta = width % [self collectionViewItemPerRow];
     if(delta == 0) {
@@ -97,10 +99,11 @@
 
 + (NSString *)stringWithTimeInterval:(NSTimeInterval)totalSeconds
 {
-    NSInteger hours = totalSeconds / (60 * 60);
-    NSInteger minutes = (totalSeconds - hours * 60 * 60) / 60;
-    CGFloat seconds = MAX(0, (totalSeconds - hours * 60 * 60 - minutes * 60));
-    return [NSString stringWithFormat:@"%02li:%02li:%06.3f", (long)hours, (long)minutes, seconds];
+    long seconds = lroundf(totalSeconds);
+    int hour = seconds / 3600;
+    int mins = (seconds % 3600) / 60;
+    int secs = seconds % 60;
+    return [NSString stringWithFormat:@"%02li:%02li:%02li", (long)hour, (long)mins, secs];
 }
 
 @end

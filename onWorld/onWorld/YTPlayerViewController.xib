@@ -24,6 +24,7 @@
                 <outlet property="btnCloseImageViewAdv" destination="Ok4-ZS-j2m" id="UfY-qo-Egj"/>
                 <outlet property="btnPlay" destination="ShU-6d-09D" id="CvW-t2-Vv2"/>
                 <outlet property="btnPlayList" destination="6he-DF-qJA" id="Bnd-TX-rxx"/>
+                <outlet property="imageAdvView" destination="DxQ-21-ldO" id="zip-Qg-1UL"/>
                 <outlet property="imgAdvView" destination="ydq-wv-yIl" id="bH0-lZ-hEA"/>
                 <outlet property="lbAdvSecondTime" destination="jGd-rk-lHL" id="YrZ-VT-Xe3"/>
                 <outlet property="liveView" destination="nFe-Gz-EDe" id="WBE-gr-G06"/>
@@ -52,6 +53,12 @@
                         <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ydq-wv-yIl" userLabel="view Image">
                             <rect key="frame" x="0.0" y="0.0" width="568" height="70"/>
                             <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DxQ-21-ldO">
+                                    <rect key="frame" x="15" y="0.0" width="538" height="68"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="68" id="Na6-eF-roK"/>
+                                    </constraints>
+                                </imageView>
                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ok4-ZS-j2m">
                                     <rect key="frame" x="512" y="3" width="46" height="60"/>
                                     <constraints>
@@ -67,9 +74,12 @@
                                 </button>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="DxQ-21-ldO" firstAttribute="leading" secondItem="ydq-wv-yIl" secondAttribute="leading" constant="15" id="9gD-FM-yiF"/>
+                                <constraint firstAttribute="trailing" secondItem="DxQ-21-ldO" secondAttribute="trailing" constant="15" id="XTW-Or-Ueo"/>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="ZU1-TP-rUX"/>
                                 <constraint firstItem="Ok4-ZS-j2m" firstAttribute="top" secondItem="ydq-wv-yIl" secondAttribute="top" constant="3" id="er2-Wy-cdS"/>
                                 <constraint firstAttribute="height" constant="70" id="f25-37-xc4"/>
+                                <constraint firstItem="DxQ-21-ldO" firstAttribute="top" secondItem="ydq-wv-yIl" secondAttribute="top" id="gVN-Xk-61B"/>
                                 <constraint firstAttribute="trailing" secondItem="Ok4-ZS-j2m" secondAttribute="trailing" constant="10" id="ne5-hb-Zz7"/>
                             </constraints>
                             <variation key="default">
@@ -398,7 +408,7 @@ EFNraXA
                 <constraint firstItem="Duw-56-xMq" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="bottom" id="yve-19-cEQ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="457" y="619"/>
+            <point key="canvasLocation" x="308" y="323"/>
         </view>
     </objects>
     <resources>

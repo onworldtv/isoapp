@@ -254,6 +254,7 @@ static YTDataManager *m_instance;
                                          content.desc = [dictionary valueForKey:@"description"];
                                          content.image = [dictionary valueForKey:@"image"];
                                          content.karaoke = @([[dictionary valueForKey:@"karaoke"] intValue]);
+                                         content.provider_id = @([[dictionary valueForKey:@"provider_id"] intValue]);
                                          [genre addContentObject:content];
                                      }
                                  } completion:^(BOOL contextDidSave, NSError *error) {
@@ -349,7 +350,6 @@ static YTDataManager *m_instance;
                                   }
                               }
                               
-                              
                               if([response valueForKeyPath:@"episodes"]) {
                                   NSArray *epiArr = [response valueForKey:@"episodes"];
                                   for (NSDictionary *episo in epiArr) {
@@ -366,7 +366,6 @@ static YTDataManager *m_instance;
                                       
                                       [detail addEpisodeObject:episodes];
                                   }
-                                  
                               }
                               
                               if([response valueForKeyPath:@"countries"]) {

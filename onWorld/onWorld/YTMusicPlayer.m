@@ -53,8 +53,7 @@
         NSURL *assetUrl = [NSURL URLWithString:urlPath];
         AVPlayerItem *avSongItem = [[AVPlayerItem alloc] initWithURL:assetUrl];
         if (avSongItem) {
-//            [[self avQueuePlayer] insertItem:avSongItem afterItem:nil];
-            self.avQueuePlayer = [[AVPlayer alloc]initWithPlayerItem:avSongItem];
+            [[self avQueuePlayer] insertItem:avSongItem afterItem:nil];
             [self play];
             [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = @{MPMediaItemPropertyTitle: songTitle, MPMediaItemPropertyArtist: singerName};
         }
@@ -71,6 +70,10 @@
     return(kCMTimeInvalid);
 }
 
+
+- (void)addObserverPlayerItem:(id)object key:(NSString *)keyValue context:(void*)context{
+    [self.avQueuePlayer.currentItem addObserver:object forKeyPath:keyValue options:0 context:context];
+}
 
 #pragma mark - notifications
 - (void)audioSessionInterrupted:(NSNotification*)interruptionNotification {

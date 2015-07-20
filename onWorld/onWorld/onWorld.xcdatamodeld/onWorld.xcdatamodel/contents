@@ -27,6 +27,7 @@
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="karaoke" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="provider_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" syncable="YES"/>
         <relationship name="gen" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTGenre" inverseName="content" inverseEntity="YTGenre" syncable="YES"/>
     </entity>
@@ -93,7 +94,7 @@
         <element name="YTActor" positionX="0" positionY="0" width="128" height="90"/>
         <element name="YTAdv" positionX="0" positionY="0" width="128" height="150"/>
         <element name="YTCategory" positionX="0" positionY="0" width="128" height="120"/>
-        <element name="YTContent" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="YTContent" positionX="0" positionY="0" width="128" height="165"/>
         <element name="YTCountry" positionX="0" positionY="0" width="128" height="90"/>
         <element name="YTDetail" positionX="0" positionY="0" width="128" height="345"/>
         <element name="YTDirector" positionX="0" positionY="0" width="128" height="90"/>

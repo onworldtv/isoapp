@@ -18,16 +18,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
-    DATA_MANAGER;
 
-//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-//        return [DATA_MANAGER pullGroupContent];
-//    }];
+    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+        return [DATA_MANAGER pullGroupContent];
+    }];
     
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];
-    
+//    
 //    YTAudioPlayerController *viewCtrl = [[YTAudioPlayerController alloc]initWithNibName:@"YTAudioPlayerController" bundle:nil];
 //    [viewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 //    [self.window setRootViewController:viewCtrl];

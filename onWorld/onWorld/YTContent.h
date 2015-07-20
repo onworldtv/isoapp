@@ -14,6 +14,7 @@
 @interface YTContent : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * contentID;
+@property (nonatomic, retain) NSNumber * provider_id;
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSString * image;
 @property (nonatomic, retain) NSNumber * karaoke;
