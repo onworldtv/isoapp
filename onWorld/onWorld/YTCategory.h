@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSNumber * mode;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *genre;
+
 @end
 
 @interface YTCategory (CoreDataGeneratedAccessors)

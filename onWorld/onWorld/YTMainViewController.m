@@ -59,6 +59,17 @@
 
 }
 
+
+- (void)viewWillAppear:(BOOL)animated {
+   
+
+}
+- (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"%s",__func__);
+    [videoViewCtrl parentDidRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait numberItem:2];
+    [audioViewCtrl parentDidRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait numberItem:3];
+    [self resetHeightForScrollView];
+}
 - (void)initalizeHomeView{
 
     YTGridViewController *recommendationViewCtrl = [[YTGridViewController alloc]initWithIdentify:@"recommend" mode:1];

@@ -27,6 +27,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars=NO;
     if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
     }
@@ -43,6 +46,8 @@
 
 - (void)initViewController {
     
+    if(!self.scrollView)
+        return ;
     if(_contentID > 0) {
         [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
         BFTask *task = nil;
@@ -70,12 +75,12 @@
             [relativeViewCtrl setMode:[contentItem.gen.category.mode intValue]];
             
             detailViewCtrl.view.frame = CGRectMake(0, 0, _scrollView.frame.size.width, 435);
-            [detailViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin];
+            [detailViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [_scrollView addSubview:detailViewCtrl.view];
 
             if([contentItem.detail.timeline allObjects].count > 0 || contentItem.detail.episode.allObjects.count > 0) {
                 timelineViewCtrl.view.frame = CGRectMake(0, detailViewCtrl.view.frame.size.height, _scrollView.frame.size.width, 310);
-                [timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin];
+                [timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
                 [_scrollView addSubview:timelineViewCtrl.view];
             }else {
                  timelineViewCtrl.view.frame = CGRectMake(0, detailViewCtrl.view.frame.size.height, _scrollView.frame.size.width, 0);
@@ -89,15 +94,13 @@
             [relativeViewCtrl setItems:relatives];
             [timelineViewCtrl setContentID:_contentID];
             [detailViewCtrl setContentID:_contentID];
-            
-            [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width, timelineViewCtrl.view.frame.size.height + detailViewCtrl.view.frame.size.height + relativeViewCtrl.view.frame.size.height)];
-            
-            
-            
-            
-            [relativeViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth |UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin];
+
+            [relativeViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [_scrollView addSubview:relativeViewCtrl.view];
 
+            CGSize contentSize = CGSizeMake(_scrollView.frame.size.width, timelineViewCtrl.view.frame.size.height + detailViewCtrl.view.frame.size.height + relativeViewCtrl.view.frame.size.height-50);
+            
+            [_scrollView setContentSize:contentSize];
             [DejalBezelActivityView removeViewAnimated:YES];
             
             return nil;
@@ -111,6 +114,7 @@
     detailViewCtrl.view.frame = CGRectMake(0, 0, _scrollView.frame.size.width, 435);
     if(timelineViewCtrl.view.frame.size.height != 0)
         timelineViewCtrl.view.frame = CGRectMake(0, detailViewCtrl.view.frame.size.height, _scrollView.frame.size.width, 310);
+    
     relativeViewCtrl.view.frame = CGRectMake(0,
                                              detailViewCtrl.view.frame.size.height + timelineViewCtrl.view.frame.size.height
                                              , _scrollView.frame.size.width,
@@ -152,6 +156,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)dealloc {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

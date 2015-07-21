@@ -15,6 +15,8 @@
 @property (nonatomic,assign)BOOL       showByCategory; // show genre group
 @property (nonatomic,assign)int numberItems;
 @property (nonatomic,assign)BOOL enableMoreButton;
+@property (nonatomic,strong)NSArray * contentItems;
 - (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items;
 
+- (void)setContentArray:(NSArray*)arr;
 @end

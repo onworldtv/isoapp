@@ -38,16 +38,5 @@
     
 }
 
--(void)setHighlighted:(BOOL)highlighted
-{
-    if (highlighted)
-    {
-        self.layer.opacity = 0.3;
-        // Here what do you want.
-    }
-    else{
-        self.layer.opacity = 1.0;
-        // Here all change need go back
-    }
-}
+
 @end

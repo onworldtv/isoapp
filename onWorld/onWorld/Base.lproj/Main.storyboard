@@ -44,7 +44,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="87V-cf-Fmd">
-                        <barButtonItem key="leftBarButtonItem" image="menu" id="mih-oX-NDD"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="menu" id="mih-oX-NDD"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
@@ -134,9 +134,9 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOC-5q-hYm">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="cOC-5q-hYm" secondAttribute="bottom" id="75Q-tF-WPG"/>
                             <constraint firstItem="cOC-5q-hYm" firstAttribute="leading" secondItem="zQV-KP-GhR" secondAttribute="leading" id="PJZ-TR-NLD"/>
@@ -150,7 +150,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZk-Q3-qY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1091" y="-117"/>
+            <point key="canvasLocation" x="993" y="-109"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="el1-pA-KHA">

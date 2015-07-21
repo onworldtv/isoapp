@@ -53,8 +53,13 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     NSTimer *scheduleDisplayAdv;
     NSTimer *scheduleCloseAdv;
     NSMutableArray *queueAdvItems;
+    
+    
     id playerTimerObserver;
     id advTimerObserver;
+    id _localTimer;
+    
+    
     
     NSArray *listSchedule;
     int indexSchedule;
@@ -659,6 +664,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (IBAction)beginScrubbing:(id)sender
 {
+    isSeeking = YES;
     mRestoreAfterScrubbingRate = [playerVideo rate];
     [playerVideo setRate:0.f];
     
@@ -673,39 +679,39 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 /* Set the player current time to match the scrubber position. */
 - (IBAction)scrub:(id)sender
 {
-    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
-    {
-        isSeeking = YES;
-        UISlider* slider = sender;
-        
-        CMTime playerDuration = [self playerItemDuration];
-        if (CMTIME_IS_INVALID(playerDuration)) {
-            return;
-        }
-        
-        double duration = CMTimeGetSeconds(playerDuration);
-        if (isfinite(duration))
-        {
-            float minValue = [slider minimumValue];
-            float maxValue = [slider maximumValue];
-            float value = [slider value];
-            
-            double time = duration * (value - minValue) / (maxValue - minValue);
-            
-            [playerVideo seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    isSeeking = NO;
-                });
-            }];
-        }
-    }
+//    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
+//    {
+//        isSeeking = YES;
+//        UISlider* slider = sender;
+//        
+//        CMTime playerDuration = [self playerItemDuration];
+//        if (CMTIME_IS_INVALID(playerDuration)) {
+//            return;
+//        }
+//        
+//        double duration = CMTimeGetSeconds(playerDuration);
+//        if (isfinite(duration))
+//        {
+//            float minValue = [slider minimumValue];
+//            float maxValue = [slider maximumValue];
+//            float value = [slider value];
+//            
+//            double time = duration * (value - minValue) / (maxValue - minValue);
+//            
+//            [playerVideo seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    isSeeking = NO;
+//                });
+//            }];
+//        }
+//    }
 }
 
 /* The user has released the movie thumb control to stop scrubbing through the movie. */
 - (IBAction)endScrubbing:(id)sender
 {
-    if (!playerTimerObserver)
-    {
+    
+    if (!_localTimer) {
         CMTime playerDuration = [self playerItemDuration];
         if (CMTIME_IS_INVALID(playerDuration))
         {
@@ -715,23 +721,54 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         double duration = CMTimeGetSeconds(playerDuration);
         if (isfinite(duration))
         {
-            CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
-            double tolerance = 0.5f * duration / width;
+            //            CGFloat width = CGRectGetWidth([self.timeSlider bounds]);
+            //            double tolerance = 0.5f * duration / width;
+           __weak YTPlayerViewController *weakSelf = self;
+            _localTimer = [playerVideo addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.2f, NSEC_PER_SEC) queue:NULL usingBlock:
+                           ^(CMTime time)
+                           {
+                               [weakSelf syncScrubber];
+                           }];
+            float value = [self.sliderTrackView value];
+#if DEBUG
+            float minValue = [self.sliderTrackView minimumValue];
+            float maxValue = [self.sliderTrackView maximumValue];
+            NSLog(@"Seek to %f (%f-%f)", value, minValue, maxValue);
+#endif
             
-            __weak YTPlayerViewController *weakSelf = self;
-            playerTimerObserver = [playerVideo addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
-                             ^(CMTime time)
-                             {
-                                 [weakSelf syncScrubber];
-                             }];
+            [playerVideo seekToTime:CMTimeMakeWithSeconds(value, NSEC_PER_SEC)];
+            [playerVideo play];
         }
     }
     
-    if (mRestoreAfterScrubbingRate)
-    {
-        [playerVideo setRate:mRestoreAfterScrubbingRate];
-        mRestoreAfterScrubbingRate = 0.f;
-    }
+//    if (!playerTimerObserver)
+//    {
+//        CMTime playerDuration = [self playerItemDuration];
+//        if (CMTIME_IS_INVALID(playerDuration))
+//        {
+//            return;
+//        }
+//        
+//        double duration = CMTimeGetSeconds(playerDuration);
+//        if (isfinite(duration))
+//        {
+//            CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
+//            double tolerance = 0.5f * duration / width;
+//            
+//            __weak YTPlayerViewController *weakSelf = self;
+//            playerTimerObserver = [playerVideo addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
+//                             ^(CMTime time)
+//                             {
+//                                 [weakSelf syncScrubber];
+//                             }];
+//        }
+//    }
+//    
+//    if (mRestoreAfterScrubbingRate)
+//    {
+//        [playerVideo setRate:mRestoreAfterScrubbingRate];
+//        mRestoreAfterScrubbingRate = 0.f;
+//    }
 }
 - (CMTime)playerItemDuration{
     AVPlayerItem *playerItem = [playerVideo currentItem];

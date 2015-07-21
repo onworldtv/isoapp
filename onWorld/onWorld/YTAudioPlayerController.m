@@ -63,10 +63,13 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [task continueWithBlock:^id(BFTask *task) {
         
         [self startAudio];
+        [self bindingData];
         return nil;
     }];
-
-    
+}
+- (void)bindingData {
+    _txtSongName.text = contentObj.name;
+    _txtSigerName.text = @"";
 }
 
 - (void)sharedSession {
@@ -104,10 +107,10 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 - (void)startAudio {
     
     if(contentObj) {
-        [DejalBezelActivityView activityViewForView:self.view withLabel:nil];
-        NSURL *url = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/adstream/ITV.Home.Shopping.Ad.720p.mp4/playlist.m3u8"];
-//        NSURL *url = [NSURL URLWithString:contentObj.detail.link];
-        
+        [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
+//        NSURL *url = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/adstream/ITV.Home.Shopping.Ad.720p.mp4/playlist.m3u8"];
+       
+        NSURL *url = [NSURL URLWithString:contentObj.detail.link];
         AVPlayerItem *adPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
         
         self.queuePlayer = [[AVQueuePlayer alloc]initWithItems:@[adPlayerItem]];
@@ -289,6 +292,9 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         CMTime playerDuration = [self playerItemDuration];
         if (CMTIME_IS_INVALID(playerDuration))
         {
+            [self.txtDuration setHidden:YES];
+            [self.txtcurrentTime setHidden:YES];
+            [self.sliderSeek setHidden:YES];
             return;
         }
         double duration = CMTimeGetSeconds(playerDuration);
@@ -298,6 +304,11 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
             interval = 0.5f * duration / width;
             NSString *txtInterVal = [YTOnWorldUtility stringWithTimeInterval:duration];
             [self.txtDuration setText:txtInterVal];
+        }else {
+            [self.txtDuration setHidden:YES];
+            [self.txtcurrentTime setHidden:YES];
+            [self.sliderSeek setHidden:YES];
+            return ;
         }
         
         /* Update the scrubber during normal playback. */
@@ -359,8 +370,12 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [self resignFirstResponder];
     
+    AVPlayerItem *playerItem = self.queuePlayer.currentItem;
+    [playerItem removeObserver:self forKeyPath:@"status"];
     [self.queuePlayer removeAllItems];
     [self.queuePlayer pause];
+
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:AVAudioSessionInterruptionNotification
                                                   object:nil];

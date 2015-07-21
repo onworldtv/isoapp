@@ -18,10 +18,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+    {
+        self.window.clipsToBounds = YES;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    
 
-    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-        return [DATA_MANAGER pullGroupContent];
-    }];
+    // if mode = view && category = LiveTV then display schedule
+//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+//        return [DATA_MANAGER pullGroupContent];
+//    }];
     
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];

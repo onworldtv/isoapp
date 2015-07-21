@@ -240,19 +240,17 @@ static const NSString * kYTSearch = @"SEARCH";
         if(selectedProviderID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
             selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            
+           
            
         }
-
-        
     }else if (indexPath.section == 2) {
         
         if(selectedCategoryID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
             selectedCategoryID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
-
-            NSArray *items = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID providerID:selectedProviderID];
+            
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items];
+            NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID providerID:selectedProviderID];
+            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
             [moreViewController setShowByCategory:NO];
             [moreViewController setShowRevealNavigator:YES];
             [moreViewController setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];

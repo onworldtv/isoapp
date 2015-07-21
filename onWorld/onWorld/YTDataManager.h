@@ -31,6 +31,8 @@
 
 - (BFTask *)pullAndSaveContentDetail:(int)contentID;
 
+- (BFTask *)getContentsByProviderId:(int)providerID;
+
 - (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID;
     
 - (BFTask *)advInfoWithURLString:(NSString *)urlPath;

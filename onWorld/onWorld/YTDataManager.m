@@ -270,6 +270,40 @@ static YTDataManager *m_instance;
     return completionSource.task;
 }
 
+
+- (BFTask *)getContentsByProviderId:(int)providerID {
+    
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    NSArray *categories = [YTCategory MR_findAll];
+    NSMutableArray *items = [[NSMutableArray alloc]init];
+    for (YTCategory *catgory in categories) {
+        NSArray *genries = [[catgory genre]allObjects];
+        if(genries.count > 0) {
+            for (YTGenre *genre in genries) {
+                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName,@"mode":catgory.mode};
+                NSMutableArray *subItems = [NSMutableArray array];
+                
+                NSArray *contents = [[genre content]allObjects];
+                for (YTContent *content in contents) {
+                    if(content.provider_id.intValue == providerID) {
+                        NSDictionary *contentDict = @{@"id":content.contentID,
+                                                      @"name":content.name,
+                                                      @"image":content.image,@"desc":content.desc,
+                                                      @"category":catgory.name};
+                        
+                        [subItems addObject:contentDict];
+                    }
+                }
+                if(subItems.count > 0) {
+                    NSDictionary *object = @{@"title":genreDict, @"content":subItems};
+                    [items addObject:object];
+                }
+            }
+        }
+    }
+    [completionSource setResult:items];
+    return completionSource.task;
+}
 - (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID {
     
     /*
@@ -336,6 +370,12 @@ static YTDataManager *m_instance;
                               detail.providerID = @([[response valueForKeyPath:@"content.pro_id"] intValue]);
                               
                               if([response valueForKeyPath:@"timelines"]) {
+
+                                  for (YTTimeline *timeline  in detail.timeline.allObjects) {
+                                      [timeline MR_deleteEntityInContext:localContext];
+                                  }
+                                  
+                                  
                                   NSArray *timelines = [response valueForKey:@"timelines"];
                                   for (NSDictionary *timeline in timelines) {
                                       YTTimeline *timelineObject = [YTTimeline MR_findFirstByAttribute:@"title" withValue:[timeline valueForKeyPath:@"title"] inContext:localContext];
@@ -351,6 +391,11 @@ static YTDataManager *m_instance;
                               }
                               
                               if([response valueForKeyPath:@"episodes"]) {
+                                  
+                                  for (YTEpisodes *episodes  in detail.episode.allObjects) {
+                                      [episodes MR_deleteEntityInContext:localContext];
+                                  }
+
                                   NSArray *epiArr = [response valueForKey:@"episodes"];
                                   for (NSDictionary *episo in epiArr) {
                                       YTEpisodes *episodes = [YTEpisodes MR_findFirstByAttribute:@"episodesID"

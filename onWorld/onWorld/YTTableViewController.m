@@ -14,8 +14,6 @@
 
 @interface YTTableViewController ()
 {
-    NSMutableArray * m_items;
-    NSArray *titles;
     int defaultNumberItems;
 }
 
@@ -28,26 +26,24 @@
     self = [super initWithStyle:style];
     if(self) {
         _numberItems = defaultNumberItems = [YTOnWorldUtility collectionViewItemPerRow];
-        m_items = [[NSMutableArray alloc]initWithArray:items];
+        _contentItems = items;
     }
     return self;
 }
 
 
-
--(void)setNumberItems:(int)numberItems {
-    _numberItems = numberItems;
-    defaultNumberItems =_numberItems;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    self.edgesForExtendedLayout=UIRectEdgeNone;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name: UIDeviceOrientationDidChangeNotification
                                                object: nil];
+    if(_contentItems.count ==0) {
+        [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
+    }
     
     SWRevealViewController *revealViewController = self.revealViewController;
     if (_showRevealNavigator )
@@ -84,13 +80,20 @@
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     [self.tableView reloadData];
 }
-- (void)deviceOrientationDidChange:(NSNotification *)notification {
+
+
+
+- (void)setContentArray:(NSArray*)arr{
     
-//    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-//        _numberItems = defaultNumberItems + 1;
-//    }else {
-//        _numberItems = defaultNumberItems;
-//    }
+    if(self.contentItems.count > 0) {
+        return ;
+    }
+    self.contentItems = arr;
+    [self.tableView reloadData];
+    [DejalBezelActivityView removeViewAnimated:YES];
+}
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+
     [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning
@@ -104,7 +107,7 @@
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return m_items.count;
+    return _contentItems.count;
 }
 
 
@@ -138,7 +141,8 @@
 {
     
     CGFloat width  = tableView.frame.size.width - 10;
-    NSDictionary *itemsDict = m_items[indexPath.section];
+    NSInteger section = indexPath.section;
+    NSDictionary *itemsDict = _contentItems[section];
     NSDictionary *titleDic = [itemsDict valueForKey:@"title"];
     int mode = [[titleDic valueForKey:@"mode"] intValue];
     int height = 0;
@@ -180,7 +184,7 @@
     }
     
     
-    NSDictionary *item = m_items[section];
+    NSDictionary *item = _contentItems[section];
     NSDictionary *titleDict = [item valueForKey:@"title"];
     
     [headerCell.txtTitle setText:[titleDict valueForKey:@"name"]];
@@ -198,7 +202,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     
-    NSDictionary *itemsAtPath = m_items[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
     return subItems.count;
 }
@@ -207,7 +211,7 @@
 {    
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
     
-    NSDictionary *itemsAtPath = m_items[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
     
     NSDictionary * item = subItems[indexPath.item];
@@ -234,7 +238,7 @@
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSDictionary *itemsAtPath = m_items[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
     NSDictionary *title = [itemsAtPath valueForKey:@"title"];
     CGRect frame = collectionView.frame;
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
@@ -256,11 +260,12 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary *itemdict = m_items[[(YTIndexedCollectionView *)collectionView indexPath].row];
+    NSDictionary *itemdict = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].row];
 
     NSDictionary *item = [[itemdict valueForKey:@"content"] objectAtIndex:indexPath.row];
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
+  
     YTContentDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
     [detailViewCtrl setContentID:[[item valueForKey:@"id"] intValue]];
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
@@ -269,6 +274,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

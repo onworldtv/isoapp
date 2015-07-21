@@ -118,11 +118,12 @@
 - (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem{
     
     YTGridViewController *currentCtrl = (YTGridViewController *)self.selectedViewController;
-    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
-        [currentCtrl setNumberItem:numberItem];
-    } else {
-        [currentCtrl setNumberItem:numberItem+1];
-    }
+    [currentCtrl setNumberItem:numberItem];
+//    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+//        [currentCtrl setNumberItem:numberItem];
+//    } else {
+//        [currentCtrl setNumberItem:numberItem+1];
+//    }
 }
 
 

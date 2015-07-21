@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *txtNational;
 @property (weak, nonatomic) IBOutlet UILabel *txtDuration;
 @property (weak, nonatomic) IBOutlet UILabel *txtYear;
-@property (weak, nonatomic) IBOutlet UILabel *lbDescription;
+@property (weak, nonatomic) IBOutlet UITextView *lbDescription;
 @property (weak, nonatomic) IBOutlet UIButton *btnDown;
 @property (weak)id<YTSelectedItemProtocol>delegate;
 
