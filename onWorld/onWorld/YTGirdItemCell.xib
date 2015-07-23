@@ -97,7 +97,7 @@
                 <outlet property="txtCategory" destination="Mca-Qe-NhL" id="Yhu-Xj-0Ww"/>
                 <outlet property="txtTitle" destination="4He-UR-hbA" id="aBz-D4-hy1"/>
             </connections>
-            <point key="canvasLocation" x="-103.5" y="20"/>
+            <point key="canvasLocation" x="227.5" y="20"/>
         </view>
     </objects>
 </document>

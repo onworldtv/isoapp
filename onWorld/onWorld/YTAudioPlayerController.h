@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 
 
-- (id)initWithID:(int)ID;
+- (id)initWithID:(NSNumber*)ID;
 
 - (IBAction)click_play:(id)sender;
 - (IBAction)click_next:(id)sender;

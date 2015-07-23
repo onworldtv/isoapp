@@ -33,5 +33,6 @@
 #import "DLImageLoader.h"
 #import "YTSelectedItemProtocol.h"
 #import "SWRevealViewController.h"
+#import "YTChromcastManager.h"
 
 #endif

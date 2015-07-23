@@ -37,8 +37,6 @@
 
 
 - (IBAction)click_showMore:(id)sender;
-
 - (void)setViewControllers:(NSArray *)newViewControllers;
-- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem;
 - (void)loadTabView;
 @end

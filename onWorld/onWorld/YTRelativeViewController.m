@@ -11,6 +11,8 @@
 @interface YTRelativeViewController ()
 {
     int defaultNumber;
+    NSArray *arrayRelatives;
+    int mode;
     
 }
 @end
@@ -18,17 +20,21 @@
 @implementation YTRelativeViewController
 
 
--(id)init {
+
+
+- (id)initWithArray:(NSArray *)array display:(int)modeView {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
         _numberOfItem = defaultNumber = [YTOnWorldUtility collectionViewItemPerRow];
-        
+        arrayRelatives = array;
+        mode = modeView;
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if(_mode == 0){
+    if(mode == 0){
         _m_title.text = @"LISTEN RELATED";
     }else {
         _m_title.text = @"VIEW RELATED";
@@ -38,22 +44,11 @@
                                                  name: UIDeviceOrientationDidChangeNotification
                                                object: nil];
     [self.collectionView registerClass:[YTGirdItemCell class] forCellWithReuseIdentifier:@"itemCell"];
-
-
+    
 }
 
-- (void)setItems:(NSMutableArray *)items {
-    _items = items;
-    [_collectionView reloadData];
-}
-- (void)setMode:(int)mode {
-    _mode = mode;
-    if(_mode == 0){
-        _m_title.text = @"LISTEN RELATED";
-    }else {
-        _m_title.text = @"VIEW RELATED";
-    }
-}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -79,24 +74,27 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _items.count;
+    return arrayRelatives.count;
+
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary *item = _items[indexPath.row];
+    YTContent *item = arrayRelatives[indexPath.row];
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"itemCell" forIndexPath:indexPath];
-    cell.txtTitle.text = [item valueForKey:@"name"];
+    cell.txtTitle.text = item.name;
     [cell.txtCategory setHidden:YES];
     __weak UIImageView *imageView = cell.imgView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
+    [[DLImageLoader sharedInstance]loadImageFromUrl:item.image completed:^(NSError *error, UIImage *image) {
         [imageView setImage:image];
     }];
     
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     CGRect frame = collectionView.frame;
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
@@ -104,15 +102,13 @@
    
     if(width > 0) {
         CGFloat height = 0;
-        if(_mode == 0) {// listen
+        if(mode == 0) {// listen
             height = width;
         }else {//view
             height =floorf((9 * width)/16);
         }
         return CGSizeMake(width,height);
     }
-
-    
     return CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
 }
 
@@ -120,15 +116,12 @@
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *item  =_items[indexPath.row];
+    YTContent *item  =arrayRelatives[indexPath.row];
     if(item) {
-        if([_delegate respondsToSelector:@selector(didSelectItemWithCategoryID:)]) {
-            [_delegate didSelectItemWithCategoryID:[[item valueForKey:@"id"] intValue]];
+        if([_delegate respondsToSelector:@selector(delegateSelectedItem:)]) {
+            [_delegate delegateSelectedItem:item.contentID];
         }
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        [collectionView setContentOffset:CGPointMake(0, 0)];
-    }];
     
 }
 

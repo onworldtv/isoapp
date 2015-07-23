@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol YTDelegateSelectRelativeItem<NSObject>
+
+- (void)delegateSelectedItem:(NSNumber *)itemID;
+
+@end
+
 @interface YTRelativeViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *m_title;
 @property (nonatomic,assign)int numberOfItem;
-@property (nonatomic,strong) NSMutableArray * items;
-@property (assign,nonatomic)int mode;
-@property (weak)id<YTSelectedItemProtocol>delegate;
+@property (weak)id<YTDelegateSelectRelativeItem>delegate;
 
+- (id)initWithArray:(NSArray *)array display:(int)modeView;
 @end

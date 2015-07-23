@@ -407,6 +407,7 @@ EFNraXA
                 <constraint firstAttribute="trailing" secondItem="BON-jv-U6I" secondAttribute="trailing" id="vRh-wL-KYH"/>
                 <constraint firstItem="Duw-56-xMq" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="bottom" id="yve-19-cEQ"/>
             </constraints>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="308" y="323"/>
         </view>

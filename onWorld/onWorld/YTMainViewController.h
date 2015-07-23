@@ -10,8 +10,10 @@
 #import "YTSelectedItemProtocol.h"
 
 
-@interface YTMainViewController : UIViewController <YTSelectedItemProtocol>
+@interface YTMainViewController : UIViewController <YTSelectedItemProtocol,UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sidebarButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 
 @end

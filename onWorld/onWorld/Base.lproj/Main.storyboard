@@ -29,17 +29,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RSM-eZ-fan">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="LPU-RX-bgw">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </scrollView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="zbB-7W-rTA" customClass="YTDetailViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zbB-7W-rTA" id="Vq0-S0-xhF">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="QZP-SI-Vbs"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="6jh-Tu-UiS"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="RSM-eZ-fan" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="46J-jv-dii"/>
-                            <constraint firstAttribute="bottom" secondItem="RSM-eZ-fan" secondAttribute="bottom" id="5U2-d2-1xX"/>
-                            <constraint firstItem="RSM-eZ-fan" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="eWN-Sz-twf"/>
-                            <constraint firstAttribute="trailing" secondItem="RSM-eZ-fan" secondAttribute="trailing" id="up2-fY-84a"/>
+                            <constraint firstItem="LPU-RX-bgw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="AAE-0a-gEj"/>
+                            <constraint firstAttribute="trailing" secondItem="LPU-RX-bgw" secondAttribute="trailing" id="eqO-UH-XX5"/>
+                            <constraint firstItem="SRE-Lo-5x9" firstAttribute="top" secondItem="LPU-RX-bgw" secondAttribute="bottom" id="oUs-jd-5U8"/>
+                            <constraint firstItem="LPU-RX-bgw" firstAttribute="top" secondItem="jWe-vB-KMC" secondAttribute="bottom" id="zTR-4E-bt2"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -48,13 +61,13 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="scrollView" destination="RSM-eZ-fan" id="jN9-Jo-hhU"/>
                         <outlet property="sidebarButton" destination="mih-oX-NDD" id="1jg-dW-Q5L"/>
+                        <outlet property="tableView" destination="LPU-RX-bgw" id="P8S-3J-j9X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="743" y="549"/>
+            <point key="canvasLocation" x="622" y="506"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="Ttg-TE-QGQ">
@@ -118,12 +131,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1r-p3-u88" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="631" y="-109"/>
+            <point key="canvasLocation" x="622" y="-171"/>
         </scene>
-        <!--Content Detail View Controller-->
+        <!--Screen Detail View Controller-->
         <scene sceneID="sNh-y4-cGr">
             <objects>
-                <viewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTContentDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Ute-ig-CEb" customClass="YTScreenDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vnH-OG-6S6"/>
                         <viewControllerLayoutGuide type="bottom" id="kqQ-lp-G8C"/>
@@ -132,25 +145,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOC-5q-hYm">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="274" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Kov-ff-qKZ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </scrollView>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="274" id="29n-YS-Jye" userLabel="Cell" customClass="YTDetailViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="29n-YS-Jye" id="0KR-fl-DBr">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Ute-ig-CEb" id="1yV-Su-Geh"/>
+                                    <outlet property="delegate" destination="Ute-ig-CEb" id="fbt-wi-oeA"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="cOC-5q-hYm" secondAttribute="bottom" id="75Q-tF-WPG"/>
-                            <constraint firstItem="cOC-5q-hYm" firstAttribute="leading" secondItem="zQV-KP-GhR" secondAttribute="leading" id="PJZ-TR-NLD"/>
-                            <constraint firstAttribute="trailing" secondItem="cOC-5q-hYm" secondAttribute="trailing" id="gq1-1F-OBX"/>
-                            <constraint firstItem="cOC-5q-hYm" firstAttribute="top" secondItem="zQV-KP-GhR" secondAttribute="top" id="yXd-Cu-Oli"/>
+                            <constraint firstAttribute="trailing" secondItem="Kov-ff-qKZ" secondAttribute="trailing" id="NGF-wP-ZNe"/>
+                            <constraint firstItem="kqQ-lp-G8C" firstAttribute="top" secondItem="Kov-ff-qKZ" secondAttribute="bottom" id="NrB-cK-h8b"/>
+                            <constraint firstItem="Kov-ff-qKZ" firstAttribute="top" secondItem="zQV-KP-GhR" secondAttribute="top" id="UgP-dg-eEH"/>
+                            <constraint firstItem="Kov-ff-qKZ" firstAttribute="leading" secondItem="zQV-KP-GhR" secondAttribute="leading" id="xVx-xP-MBI"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="scrollView" destination="cOC-5q-hYm" id="t34-xM-HN4"/>
+                        <outlet property="tableView" destination="Kov-ff-qKZ" id="duk-8O-raC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZk-Q3-qY2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="993" y="-109"/>
+            <point key="canvasLocation" x="1060" y="-166"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="el1-pA-KHA">
@@ -299,7 +325,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ci8-Am-c9s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="310" y="549"/>
+            <point key="canvasLocation" x="237" y="506"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="57x-gD-H98">
@@ -317,7 +343,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KRz-4p-fj9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="270" y="-109"/>
+            <point key="canvasLocation" x="237" y="-183"/>
         </scene>
     </scenes>
     <resources>

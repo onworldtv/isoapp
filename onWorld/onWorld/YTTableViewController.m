@@ -10,7 +10,7 @@
 #import "YTTableViewCell.h"
 #import "YTGirdItemCell.h"
 #import "YTTableHeaderCell.h"
-#import "YTContentDetailViewController.h"
+#import "YTScreenDetailViewController.h"
 
 @interface YTTableViewController ()
 {
@@ -266,8 +266,9 @@
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
   
-    YTContentDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
-    [detailViewCtrl setContentID:[[item valueForKey:@"id"] intValue]];
+    YTScreenDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard]instantiateViewControllerWithIdentifier:@"detailViewController"];
+    [detailViewCtrl setContentID:[item valueForKey:@"id"]];
+   
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];
 }

@@ -12,7 +12,7 @@
 
 
 @optional
-- (void)didSelectItemWithCategoryID:(int)contentID;
+- (void)didSelectItemWithCategoryID:(NSNumber *)contentID;
 
 - (void)delegatePlayitem:(int)itemID;
 - (void)delegateDisplayMoreCategoryMode:(int)mode;

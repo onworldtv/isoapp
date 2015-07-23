@@ -29,9 +29,9 @@
 - (BFTask *)pullGroupContent;
 
 
-- (BFTask *)pullAndSaveContentDetail:(int)contentID;
+- (BFTask *)pullAndSaveContentDetail:(NSNumber*)contentID;
 
-- (BFTask *)getContentsByProviderId:(int)providerID;
+- (NSArray *)getContentsByProviderId:(int)providerID;
 
 - (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID;
     

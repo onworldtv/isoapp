@@ -241,6 +241,14 @@ static const NSString * kYTSearch = @"SEARCH";
             selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
            
+            NSArray *contentItems = [DATA_MANAGER getContentsByProviderId:selectedProviderID];
+            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            [moreViewController setShowByCategory:NO];
+            [moreViewController setShowRevealNavigator:YES];
+            [moreViewController setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
+            UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
+            [navCtrll pushViewController:moreViewController animated:YES];
+            
            
         }
     }else if (indexPath.section == 2) {

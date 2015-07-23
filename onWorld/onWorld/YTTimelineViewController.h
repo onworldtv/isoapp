@@ -18,9 +18,8 @@
 
 - (void)setViewControllers:(NSArray *)newViewControllers;
 
-- (void)reload;
-
 - (IBAction)click_episodes:(id)sender;
+
 - (IBAction)click_timeline:(id)sender;
 
 

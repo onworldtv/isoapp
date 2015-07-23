@@ -15,7 +15,7 @@ static void *itemkeepUpContext = &itemkeepUpContext;
 static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 
 @interface YTAudioPlayerController (){
-    int contentID;
+    NSNumber * contentID;
     id timerObserver;
     YTContent *contentObj;
     YTDetail *detail;
@@ -29,7 +29,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 
 @implementation YTAudioPlayerController
 
-- (id)initWithID:(int)ID {
+- (id)initWithID:(NSNumber*)ID {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
         contentID = ID;
@@ -50,12 +50,12 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     
     BFTask *task = nil;
     
-    contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID)];
+    contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:contentID];
     if(contentObj) {
         task =[BFTask taskWithResult:nil];
     }else {
         task = [[DATA_MANAGER pullAndSaveContentDetail:contentID] continueWithBlock:^id(BFTask *task) {
-            contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(contentID)];
+            contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:contentID];
             return nil;
         }];
     }

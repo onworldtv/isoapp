@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "YTAudioPlayerController.h"
+#import "YTHomeItemController.h"
 
 @interface AppDelegate ()
 
@@ -26,14 +26,14 @@
     
 
     // if mode = view && category = LiveTV then display schedule
-//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-//        return [DATA_MANAGER pullGroupContent];
-//    }];
+    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+        return [DATA_MANAGER pullGroupContent];
+    }];
     
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];
 //    
-//    YTAudioPlayerController *viewCtrl = [[YTAudioPlayerController alloc]initWithNibName:@"YTAudioPlayerController" bundle:nil];
+//    YTScreenDetailViewController *viewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
 //    [viewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 //    [self.window setRootViewController:viewCtrl];
 //    [self.window makeKeyAndVisible];

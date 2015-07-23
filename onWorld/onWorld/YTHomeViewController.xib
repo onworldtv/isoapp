@@ -28,7 +28,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="415"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EiP-di-ZW3" userLabel="hiddenView">
@@ -136,7 +136,7 @@
                         <constraint firstItem="EYT-jL-V64" firstAttribute="width" secondItem="7mo-Hx-WoK" secondAttribute="width" id="yfF-5V-MzG"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qYT-32-cnz" userLabel="containerView">
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qYT-32-cnz" userLabel="containerView">
                     <rect key="frame" x="0.0" y="90" width="320" height="478"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
@@ -158,13 +158,13 @@
                 <constraint firstItem="YfM-CW-91V" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="s2v-cJ-IRe"/>
                 <constraint firstItem="qYT-32-cnz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="vFY-Xf-Yyj"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="gwd-8j-o7k"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="-56" y="322"/>
+            <point key="canvasLocation" x="258" y="263.5"/>
         </view>
     </objects>
     <resources>

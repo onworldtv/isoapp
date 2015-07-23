@@ -7,9 +7,7 @@
 //
 
 #import "YTHomeViewController.h"
-#import "YTGridViewController.h"
-
-
+#import "YTHomeItemController.h"
 @interface YTHomeViewController ()
 {
     NSMutableArray *viewControllers;
@@ -54,9 +52,6 @@
 
 - (void)setCategories:(NSDictionary *)categories {
     categoryEachViewCtrl = [NSMutableDictionary dictionaryWithDictionary:categories];
-    for (YTGridViewController *viewCtrl in viewControllers) {
-        [viewCtrl setContentsView:[categories valueForKey:([viewCtrl identify])]];
-    }
 }
 
 - (void)loadTabView {
@@ -115,16 +110,6 @@
     [super viewWillLayoutSubviews];
 }
 
-- (void)parentDidRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation numberItem:(int)numberItem{
-    
-    YTGridViewController *currentCtrl = (YTGridViewController *)self.selectedViewController;
-    [currentCtrl setNumberItem:numberItem];
-//    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
-//        [currentCtrl setNumberItem:numberItem];
-//    } else {
-//        [currentCtrl setNumberItem:numberItem+1];
-//    }
-}
 
 
 - (void)setSelectedIndex:(NSUInteger)newSelectedIndex animated:(BOOL)animated

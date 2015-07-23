@@ -8,8 +8,6 @@
 
 #import "YTTableViewCell.h"
 #import "YTGirdItemCell.h"
-#import "YTGridViewController.h"
-#import "YTGirdViewLayoutCustom.h"
 @implementation YTIndexedCollectionView
 
 @end

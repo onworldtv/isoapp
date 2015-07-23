@@ -51,7 +51,7 @@
 
 - (IBAction)click_AdvView:(id)sender;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil itemID:(int)ID;
+- (id)initWithID:(NSNumber*)ID;
 
 - (IBAction)beginScrubbing:(id)sender;
 - (IBAction)scrub:(id)sender;
