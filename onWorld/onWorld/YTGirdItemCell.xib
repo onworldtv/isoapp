@@ -17,7 +17,7 @@
             <rect key="frame" x="0.0" y="0.0" width="265" height="292"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PTI-vl-7GH">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-banner-default_1.png" translatesAutoresizingMaskIntoConstraints="NO" id="PTI-vl-7GH">
                     <rect key="frame" x="5" y="4" width="255" height="264"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="237" id="Gts-l3-kLU"/>
@@ -100,4 +100,7 @@
             <point key="canvasLocation" x="227.5" y="20"/>
         </view>
     </objects>
+    <resources>
+        <image name="logo-banner-default_1.png" width="70" height="70"/>
+    </resources>
 </document>

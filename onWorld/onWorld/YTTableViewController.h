@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface YTTableViewController : UITableViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+
+
+
 
 @property (nonatomic,retain)NSString * navigatorTitle;
 @property (nonatomic,assign)BOOL       showRevealNavigator;
@@ -16,6 +20,7 @@
 @property (nonatomic,assign)int numberItems;
 @property (nonatomic,assign)BOOL enableMoreButton;
 @property (nonatomic,strong)NSArray * contentItems;
+@property (weak)id<YTSelectedItemProtocol>delegate;
 - (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items;
 
 - (void)setContentArray:(NSArray*)arr;

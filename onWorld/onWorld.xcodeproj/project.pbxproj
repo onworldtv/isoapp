@@ -93,6 +93,8 @@
 		04EE10E81B55283000273628 /* YTPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE10E61B55283000273628 /* YTPlayerViewController.m */; };
 		04EE10E91B55283000273628 /* YTPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EE10E71B55283000273628 /* YTPlayerViewController.xib */; };
 		04EE10EC1B55284B00273628 /* YTDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE10EB1B55284B00273628 /* YTDataManager.m */; };
+		04EE31A91B61DFD300692DD0 /* logo-banner-default_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EE31A81B61DFD300692DD0 /* logo-banner-default_1.png */; };
+		04EE31AD1B61E3E100692DD0 /* logo_outer.png in Resources */ = {isa = PBXBuildFile; fileRef = 04EE31AC1B61E3E100692DD0 /* logo_outer.png */; };
 		04EE62C11B42795A00AB6FCD /* YTMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE62C01B42795A00AB6FCD /* YTMoreViewController.m */; };
 		04EE62C51B427A5D00AB6FCD /* YTCategoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE62C41B427A5D00AB6FCD /* YTCategoryController.m */; };
 		04EE62CB1B427AB200AB6FCD /* YTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EE62C81B427AB200AB6FCD /* YTTableViewCell.m */; };
@@ -256,6 +258,8 @@
 		04EE10E71B55283000273628 /* YTPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTPlayerViewController.xib; sourceTree = "<group>"; };
 		04EE10EA1B55284B00273628 /* YTDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTDataManager.h; sourceTree = "<group>"; };
 		04EE10EB1B55284B00273628 /* YTDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTDataManager.m; sourceTree = "<group>"; };
+		04EE31A81B61DFD300692DD0 /* logo-banner-default_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-banner-default_1.png"; sourceTree = "<group>"; };
+		04EE31AC1B61E3E100692DD0 /* logo_outer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_outer.png; sourceTree = "<group>"; };
 		04EE62BF1B42795A00AB6FCD /* YTMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTMoreViewController.h; sourceTree = "<group>"; };
 		04EE62C01B42795A00AB6FCD /* YTMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTMoreViewController.m; sourceTree = "<group>"; };
 		04EE62C31B427A5D00AB6FCD /* YTCategoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTCategoryController.h; sourceTree = "<group>"; };
@@ -442,6 +446,8 @@
 		04E110001B393258001958C3 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				04EE31AC1B61E3E100692DD0 /* logo_outer.png */,
+				04EE31A81B61DFD300692DD0 /* logo-banner-default_1.png */,
 				04E110011B393279001958C3 /* YTLoginViewController.h */,
 				04E110021B393279001958C3 /* YTLoginViewController.m */,
 			);
@@ -831,9 +837,11 @@
 				04E424421B57BDC1003EFF92 /* YTAudioPlayerController.xib in Resources */,
 				04EE10E91B55283000273628 /* YTPlayerViewController.xib in Resources */,
 				04E10FF41B38EF6F001958C3 /* YTSideViewCell.xib in Resources */,
+				04EE31A91B61DFD300692DD0 /* logo-banner-default_1.png in Resources */,
 				04E1FA241B3A4DB000D68AF4 /* SourceSansPro-Black.otf in Resources */,
 				04E1FA3B1B3A4DDC00D68AF4 /* UTM BEBAS.TTF in Resources */,
 				04EE62D11B4288A000AB6FCD /* YTTableHeaderCell.xib in Resources */,
+				04EE31AD1B61E3E100692DD0 /* logo_outer.png in Resources */,
 				04E1FA271B3A4DB700D68AF4 /* SourceSansPro-Bold.otf in Resources */,
 				04E1FA251B3A4DB300D68AF4 /* SourceSansPro-BlackIt.otf in Resources */,
 				04E1FA371B3A4DD500D68AF4 /* SourceSansPro-Semibold.otf in Resources */,

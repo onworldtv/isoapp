@@ -52,7 +52,7 @@
 - (IBAction)click_AdvView:(id)sender;
 
 - (id)initWithID:(NSNumber*)ID;
-
+- (id)initWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline contentID:(NSNumber*)contentID;
 - (IBAction)beginScrubbing:(id)sender;
 - (IBAction)scrub:(id)sender;
 - (IBAction)endScrubbing:(id)sender;

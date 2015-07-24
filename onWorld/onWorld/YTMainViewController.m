@@ -39,9 +39,16 @@
     }
     
     [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
-    [[DATA_MANAGER contentItemsHomeView]continueWithBlock:^id(BFTask *task) {
+    BFTask *task = nil;
+    if(DATA_MANAGER.homeData.count == 0) {
+        task = [DATA_MANAGER contentItemsHomeView];
+    }else {
+        task = [BFTask taskWithResult:nil];
+    }
+    
+    [task continueWithBlock:^id(BFTask *task) {
         [DejalBezelActivityView removeViewAnimated:YES];
-        NSDictionary* contentItems = task.result;
+        NSDictionary* contentItems = [DATA_MANAGER homeData];
         
         YTHomeItemController *recommendationViewCtrl = [[YTHomeItemController alloc]initWithArray:[contentItems valueForKeyPath:@"view.recommend"]
                                                                                              mode:ModeView
@@ -82,7 +89,6 @@
         [_tableView reloadData];
         return nil;
     }];
-
 }
 
 - (void)didReceiveMemoryWarning {

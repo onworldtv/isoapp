@@ -64,12 +64,16 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     
     
     NSArray *listSchedule;
-    int indexSchedule;
     NSArray *listTimeline;
     NSString * playItemNam;
     NSString * playItemUrl;
     BOOL isPlayingAdv;
     float mRestoreAfterScrubbingRate;
+    
+    
+    
+    
+    int m_index_schedule, m_index_timeline;
 }
 @end
 
@@ -80,10 +84,20 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
         playItemID = ID;
+        m_index_timeline = -1;
     }
     return self;
 }
 
+
+- (id)initWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline contentID:(NSNumber*)contentID{
+    self = [self initWithID:contentID];
+    if(self) {
+        m_index_schedule = index_schedule;
+        m_index_timeline = index_timeline;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -103,16 +117,28 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 }
 
 
+
+
+
+
 #pragma mark - timeline
 
 
 - (void)loadScheduleTimeline {
-    indexSchedule = 0;
+    m_index_schedule = 0;
     listSchedule = contentObj.detail.timeline.allObjects;
     if(listSchedule.count >0) {
-        YTTimeline *timeline = listSchedule[indexSchedule];
+        YTTimeline *timeline = listSchedule[m_index_schedule];
         listTimeline = [NSKeyedUnarchiver unarchiveObjectWithData:timeline.arrayTimeline];
     }
+    
+//    if(listTimeline.count >0) {
+//        [self.tbvTableView reloadData];
+//        NSIndexPath *indexPath =[NSIndexPath indexPathWithIndex:m_index_timeline];
+//        [self.tbvTableView selectRowAtIndexPath:indexPath
+//                               animated:NO
+//                         scrollPosition:UITableViewScrollPositionMiddle];
+//    }
 }
 
 - (void)addScheduleButton {
@@ -131,7 +157,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             [btnTimeline addTarget:self
                             action:@selector(click_scheduleButton:)
                   forControlEvents:UIControlEventTouchDown];
-            if(i== indexSchedule) {
+            if(i== m_index_schedule) {
                 [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:17]];
                 [btnTimeline setTitleColor:[UIColor colorWithRed:161 green:161 blue:161 alpha:1] forState:UIControlStateNormal];
                 btnTimeline.layer.borderWidth = 2.0f;
@@ -154,14 +180,20 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)click_scheduleButton:(UIButton *)sender {
     sender.layer.borderColor =[UIColor colorWithHexString:@"5ea2fd"].CGColor;
-    UIButton *previousButton = arrayButtonSchedule[indexSchedule];
+    UIButton *previousButton = arrayButtonSchedule[m_index_schedule];
     previousButton.layer.borderColor = [UIColor colorWithRed:161 green:161 blue:161 alpha:1].CGColor;
-    indexSchedule = (int)sender.tag;
-    YTTimeline *timelineAtIndex = [listSchedule objectAtIndex:indexSchedule];
+    m_index_schedule = (int)sender.tag;
+    YTTimeline *timelineAtIndex = [listSchedule objectAtIndex:m_index_schedule];
     if(timelineAtIndex) {
         listTimeline = [NSKeyedUnarchiver unarchiveObjectWithData:timelineAtIndex.arrayTimeline];
+        [UIView transitionWithView:self.tbvTableView
+                          duration:0.35f
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^(void){
+                            
+                            [self.tbvTableView reloadData];
+                        }completion:nil];
     }
-    [self.tbvTableView reloadData];
 }
 
 
@@ -194,22 +226,49 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         if(!task.error) {
             contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:playItemID];
             detail = contentObj.detail;
-            playItemUrl = detail.link;
-            playItemNam = contentObj.name;
-            [_txtTitle setText:contentObj.name];
-            
             //done load data
             
             [self loadScheduleTimeline];
             [self addScheduleButton];
             
+            if(m_index_timeline>-1 && contentObj.detail.timeline.allObjects > 0) {
+                
+                NSArray *arrayTimeline = [contentObj.detail.timeline allObjects];
+                YTTimeline * timeline = arrayTimeline[m_index_schedule];
+                if(timeline.arrayTimeline) {
+                    NSDictionary *itemDict = [[NSKeyedUnarchiver unarchiveObjectWithData:timeline.arrayTimeline]objectAtIndex:m_index_timeline];
+                    if(itemDict) {
+                        playItemNam = [itemDict valueForKey:@"name"];
+                        playItemUrl = [itemDict valueForKey:@"link"];
+                        if([itemDict valueForKey:@"adv"]) {
+                            NSArray *advs = [itemDict valueForKey:@"adv"];
+                            queueAdvItems = [NSMutableArray array];
+                            for(NSDictionary *advDict in advs) {
+                                YTAdv *adv = [YTAdv MR_createEntity];
+                                adv.link = [advDict valueForKey:@"link"];
+                                adv.type = @([[advDict valueForKey:@"type"] intValue]);
+                                adv.start = @([[advDict valueForKey:@"start"] intValue]);
+                                adv.duration = @([[advDict valueForKey:@"duration"] intValue]);
+                                adv.skip = @([[advDict valueForKey:@"skip"] intValue]);
+                                adv.skipeTime = @([[advDict valueForKey:@"skippable_time"] intValue]);
+                                [queueAdvItems addObject:adv];
+                            }
+                        }
+                        [_txtTitle setText:contentObj.name];
+                        [self prepareForPlayerView];
+                        return nil;
+                    }
+                }
+            }
             [self firstLoadingAdv];
+            playItemUrl = detail.link;
+            playItemNam = contentObj.name;
+            [_txtTitle setText:contentObj.name];
+            
+            
             [self prepareForPlayerView];
             
-            if(detail.mode.intValue == ModeView) {
-                
-            }
-        }
+          }
         return nil;
     }];
 }
@@ -1048,6 +1107,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (IBAction)click_closePlayer:(id)sender {
     
+    UINavigationController *navigatorCtrl =self.navigationController;
+    [navigatorCtrl.navigationBar setHidden:NO];
     [self stopCurrentPlayer];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -1337,7 +1398,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     if(timelinedict) {
         playItemNam = [timelinedict valueForKey:@"name"];
         playItemUrl = [timelinedict valueForKey:@"link"];
-//        playItemUrl = @"http://origin.onworldtv.com:1935/liveorigin/stream_itvshop/playlist.m3u8?worldtokenstarttime=1436948052&worldtokenendtime=1437032652&worldtokenhash=f4PciMs4MvTtQ3h345PSi_4rSQeySBBsPtBPx12g2WM=";
+
         if([timelinedict valueForKey:@"adv"]) {
             NSArray *advs = [timelinedict valueForKey:@"adv"];
             queueAdvItems = [NSMutableArray array];

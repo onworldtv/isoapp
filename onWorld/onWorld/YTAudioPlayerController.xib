@@ -85,7 +85,7 @@
                                 <constraint firstAttribute="height" constant="21" id="nGZ-T9-biD"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ykv-zY-Xec">
@@ -95,7 +95,7 @@
                                 <constraint firstAttribute="height" constant="21" id="gry-q0-wgi"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EM CỦA NGÀY HÔM QUA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3uy-hM-pnV">
@@ -112,7 +112,7 @@
                                 <constraint firstAttribute="height" constant="27" id="RwF-Ii-fFm"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="23"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qmS-Hy-kAt">
@@ -128,14 +128,18 @@
                                 <action selector="click_play:" destination="-1" eventType="touchUpInside" id="dcz-il-5OW"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xYp-zW-CZ8" customClass="MPVolumeView">
-                            <rect key="frame" x="8" y="184" width="304" height="26"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYp-zW-CZ8" customClass="MPVolumeView">
+                            <rect key="frame" x="31" y="184" width="258" height="26"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="26" id="v8G-w5-QJT"/>
+                            </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="lnu-QS-MLu" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="1oV-TB-Z8E"/>
+                        <constraint firstAttribute="trailing" secondItem="xYp-zW-CZ8" secondAttribute="trailing" constant="31" id="2cV-rH-USo"/>
                         <constraint firstAttribute="height" constant="213" id="4LQ-z0-sSb"/>
                         <constraint firstItem="FDv-QP-7Ag" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="68" id="6Nz-nT-wXM"/>
                         <constraint firstItem="3uy-hM-pnV" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="7ha-MI-BRa"/>
@@ -145,6 +149,7 @@
                         <constraint firstAttribute="bottom" secondItem="qmS-Hy-kAt" secondAttribute="bottom" constant="37" id="TQO-Z9-GoJ"/>
                         <constraint firstItem="qmS-Hy-kAt" firstAttribute="bottom" secondItem="jaG-Ky-kau" secondAttribute="bottom" id="U40-ul-2OO"/>
                         <constraint firstItem="qmS-Hy-kAt" firstAttribute="bottom" secondItem="bYj-Df-3Ad" secondAttribute="bottom" id="V2P-Lv-sAl"/>
+                        <constraint firstItem="xYp-zW-CZ8" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="31" id="W3O-vU-pMb"/>
                         <constraint firstItem="qmS-Hy-kAt" firstAttribute="top" secondItem="lnu-QS-MLu" secondAttribute="bottom" constant="5" id="ZPb-Yu-T4m"/>
                         <constraint firstItem="o0w-Ec-2jC" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="14" id="Zyg-qP-8oc"/>
                         <constraint firstItem="FDv-QP-7Ag" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="8" id="cEz-OS-ETG"/>
@@ -154,6 +159,7 @@
                         <constraint firstAttribute="trailing" secondItem="ykv-zY-Xec" secondAttribute="trailing" constant="8" id="kSF-a6-UuL"/>
                         <constraint firstAttribute="trailing" secondItem="3uy-hM-pnV" secondAttribute="trailing" constant="8" id="l2X-7J-nl5"/>
                         <constraint firstAttribute="trailing" secondItem="FDv-QP-7Ag" secondAttribute="trailing" constant="69" id="o0d-5V-dIW"/>
+                        <constraint firstAttribute="bottom" secondItem="xYp-zW-CZ8" secondAttribute="bottom" constant="3" id="trJ-sY-Wq2"/>
                         <constraint firstItem="ykv-zY-Xec" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="12" id="ung-pX-66G"/>
                     </constraints>
                 </view>
@@ -173,7 +179,7 @@
                                         <constraint firstAttribute="width" constant="63" id="tHJ-5e-Wes"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="18"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W6o-VW-g9t">
@@ -218,7 +224,6 @@
                 <constraint firstAttribute="bottom" secondItem="RFq-E5-DQY" secondAttribute="bottom" constant="214" id="uqx-DN-1Eb"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="696" y="468"/>
         </view>

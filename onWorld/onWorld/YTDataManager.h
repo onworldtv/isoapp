@@ -12,7 +12,7 @@
 
 
 @interface YTDataManager : NSObject
-
+@property (strong,nonatomic)NSDictionary *homeData;
 
 + (YTDataManager *)sharedDataManager;
 
@@ -33,7 +33,7 @@
 
 - (NSArray *)getContentsByProviderId:(int)providerID;
 
-- (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID;
+- (NSArray *)getGroupGenreByCategory:(int)cateID;
     
 - (BFTask *)advInfoWithURLString:(NSString *)urlPath;
 

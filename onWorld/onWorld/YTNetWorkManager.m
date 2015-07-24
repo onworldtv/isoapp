@@ -157,15 +157,17 @@ static YTNetWorkManager *m_instance;
 
 - (void)logoutWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
     NSString *urlPath = [NSString stringWithFormat:@"%@/logout", kServerBaseURL];
+    NSString *postData = [NSString stringWithFormat:@"token=%@",access_token];
     [self sendRequestWithServicePath:urlPath
-                         postContent:nil
-                       requestMethod:@"GET"
+                         postContent:postData
+                       requestMethod:@"POST"
                         successBlock:^(AFHTTPRequestOperation *operation, id response) {
                             
                             int errorcode =[[response valueForKey:@"error"] intValue];
                             if(errorcode == 1) {
                                 failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.Logout" code:errorcode userInfo:response]);
                             }else {
+                                loginStatus = NO;
                                 successBlock(operation,response);
                             }
                         } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {

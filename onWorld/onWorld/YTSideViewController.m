@@ -24,7 +24,7 @@ static const NSString * kYTSearch = @"SEARCH";
 #define MENU_LOGOUT	@"LOGOUT"
 #define MENU_INFO	@"INFO"
 
-@interface YTSideViewController ()
+@interface YTSideViewController ()<YTSelectedItemProtocol>
 {
     NSMutableArray *arrMenu;
     
@@ -42,7 +42,7 @@ static const NSString * kYTSearch = @"SEARCH";
     selectedCategoryID = -1; //
     NSDictionary *userMenu = nil;
     if([NETWORK_MANAGER isLogin]) {
-        userMenu = @{@"Home": @[MENU_INFO,MENU_LOGOUT,MENU_HOME,MENU_SEARCH]};
+        userMenu = @{@"Home": @[MENU_INFO,MENU_HOME,MENU_SEARCH,MENU_LOGOUT]};
     }else {
         userMenu = @{@"Home": @[MENU_LOGIN,MENU_HOME,MENU_SEARCH,MENU_LOGOUT]};
     }
@@ -73,9 +73,14 @@ static const NSString * kYTSearch = @"SEARCH";
 
 - (void)viewDidAppear:(BOOL)animated {
     if([NETWORK_MANAGER isLogin]) {
-        NSDictionary *userMenu = @{@"Home": @[MENU_INFO,MENU_LOGOUT,MENU_HOME,MENU_SEARCH]};
+        NSDictionary *userMenu = @{@"Home": @[MENU_INFO,MENU_HOME,MENU_SEARCH,MENU_LOGOUT]};
         [arrMenu replaceObjectAtIndex:0 withObject:userMenu];
         [self.tbvSideMenu reloadData];
+    }else {
+        NSDictionary *userMenu = @{@"Home": @[MENU_LOGIN,MENU_HOME,MENU_SEARCH,MENU_LOGOUT]};
+        [arrMenu replaceObjectAtIndex:0 withObject:userMenu];
+        [self.tbvSideMenu reloadData];
+
     }
 }
 
@@ -158,7 +163,7 @@ static const NSString * kYTSearch = @"SEARCH";
     if(indexPath.section == 0) {
         NSString * title = menuContent[indexPath.row];
         if([title isEqualToString:MENU_LOGIN]) {
-            [viewCell.imgMenu setImage:[UIImage imageNamed:@"login"]];
+            [viewCell.imgMenu setImage:[UIImage imageNamed:@"icon_user"]];
         }else if([title isEqualToString:MENU_HOME]) {
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"icon_home"]];
         }else if ([title isEqualToString:MENU_SEARCH]) {
@@ -173,6 +178,13 @@ static const NSString * kYTSearch = @"SEARCH";
             [viewCell.imgMenu setImage:[UIImage imageNamed:@"icon_user"]];
             title = [[NSUserDefaults standardUserDefaults]objectForKey:USERNAME];
             [viewCell.txtMenuTitle setTextColor:[UIColor whiteColor]];
+        }else if([title isEqualToString:MENU_LOGOUT]) {
+            [viewCell.imgMenu setImage:[UIImage imageNamed:@"icon_user"]];
+            if(NETWORK_MANAGER.isLogin) {
+                [viewCell setUserInteractionEnabled:YES];
+            }else {
+                [viewCell setUserInteractionEnabled:NO];
+            }
         }
          [viewCell.txtMenuTitle setText:title];
     }else {
@@ -224,7 +236,7 @@ static const NSString * kYTSearch = @"SEARCH";
         }else if ([menus[indexPath.row] isEqualToString:MENU_LOGOUT]) {
             
             [NETWORK_MANAGER logoutWithSuccessBlock:^(AFHTTPRequestOperation *operation, id response) {
-               
+                [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
                 [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:USERNAME];
                 [[PDKeychainBindings sharedKeychainBindings]removeObjectForKey:PASSWORD];
                 [NETWORK_MANAGER clearData];
@@ -242,12 +254,14 @@ static const NSString * kYTSearch = @"SEARCH";
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
            
             NSArray *contentItems = [DATA_MANAGER getContentsByProviderId:selectedProviderID];
-            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
-            [moreViewController setShowByCategory:NO];
-            [moreViewController setShowRevealNavigator:YES];
-            [moreViewController setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
+            YTTableViewController *providerViewCtr  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            [providerViewCtr setDelegate:self];
+            [providerViewCtr setShowByCategory:NO];
+            [providerViewCtr setEnableMoreButton:YES];
+            [providerViewCtr setShowRevealNavigator:YES];
+            [providerViewCtr setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
             UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
-            [navCtrll pushViewController:moreViewController animated:YES];
+            [navCtrll pushViewController:providerViewCtr animated:YES];
             
            
         }
@@ -257,17 +271,29 @@ static const NSString * kYTSearch = @"SEARCH";
             selectedCategoryID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID providerID:selectedProviderID];
-            YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
-            [moreViewController setShowByCategory:NO];
-            [moreViewController setShowRevealNavigator:YES];
-            [moreViewController setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
+            NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID];
+            YTTableViewController *categoryViewCtrl  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            [categoryViewCtrl setShowByCategory:NO];
+            [categoryViewCtrl setShowRevealNavigator:YES];
+            [categoryViewCtrl setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
             UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
-            [navCtrll pushViewController:moreViewController animated:YES];
+            [navCtrll pushViewController:categoryViewCtrl animated:YES];
         }
         
         
     }
+}
+
+
+- (void)didSelectCategory:(int)categoryID {
+    
+    NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:categoryID];
+    YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+    [moreCategoriesViewController setShowByCategory:NO];
+    [moreCategoriesViewController setShowRevealNavigator:YES];
+    UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
+    [navCtrll pushViewController:moreCategoriesViewController animated:YES];
+
 }
 
 @end

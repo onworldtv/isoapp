@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "YTHomeItemController.h"
+#import "YTScheduleViewController.h"
 
 @interface AppDelegate ()
 
@@ -20,21 +20,24 @@
 
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
     {
-        self.window.clipsToBounds = YES;
+//        self.window.clipsToBounds = YES;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
     
 
+    DATA_MANAGER;
+    
+    
+    
     // if mode = view && category = LiveTV then display schedule
     [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
         return [DATA_MANAGER pullGroupContent];
     }];
-    
+//
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];
 //    
-//    YTScreenDetailViewController *viewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard] instantiateViewControllerWithIdentifier:@"detailViewController"];
-//    [viewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+//    YTScheduleViewController *viewCtrl = [[YTScheduleViewController alloc]initWithArray:arraySchedule delegate:nil];
 //    [self.window setRootViewController:viewCtrl];
 //    [self.window makeKeyAndVisible];
    

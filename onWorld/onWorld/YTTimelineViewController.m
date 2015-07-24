@@ -11,6 +11,7 @@
 #import "YTEpisodesViewController.h"
 @interface YTTimelineViewController ()
 {
+    YTContent *contentObj;
     NSMutableArray *viewControllers;
     NSInteger selectedIndex;
     YTTimelineTableview *m_timelineViewController;
@@ -21,10 +22,9 @@
 @implementation YTTimelineViewController
 
 
-- (id)init {
+- (id)initWithContent:(YTContent*)content{
     self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil]; {
-        m_timelineViewController = [[YTTimelineTableview alloc]initWithStyle:UITableViewStylePlain];
-        m_episodesViewController = [[YTEpisodesViewController alloc]initWithStyle:UITableViewStylePlain];
+        contentObj = content;
     }
     return self;
 }
@@ -38,6 +38,10 @@
     _btnTimeLine.layer.borderColor = [UIColor blueColor].CGColor;
     _btnEpisodes.layer.borderWidth = 1.0f;
     [_btnTimeLine setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    
+    m_timelineViewController = [[YTTimelineTableview alloc]initWithStyle:UITableViewStylePlain];
+    m_episodesViewController = [[YTEpisodesViewController alloc]initWithStyle:UITableViewStylePlain];
+
     [self setViewControllers:@[m_timelineViewController,m_episodesViewController]];
     if(viewControllers.count > 0) {
         [self setup];
@@ -79,8 +83,6 @@
         _btnEpisodes.layer.borderWidth = 0;
         
     }else if(selectedIndex == 1) {
-        
-        
         
         [_btnTimeLine setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
         [_btnEpisodes setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];

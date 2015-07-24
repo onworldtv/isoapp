@@ -13,7 +13,8 @@
 #import "YTDetailViewCell.h"
 #import "YTPlayerViewController.h"
 #import "YTAudioPlayerController.h"
-@interface YTScreenDetailViewController () <YTDelegatePlayItem,YTDelegateSelectRelativeItem>{
+#import "YTScheduleViewController.h"
+@interface YTScreenDetailViewController () <YTDelegatePlayItem,YTDelegateSelectRelativeItem,YTSelectedItemProtocol,DelegateSelectedScheduleItem>{
     NSMutableArray *viewControllers;
     YTContent *contentObj;
 }
@@ -41,16 +42,13 @@
     if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
     }
-   
-   
-    // Do any additional setup after loading the view from its nib.
+    self.navigationController.navigationBar.topItem.title = @"";
 }
 
 
 
 - (void)setContentID:(NSNumber *)ID {
     
-     NSLog(@"%s",__FUNCTION__);
     [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
      viewControllers = [NSMutableArray array];
     _contentID = ID;
@@ -71,8 +69,14 @@
         [viewControllers addObject:detailViewCtrl];
         
         if(contentObj.detail.timeline.allObjects.count >0 || contentObj.detail.episode.allObjects.count >0) {
-            YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]init];
-            [viewControllers addObject:timelineCtrl];
+            if(contentObj.detail.type.intValue == TypeSingle && contentObj.detail.isLive.intValue == 1 && contentObj.gen.category.cateID.intValue == 4) {
+                YTScheduleViewController *scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:contentObj.detail.timeline.allObjects
+                                                                                                   delegate:self];
+                [viewControllers addObject:scheduleViewCtrl];
+            }else {
+                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]init];
+                [viewControllers addObject:timelineCtrl];
+            }
         }
         
         if(contentObj.gen){
@@ -105,7 +109,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    YTDetailViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell=[self.tableView cellForRowAtIndexPath:indexPath];
+    if(cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    }
     UIViewController *viewCtrl = viewControllers[indexPath.row];
 
     CGRect viewFrame = viewCtrl.view.frame;
@@ -126,6 +135,7 @@
 #pragma mark - protocol
 
 - (void)delegatePlayItemWithID:(NSNumber *)itemID {
+    
     if(contentObj.detail.mode.intValue == ModeView) {
         
         YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithID:itemID];
@@ -138,13 +148,35 @@
         if(musicPlayerCtrl) {
             UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
             [navCtrl pushViewController:musicPlayerCtrl animated:YES];
+            
+        }
+    }
+}
+
+- (void)delegateSelectedScheduleItemWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline {
+    
+    if(contentObj.detail.mode.intValue == ModeView) {
+        
+        YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithIndexSchedule:index_schedule
+                                                                                        indexTimeline:index_timeline
+                                                                                            contentID:contentObj.contentID];
+        if(playerViewCtrl) {
+            UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+            [navCtrl pushViewController:playerViewCtrl animated:YES];
+        }
+    }else {
+        YTAudioPlayerController *musicPlayerCtrl = [[YTAudioPlayerController alloc]initWithID:contentObj.contentID];
+        if(musicPlayerCtrl) {
+            UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+            [navCtrl pushViewController:musicPlayerCtrl animated:YES];
+            
         }
     }
 
 }
 
-
 - (void)delegateSelectedItem:(NSNumber *)itemID {
     [self setContentID:itemID];
 }
+            
 @end

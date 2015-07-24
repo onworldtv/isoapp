@@ -29,6 +29,7 @@ static YTDataManager *m_instance;
     self = [super init];
     if(self) {
         [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"OnWorld.sqlite"];
+        self.homeData = [NSArray array];
         NSLog(@"%@", [[NSPersistentStore MR_urlForStoreName:[MagicalRecord defaultStoreName]] path]);
     }
     return self;
@@ -204,6 +205,7 @@ static YTDataManager *m_instance;
     
      BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     [NETWORK_MANAGER getHomeContentWithSuccessBlock:^(AFHTTPRequestOperation *operation, id response) {
+        self.homeData = response;
         [completionSource setResult:response];
         
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -271,13 +273,13 @@ static YTDataManager *m_instance;
 }
 
 
-- (BFTask *)getContentsByProviderId:(int)providerID {
+- (NSArray *)getContentsByProviderId:(int)providerID {
     
 //    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     NSArray *categories = [YTCategory MR_findAll];
     NSMutableArray *items = [[NSMutableArray alloc]init];
     for (YTCategory *catgory in categories) {
-         NSDictionary *categoryDict = @{@"id": catgory.cateID, @"name":catgory.name,@"mode":catgory.mode};
+        NSDictionary *categoryDict = @{@"id": catgory.cateID, @"name":catgory.name,@"mode":catgory.mode};
         NSMutableArray *subItems = [NSMutableArray array];
         NSArray *genries = [[catgory genre]allObjects];
         if(genries.count > 0) {
@@ -305,7 +307,7 @@ static YTDataManager *m_instance;
 //    return completionSource.task;
     return items;
 }
-- (NSArray *)getGroupGenreByCategory:(int)cateID providerID:(int)provID {
+- (NSArray *)getGroupGenreByCategory:(int)cateID {
     
     /*
      [{"gen":{"id":int,"nam":nsstring},

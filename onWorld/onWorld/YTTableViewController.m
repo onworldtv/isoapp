@@ -59,6 +59,7 @@
             
             if(_navigatorTitle != nil) {
                 self.navigationItem.title = _navigatorTitle;
+                self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWith8BitRed:48 green:125 blue:210]};
             }else {
                  self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
             }
@@ -68,11 +69,12 @@
         if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
             if(_navigatorTitle != nil)
                 self.navigationItem.title = _navigatorTitle;
+            
             else
                 self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
         }
     }
-    
+    self.navigationController.navigationBar.topItem.title = @"";
     if(_numberItems == 0) {
         _numberItems = defaultNumberItems = 2;
     }
@@ -174,26 +176,32 @@
         headerCell = [nib objectAtIndex:0];
     }
     
+    NSDictionary *item = _contentItems[section];
+    NSDictionary *titleDict = [item valueForKey:@"title"];
+    
     if(_enableMoreButton) {
         [headerCell.btnMore setHidden:NO];
+        [headerCell.btnMore setTag:[[titleDict valueForKey:@"id"] intValue]];
         [headerCell.btnMore addTarget:self
-                               action:@selector(click_showMore)
+                               action:@selector(click_showMore:)
                      forControlEvents:UIControlEventTouchUpInside];
     }else {
         [headerCell.btnMore setHidden:YES];
     }
     
     
-    NSDictionary *item = _contentItems[section];
-    NSDictionary *titleDict = [item valueForKey:@"title"];
+    
     
     [headerCell.txtTitle setText:[titleDict valueForKey:@"name"]];
     return headerCell;
 }
 
 
-- (void)click_showMore {
-    
+- (void)click_showMore:(UIButton *)sender{
+    if([_delegate respondsToSelector:@selector(didSelectCategory:)]) {
+        int tag = sender.tag;
+        [_delegate didSelectCategory:tag];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource Methods

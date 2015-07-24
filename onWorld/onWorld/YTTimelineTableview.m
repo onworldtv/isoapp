@@ -14,10 +14,12 @@
 
 @implementation YTTimelineTableview
 
-- (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style];
+- (id)initWithContent:(NSArray *)array {
+    self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
-        _contentItems = [[NSMutableArray alloc]init];
+        _contentItems = [[NSMutableArray alloc]initWithArray:array];
+        
+        
     }
     return self;
 }
@@ -56,6 +58,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSDictionary *item = _contentItems[indexPath.row];
+    YTTimeline *timeline = _contentItems[indexPath.row];
+    if(timeline.arrayTimeline) {
+        item = [NSKeyedUnarchiver unarchiveObjectWithData:timeline.arrayTimeline];
+    }
     YTTimelineViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellIdentify" forIndexPath:indexPath];
     if (!cell)
     {
@@ -77,15 +83,5 @@
     return cell;
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

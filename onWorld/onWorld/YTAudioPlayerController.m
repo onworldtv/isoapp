@@ -46,6 +46,8 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
     }
     
+    
+    [self initSystemVolumn];
     [self sharedSession]; // set app run backgroud
     
     BFTask *task = nil;
@@ -67,11 +69,47 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         return nil;
     }];
 }
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    }
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskLandscape;
+}
+
+
 - (void)bindingData {
     _txtSongName.text = contentObj.name;
     _txtSigerName.text = @"";
 }
 
+
+- (void)initSystemVolumn {
+    
+    _systemVolume.showsVolumeSlider = YES;
+    _systemVolume.showsRouteButton = NO;
+    for (UIView *vw in _systemVolume.subviews) {
+        if ([vw isKindOfClass:[UISlider class]]) {
+            [((UISlider*)vw) setMinimumValueImage:[UIImage imageNamed:@"music_mute_white_iphone"]];
+            [((UISlider*)vw) setMaximumValueImage:[UIImage imageNamed:@"music_sound_white_iphone"]];
+        }
+    }
+    
+}
 - (void)sharedSession {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -102,6 +140,9 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 - (void)audioSessionInterrupted:(NSNotification*)interruptionNotification {
     NSLog(@"interruption received: %@", interruptionNotification);
 }
+
+
+
 
 
 - (void)startAudio {
@@ -394,7 +435,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 - (void)syncButtonPlay {
     if(self.queuePlayer.rate >0.0) {
         [self.queuePlayer pause];
-        [self.btnPlay setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [self.btnPlay setImage:[UIImage imageNamed:@"pause_icon"] forState:UIControlStateNormal];
     }else {
         [self.queuePlayer play];
         [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
@@ -402,12 +443,10 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
+
+
 - (IBAction)click_play:(id)sender {
     [self syncButtonPlay];
-    if(self.queuePlayer.rate == 0 && _sliderSeek.value == 0.0){
-        [self startAudio];
-    }
-    
 }
 
 - (IBAction)click_next:(id)sender {

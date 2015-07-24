@@ -17,7 +17,12 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
+
+    if([self.superview.superview isKindOfClass:[UITableView class]]) {
+        UITableView *tableView = (UITableView *)self.superview.superview;
+        if(tableView.tag == 1)
+            return ;
+    }
     if(selected) {
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
         [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
