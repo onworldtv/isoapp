@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
-#import "YTChromcastDeviceViewController.h"
+#import "YTDeviceViewController.h"
 
-@interface YTChromcastDeviceViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface YTDeviceViewController () <UITableViewDataSource,UITableViewDelegate>
 
 @end
 
-@implementation YTChromcastDeviceViewController
+@implementation YTDeviceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,4 +59,37 @@
     return cell;
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
+    // clear the selection
+    for (int i = 0; i < CHROMCAST_MANAGER.chromcastCtrl.deviceScanner.devices.count; i++) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:indexPath.section];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+        if (cell == selectedCell) {
+            if (cell.accessoryType == UITableViewCellAccessoryNone) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+               
+                GCKDevice *device = [CHROMCAST_MANAGER.chromcastCtrl.deviceScanner.devices objectAtIndex:indexPath.row];
+                [CHROMCAST_MANAGER.chromcastCtrl connectToDevice:device];
+            }
+            else {
+                //cell.accessoryType = UITableViewCellAccessoryNone;
+                [CHROMCAST_MANAGER.chromcastCtrl stopCastMedia];
+                [CHROMCAST_MANAGER.chromcastCtrl disconnectFromDevice];
+            }
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didDiscoverDeviceOnNetwork
+{
+    [self.tableView reloadData];
+}
 @end

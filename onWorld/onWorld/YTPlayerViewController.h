@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YTPlayerView.h"
 #import "YTSlider.h"
-@interface YTPlayerViewController : UIViewController <UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface YTPlayerViewController : UIViewController <UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate,ChromecastControllerDelegate>
 
 @property (retain,nonatomic)NSURL * urlPath;
 

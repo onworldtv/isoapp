@@ -18,8 +18,8 @@
 		041CDD771B60F66A00B066A9 /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 041CDD761B60F66A00B066A9 /* GoogleCast.framework */; };
 		041CDD7B1B60F71D00B066A9 /* ChromecastDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7A1B60F71D00B066A9 /* ChromecastDeviceController.m */; };
 		041CDD7E1B60F8F000B066A9 /* VolumeChangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */; };
-		041CDD821B60F93700B066A9 /* YTChromcastDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD801B60F93700B066A9 /* YTChromcastDeviceViewController.m */; };
-		041CDD831B60F93700B066A9 /* YTChromcastDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041CDD811B60F93700B066A9 /* YTChromcastDeviceViewController.xib */; };
+		041CDD821B60F93700B066A9 /* YTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD801B60F93700B066A9 /* YTDeviceViewController.m */; };
+		041CDD831B60F93700B066A9 /* YTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */; };
 		04417EDE1B5CF1140068BEFC /* YTNavigationBarCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */; };
 		049E54D01B5FB38A0019BB66 /* YTDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */; };
 		04BCF0C61B60CD9C00E03D8A /* YTHomeItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */; };
@@ -155,9 +155,9 @@
 		041CDD7A1B60F71D00B066A9 /* ChromecastDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromecastDeviceController.m; sourceTree = "<group>"; };
 		041CDD7C1B60F8F000B066A9 /* VolumeChangeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeChangeController.h; sourceTree = "<group>"; };
 		041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeChangeController.m; sourceTree = "<group>"; };
-		041CDD7F1B60F93700B066A9 /* YTChromcastDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTChromcastDeviceViewController.h; path = onWorld/YTChromcastDeviceViewController.h; sourceTree = SOURCE_ROOT; };
-		041CDD801B60F93700B066A9 /* YTChromcastDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTChromcastDeviceViewController.m; path = onWorld/YTChromcastDeviceViewController.m; sourceTree = SOURCE_ROOT; };
-		041CDD811B60F93700B066A9 /* YTChromcastDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTChromcastDeviceViewController.xib; path = onWorld/YTChromcastDeviceViewController.xib; sourceTree = SOURCE_ROOT; };
+		041CDD7F1B60F93700B066A9 /* YTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTDeviceViewController.h; path = onWorld/YTDeviceViewController.h; sourceTree = SOURCE_ROOT; };
+		041CDD801B60F93700B066A9 /* YTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTDeviceViewController.m; path = onWorld/YTDeviceViewController.m; sourceTree = SOURCE_ROOT; };
+		041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTDeviceViewController.xib; path = onWorld/YTDeviceViewController.xib; sourceTree = SOURCE_ROOT; };
 		04417EDC1B5CF1140068BEFC /* YTNavigationBarCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTNavigationBarCustom.h; path = onWorld/YTNavigationBarCustom.h; sourceTree = SOURCE_ROOT; };
 		04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTNavigationBarCustom.m; path = onWorld/YTNavigationBarCustom.m; sourceTree = SOURCE_ROOT; };
 		049E54CE1B5FB38A0019BB66 /* YTDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTDetailViewCell.h; path = onWorld/YTDetailViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -380,9 +380,9 @@
 				041CDD7A1B60F71D00B066A9 /* ChromecastDeviceController.m */,
 				041CDD731B60F28F00B066A9 /* YTChromcastManager.h */,
 				041CDD741B60F28F00B066A9 /* YTChromcastManager.m */,
-				041CDD7F1B60F93700B066A9 /* YTChromcastDeviceViewController.h */,
-				041CDD801B60F93700B066A9 /* YTChromcastDeviceViewController.m */,
-				041CDD811B60F93700B066A9 /* YTChromcastDeviceViewController.xib */,
+				041CDD7F1B60F93700B066A9 /* YTDeviceViewController.h */,
+				041CDD801B60F93700B066A9 /* YTDeviceViewController.m */,
+				041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */,
 			);
 			name = ChromCast;
 			sourceTree = "<group>";
@@ -853,7 +853,7 @@
 				04BCF0C71B60CD9C00E03D8A /* YTHomeItemController.xib in Resources */,
 				04EE8A911B44E5DB004133A5 /* YTEpisodesViewCell.xib in Resources */,
 				04EE8A961B44E5ED004133A5 /* YTTimelineViewCell.xib in Resources */,
-				041CDD831B60F93700B066A9 /* YTChromcastDeviceViewController.xib in Resources */,
+				041CDD831B60F93700B066A9 /* YTDeviceViewController.xib in Resources */,
 				04E23B8A1B37C08F0097A2D5 /* Main.storyboard in Resources */,
 				04EE8A8C1B44D171004133A5 /* YTDetailViewController.xib in Resources */,
 				04E1FA2B1B3A4DBF00D68AF4 /* SourceSansPro-ExtraLight.otf in Resources */,
@@ -942,7 +942,7 @@
 				04EE8AA21B4526A9004133A5 /* YTRelativeViewController.m in Sources */,
 				04DF3AB41B56198800BE79B7 /* YTProvider.m in Sources */,
 				04417EDE1B5CF1140068BEFC /* YTNavigationBarCustom.m in Sources */,
-				041CDD821B60F93700B066A9 /* YTChromcastDeviceViewController.m in Sources */,
+				041CDD821B60F93700B066A9 /* YTDeviceViewController.m in Sources */,
 				04DF3AC01B56198900BE79B7 /* YTDirector.m in Sources */,
 				04DDB4C11B53A02200083F41 /* XMLDictionary.m in Sources */,
 				04E23B811B37C08F0097A2D5 /* AppDelegate.m in Sources */,
