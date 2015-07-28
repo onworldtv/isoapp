@@ -24,6 +24,9 @@
 		049E54D01B5FB38A0019BB66 /* YTDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */; };
 		04BCF0C61B60CD9C00E03D8A /* YTHomeItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */; };
 		04BCF0C71B60CD9C00E03D8A /* YTHomeItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BCF0C51B60CD9C00E03D8A /* YTHomeItemController.xib */; };
+		04D9B9CE1B67709300750D96 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D9B9CD1B67709300750D96 /* SystemConfiguration.framework */; };
+		04D9B9D01B6770AA00750D96 /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D9B9CF1B6770AA00750D96 /* MediaAccessibility.framework */; };
+		04D9B9D21B6770C300750D96 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D9B9D11B6770C300750D96 /* CoreText.framework */; };
 		04DDB4B21B53770800083F41 /* YTAdvInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DDB4B11B53770800083F41 /* YTAdvInfo.m */; };
 		04DDB4C11B53A02200083F41 /* XMLDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DDB4C01B53A02200083F41 /* XMLDictionary.m */; };
 		04DF3AAB1B56198700BE79B7 /* YTTimeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DF3AAA1B56198700BE79B7 /* YTTimeline.m */; };
@@ -165,6 +168,9 @@
 		04BCF0C31B60CD9C00E03D8A /* YTHomeItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTHomeItemController.h; path = onWorld/YTHomeItemController.h; sourceTree = SOURCE_ROOT; };
 		04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTHomeItemController.m; path = onWorld/YTHomeItemController.m; sourceTree = SOURCE_ROOT; };
 		04BCF0C51B60CD9C00E03D8A /* YTHomeItemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTHomeItemController.xib; path = onWorld/YTHomeItemController.xib; sourceTree = SOURCE_ROOT; };
+		04D9B9CD1B67709300750D96 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		04D9B9CF1B6770AA00750D96 /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
+		04D9B9D11B6770C300750D96 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		04DDB4B01B53770800083F41 /* YTAdvInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTAdvInfo.h; sourceTree = "<group>"; };
 		04DDB4B11B53770800083F41 /* YTAdvInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTAdvInfo.m; sourceTree = "<group>"; };
 		04DDB4B31B5377E200083F41 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
@@ -307,6 +313,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D9B9D21B6770C300750D96 /* CoreText.framework in Frameworks */,
+				04D9B9D01B6770AA00750D96 /* MediaAccessibility.framework in Frameworks */,
+				04D9B9CE1B67709300750D96 /* SystemConfiguration.framework in Frameworks */,
 				041CDD771B60F66A00B066A9 /* GoogleCast.framework in Frameworks */,
 				04F1F8351B54F92D00A9A76E /* AVFoundation.framework in Frameworks */,
 				04E1A44E1B4E5DB80052558B /* MediaPlayer.framework in Frameworks */,
@@ -380,7 +389,6 @@
 				041CDD7A1B60F71D00B066A9 /* ChromecastDeviceController.m */,
 				041CDD731B60F28F00B066A9 /* YTChromcastManager.h */,
 				041CDD741B60F28F00B066A9 /* YTChromcastManager.m */,
-				041CDD7F1B60F93700B066A9 /* YTDeviceViewController.h */,
 				041CDD801B60F93700B066A9 /* YTDeviceViewController.m */,
 				041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */,
 			);
@@ -506,6 +514,7 @@
 				040467601B3B9ED5005E58C3 /* DejalActivityView.h */,
 				040467611B3B9ED5005E58C3 /* DejalActivityView.m */,
 				040467621B3B9ED5005E58C3 /* PDKeychainBindings.h */,
+				041CDD7F1B60F93700B066A9 /* YTDeviceViewController.h */,
 				040467631B3B9ED5005E58C3 /* PDKeychainBindings.m */,
 				040467641B3B9ED5005E58C3 /* PDKeychainBindingsController.h */,
 				040467651B3B9ED5005E58C3 /* PDKeychainBindingsController.m */,
@@ -728,6 +737,9 @@
 		1466DC379BDAE1A6B7E7A125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04D9B9D11B6770C300750D96 /* CoreText.framework */,
+				04D9B9CF1B6770AA00750D96 /* MediaAccessibility.framework */,
+				04D9B9CD1B67709300750D96 /* SystemConfiguration.framework */,
 				041CDD761B60F66A00B066A9 /* GoogleCast.framework */,
 				04F1F8341B54F92D00A9A76E /* AVFoundation.framework */,
 				04DDB4B31B5377E200083F41 /* libxml2.2.dylib */,

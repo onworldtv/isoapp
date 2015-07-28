@@ -8,8 +8,9 @@
 
 #import "YTEpisodesViewController.h"
 #import "YTEpisodesViewCell.h"
-@interface YTEpisodesViewController ()
-
+@interface YTEpisodesViewController () {
+    NSNumber *m_detailID;
+}
 
 @end
 
@@ -17,6 +18,16 @@
 
 
 
+- (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID; {
+    self = [super initWithStyle:UITableViewStylePlain];
+    if(self) {
+        _contentItems = [[NSMutableArray alloc]initWithArray:array];
+        m_detailID = detailID;
+        
+        
+    }
+    return self;
+}
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if(self) {
@@ -30,19 +41,18 @@
     
     // Register Class for Cell Reuse Identifier
     
+    NSSortDescriptor *sdSortDate = [NSSortDescriptor sortDescriptorWithKey:@"episodesID" ascending:YES];
+    _contentItems = [NSMutableArray arrayWithArray:[_contentItems sortedArrayUsingDescriptors:@[sdSortDate]]];
+    
     UINib *nib = [UINib nibWithNibName:@"YTEpisodesViewCell" bundle:nil];
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"cellIdentify"];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+     [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (void)setContentItems:(NSMutableArray *)contentItems {
-    _contentItems = contentItems;
-    
-    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -61,7 +71,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  
-    NSDictionary *item = _contentItems[indexPath.row];
+    YTEpisodes *item = _contentItems[indexPath.row];
     YTEpisodesViewCell *cell =  [tableView dequeueReusableCellWithIdentifier:@"cellIdentify"];
     if (!cell)
     {
@@ -73,16 +83,17 @@
     cell.avatar.clipsToBounds = YES;
     [cell setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     
+    if(item.episodesID == m_detailID) {
+        [cell setSelected:YES];
+    }
     __weak UIImageView *imageView = cell.avatar;
+    
     
     [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
         [imageView setImage:image];
     }];
-    
-
-    
-    cell.txtContentName.text = @"Noi tinh Yeu bat dau";
-    cell.txtEpisodes.text = @"Tap 2";
+    cell.txtContentName.text = item.desc;
+    cell.txtEpisodes.text = item.name;
     
     return cell;
 }

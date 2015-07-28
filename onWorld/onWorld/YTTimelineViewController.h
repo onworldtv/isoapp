@@ -13,14 +13,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnTimeLine;
 @property (weak, nonatomic) IBOutlet UIButton *btnEpisodes;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
+@property (weak, nonatomic) IBOutlet UIView *tabViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (nonatomic, weak) UIViewController *selectedViewController;
 
 - (void)setViewControllers:(NSArray *)newViewControllers;
 
-- (IBAction)click_episodes:(id)sender;
+- (id)initWithContent:(YTContent*)content;
 
-- (IBAction)click_timeline:(id)sender;
+
 
 
 

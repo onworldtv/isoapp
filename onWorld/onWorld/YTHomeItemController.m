@@ -48,6 +48,9 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIDeviceOrientationDidChangeNotification
+                                                 object:nil];
 }
 
 
@@ -88,11 +91,11 @@
     if(width > 0) {
         CGFloat height = 0;
         if(m_mode == 0) {// listen
-            height = width;
+            height = width - 5;
         }else {//view
             height =floorf((9 * width)/16);
         }
-        return CGSizeMake(width,height);
+        return CGSizeMake(width,height + 24);
     }
     return CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
 }

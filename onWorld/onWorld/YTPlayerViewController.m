@@ -127,6 +127,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 #pragma mark - 
 
+
 - (void)setUpGesture {
     
     UITapGestureRecognizer *playerViewTap= [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playerTapped:)];
@@ -171,6 +172,12 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             [((UISlider*)vw) setMaximumValueImage:[UIImage imageNamed:@"music_sound_white_iphone"]];
         }
     }
+    self.btnCast.imageView.animationImages = @[[UIImage imageNamed:@"cast_white_on0"], [UIImage imageNamed:@"cast_white_on1"],[UIImage imageNamed:@"cast_white_on2"],[UIImage imageNamed:@"cast_white_on1"]];
+    
+    self.btnCast.imageView.animationDuration = 2;
+
+    
+    
     
 }
 - (void)didReceiveMemoryWarning {
@@ -200,14 +207,6 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         YTTimeline *timeline = listSchedule[m_index_schedule];
         listTimeline = [NSKeyedUnarchiver unarchiveObjectWithData:timeline.arrayTimeline];
     }
-    
-//    if(listTimeline.count >0) {
-//        [self.tbvTableView reloadData];
-//        NSIndexPath *indexPath =[NSIndexPath indexPathWithIndex:m_index_timeline];
-//        [self.tbvTableView selectRowAtIndexPath:indexPath
-//                               animated:NO
-//                         scrollPosition:UITableViewScrollPositionMiddle];
-//    }
 }
 
 - (void)addScheduleButton {
@@ -326,7 +325,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                     }
                 }
             }
-            [self firstLoadingAdv];
+            [self loadLocalAdv];
             playItemUrl = detail.link;
             playItemNam = contentObj.name;
             [_txtTitle setText:contentObj.name];
@@ -392,25 +391,67 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 - (void)startPlayer {
     [self.loadingView setHidden:NO];
     [self.loadingView startAnimating];
+    [self updateVolumeView];
+    
     if (playItemUrl != nil)
     {
-        NSURL *urlPath = [NSURL URLWithString:playItemUrl];
-        if(urlPath) {
-            AVURLAsset *asset = [AVURLAsset URLAssetWithURL:urlPath options:nil];
-            NSArray *requestedKeys = @[kPlayableKey];
+        if(chromecastController.isConnected) {
+            NSString *url = playItemUrl;
+            if ([contentObj.karaoke boolValue]) {
+               
+                url = [url stringByReplacingOccurrencesOfString:@"/index.m3u8" withString:@"/singer.m3u8"];
+            }
             
-            /* Tells the asset to load the values of any of the specified keys that are not already loaded. */
-            [asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
-             ^{
-                 dispatch_async( dispatch_get_main_queue(),
-                                ^{
-                                    /* IMPORTANT: Must dispatch to main queue in order to operate on the AVPlayer and AVPlayerItem. */
-                                    [self prepareToPlayAsset:asset withKeys:requestedKeys];
-                                });
-             }];
+            if (contentObj.image && [contentObj.image length] > 0) {
+                [chromecastController loadMedia:[NSURL URLWithString:url]
+                                    thumbnailURL:[NSURL URLWithString:contentObj.image]
+                                           title:playItemNam
+                                        subtitle:@""
+                                        mimeType:@"application/vnd.apple.mpegurl"
+                                       startTime:_currentTime
+                                        autoPlay:YES
+                                           music:(contentObj.detail.mode == 0)];
+            }
+            else {
+                [chromecastController loadMedia:[NSURL URLWithString:url]
+                                    thumbnailURL:nil
+                                           title:playItemNam
+                                        subtitle:@""
+                                        mimeType:@"application/vnd.apple.mpegurl"
+                                       startTime:_currentTime
+                                        autoPlay:YES
+                                           music:(contentObj.detail.mode == 0)];
+            }
+            
+            if (chromecastTimer) {
+                [chromecastTimer invalidate];
+                chromecastTimer = nil;
+            }
+            
+            chromecastTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                                target:self
+                                                              selector:@selector(updateInterfaceFromCast:)
+                                                              userInfo:nil
+                                                               repeats:YES];
         }else {
-            NSError *error = [NSError errorWithDomain:@"com.OnWorlPlayer.LoadingAsset" code:1 userInfo:nil];
-            [self assetFailedToPrepareForPlayback:error];
+            NSURL *urlPath = [NSURL URLWithString:playItemUrl];
+            if(urlPath) {
+                AVURLAsset *asset = [AVURLAsset URLAssetWithURL:urlPath options:nil];
+                NSArray *requestedKeys = @[kPlayableKey];
+                
+                /* Tells the asset to load the values of any of the specified keys that are not already loaded. */
+                [asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
+                 ^{
+                     dispatch_async( dispatch_get_main_queue(),
+                                    ^{
+                                        /* IMPORTANT: Must dispatch to main queue in order to operate on the AVPlayer and AVPlayerItem. */
+                                        [self prepareToPlayAsset:asset withKeys:requestedKeys];
+                                    });
+                 }];
+            }else {
+                NSError *error = [NSError errorWithDomain:@"com.OnWorlPlayer.LoadingAsset" code:1 userInfo:nil];
+                [self assetFailedToPrepareForPlayback:error];
+            }
         }
     }
 }
@@ -669,8 +710,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     else
     {
         [self.btnPlay setEnabled:YES];
-        [self.txtDurated setEnabled:YES];
-        [self.txtDuration setEnabled:YES];
+        [self.txtTimePlaying setEnabled:YES];
+        [self.txtTotalTime setEnabled:YES];
         [self.sliderTrackView setEnabled:YES];
         [self showStopButton];
         [self.loadingView stopAnimating];
@@ -703,7 +744,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
             interval = 0.5f * duration / width;
             NSString *txtInterVal = [YTOnWorldUtility stringWithTimeInterval:duration];
-            [self.txtDuration setText:txtInterVal];
+            [self.txtTotalTime setText:txtInterVal];
         }
         
         /* Update the scrubber during normal playback. */
@@ -734,7 +775,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         float maxValue = [self.sliderTrackView maximumValue];
         double time = CMTimeGetSeconds([playerVideo currentTime]);
         NSString *currentTime = [YTOnWorldUtility stringWithTimeInterval:time];
-        [self.txtDurated setText:currentTime];
+        [self.txtTimePlaying setText:currentTime];
         [self.sliderTrackView setValue:(maxValue - minValue) * time / duration + minValue];
     }
 }
@@ -763,13 +804,13 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         [self.liveView setHidden:NO];
         [self.liveView setAlpha:1];
         [self.sliderTrackView setHidden:YES];
-        [self.txtDurated setHidden:YES];
-        [self.txtDuration setHidden:YES];
+        [self.txtTimePlaying setHidden:YES];
+        [self.txtTotalTime setHidden:YES];
     }else {
         [self.liveView setHidden:YES];
         [self.sliderTrackView setHidden:NO];
-        [self.txtDurated setHidden:NO];
-        [self.txtDuration setHidden:NO];
+        [self.txtTimePlaying setHidden:NO];
+        [self.txtTotalTime setHidden:NO];
     }
     //show player view
     [self showPlayerView:YES];
@@ -829,8 +870,6 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         double duration = CMTimeGetSeconds(playerDuration);
         if (isfinite(duration))
         {
-            //            CGFloat width = CGRectGetWidth([self.timeSlider bounds]);
-            //            double tolerance = 0.5f * duration / width;
            __weak YTPlayerViewController *weakSelf = self;
             localTimer = [playerVideo addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.2f, NSEC_PER_SEC) queue:NULL usingBlock:
                            ^(CMTime time)
@@ -838,45 +877,15 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                                [weakSelf syncScrubber];
                            }];
             float value = [self.sliderTrackView value];
-#if DEBUG
             float minValue = [self.sliderTrackView minimumValue];
             float maxValue = [self.sliderTrackView maximumValue];
-            NSLog(@"Seek to %f (%f-%f)", value, minValue, maxValue);
-#endif
             
             [playerVideo seekToTime:CMTimeMakeWithSeconds(value, NSEC_PER_SEC)];
             [playerVideo play];
         }
     }
     
-//    if (!playerTimerObserver)
-//    {
-//        CMTime playerDuration = [self playerItemDuration];
-//        if (CMTIME_IS_INVALID(playerDuration))
-//        {
-//            return;
-//        }
-//        
-//        double duration = CMTimeGetSeconds(playerDuration);
-//        if (isfinite(duration))
-//        {
-//            CGFloat width = CGRectGetWidth([self.sliderTrackView bounds]);
-//            double tolerance = 0.5f * duration / width;
-//            
-//            __weak YTPlayerViewController *weakSelf = self;
-//            playerTimerObserver = [playerVideo addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
-//                             ^(CMTime time)
-//                             {
-//                                 [weakSelf syncScrubber];
-//                             }];
-//        }
-//    }
-//    
-//    if (mRestoreAfterScrubbingRate)
-//    {
-//        [playerVideo setRate:mRestoreAfterScrubbingRate];
-//        mRestoreAfterScrubbingRate = 0.f;
-//    }
+
 }
 
 - (CMTime)playerItemDuration{
@@ -1080,7 +1089,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         [self stopCurrentPlayer];
         playItemUrl = detail.link;
         playItemNam = contentObj.name;
-        [self firstLoadingAdv];
+        [self loadLocalAdv];
         [self prepareForPlayerView];
     }
 }
@@ -1245,6 +1254,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     if(currentAdvObject!=nil) {
         if(currentAdvObject.type.intValue == TypeVideo){
             
+            isPlayingAdv = YES;
             if(chromecastController.isConnected) {
                 [chromecastController loadMedia:[NSURL URLWithString:currentAdvInfo.url]
                                     thumbnailURL:nil
@@ -1300,7 +1310,6 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                     }
                     else {
                         [weakSelf.lbAdvSecondTime setText:@""];
-                        
                     }
                 }];
                 [playerVideo pause];
@@ -1319,20 +1328,21 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 - (void)updateInterfaceFromCast:(NSTimer *)timer {
     [chromecastController updateStatsFromDevice];
     
-    
     if (chromecastController.playerState == GCKMediaPlayerStateBuffering) {
         [self.loadingView startAnimating];
     } else {
         [self.loadingView stopAnimating];
     }
     
-    
     if(isPlayingAdv) {
         if (chromecastController.streamDuration > 0) {
             _advCurrentTime = chromecastController.streamPosition;
-            
+            NSLog(@"%f",_advCurrentTime);
+        }else {
+            NSLog(@"%f",chromecastController.streamDuration);
         }
         if (chromecastController.playerState == GCKMediaPlayerStateIdle && chromecastController.mediaControlChannel.mediaStatus.idleReason == GCKMediaPlayerIdleReasonFinished) {
+            NSLog(@"Finish play adv");
             [self didFinishAdvPlayer];
         }
     }else {
@@ -1348,8 +1358,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                     float minValue = self.sliderTrackView.minimumValue;
                     float maxValue = self.sliderTrackView.maximumValue;
                     self.sliderTrackView.value = minValue + (maxValue - minValue) * time / chromecastController.streamDuration;
-                    self.txtDurated.text = [YTOnWorldUtility stringWithTimeInterval:time];
-                    self.txtDuration.text = [YTOnWorldUtility stringWithTimeInterval:(chromecastController.streamDuration - time)];
+                    self.txtTimePlaying.text = [YTOnWorldUtility stringWithTimeInterval:time];
+                    self.txtTotalTime.text = [YTOnWorldUtility stringWithTimeInterval:(chromecastController.streamDuration - time)];
                 }
             }
         }
@@ -1357,6 +1367,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             self.sliderTrackView.hidden = YES;
             self.sliderTrackView.minimumValue = 0.f;
         }
+        
         if (chromecastController.playerState == GCKMediaPlayerStatePaused ||
             chromecastController.playerState == GCKMediaPlayerStateIdle) {
             [self showPlayButton];
@@ -1367,7 +1378,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     }
 }
 
-- (void)firstLoadingAdv {
+- (void)loadLocalAdv {
     
     NSArray *advs = [contentObj.detail.adv allObjects];
     NSSortDescriptor *sortStart = [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:YES];
@@ -1498,12 +1509,14 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)didDiscoverDeviceOnNetwork
 {
-    self.btnCast.hidden = NO;
+    
+    self.btnCast.enabled = NO;
 }
 
 
 - (void)didDisconnect
 {
+    NSLog(@"%s",__FUNCTION__);
     [playerVideo pause];
     [playerAdv pause];
     [chromecastController stopCastMedia];
@@ -1513,8 +1526,9 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         chromecastTimer = nil;
     }
     
-    [self.btnCast setImage:[UIImage imageNamed:@"cast_white_off"] forState:UIControlStateNormal];
-    if (isPlayingAdv) {
+    [self.btnCast.imageView stopAnimating];
+    
+    if (!isPlayingAdv) {
         [self startPlayerAdv];
     }
     else {
@@ -1525,14 +1539,15 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)didConnectToDevice:(GCKDevice *)device
 {
+    NSLog(@"%s",__FUNCTION__);
     [playerVideo pause];
     [playerAdv pause];
     [self removePlayerTimeObserver];
+    [self.btnCast setEnabled:YES];
     [self.btnCast.imageView stopAnimating];
     [self.btnCast setImage:[UIImage imageNamed:@"cast_on"] forState:UIControlStateNormal];
-    if (isPlayingAdv) {
+    if (!isPlayingAdv) {
         _advCurrentTime = CMTimeGetSeconds(playerAdv.currentTime);
-        
         [self startPlayerAdv];
     }
     else {
@@ -1543,6 +1558,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)doConnecting:(GCKDevice *)device
 {
+    NSLog(@"%s",__FUNCTION__);
     [self.btnCast.imageView startAnimating];
 }
 
@@ -1574,18 +1590,35 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             case UIEventSubtypeRemoteControlTogglePlayPause:
                 [self playOrPause:nil];
                 break;
-            case UIEventSubtypeRemoteControlNextTrack:
-                //				[self moveNext:nil];
-                break;
-            case UIEventSubtypeRemoteControlPreviousTrack:
-                //				[self movePrevious:nil];
-                break;
-                
             default:
                 break;
         }
     }
 }
 
+
+#pragma mark --- volume
+
+- (IBAction)volumeChanged:(id)sender {
+    if (chromecastController.isConnected) {
+        float idealVolume = self.slidervolume.value / 10.0f;
+        idealVolume = MIN(1.0, MAX(0.0, idealVolume));
+        
+        [chromecastController.deviceManager setVolume:idealVolume];
+    }
+}
+
+- (void)updateVolumeView
+{
+    if (chromecastController.isConnected) {
+        self.volumnView.hidden = YES;
+        self.slidervolume.hidden = NO;
+        self.slidervolume.value = chromecastController.deviceMuted ? 0.0 : chromecastController.deviceVolume*10.0f;
+    }
+    else {
+        self.volumnView.hidden = NO;
+        self.slidervolume.hidden = YES;
+    }
+}
 
 @end

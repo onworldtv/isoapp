@@ -18,7 +18,16 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+    if(selected) {
+        [self.contentView setBackgroundColor:[UIColor colorWithHexString:@"6597de"]];
+        [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
+        [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"6597de"]];
+    }else {
+        [self.contentView setBackgroundColor:[UIColor whiteColor]];
+        [_txtEpisodes setTextColor:[UIColor whiteColor]];
+        [_txtContentName setTextColor:[UIColor whiteColor]];
+    }
+
 }
 
 @end

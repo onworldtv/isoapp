@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YTAudioPlayerController : UIViewController
+@interface YTAudioPlayerController : UIViewController <ChromecastControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISlider *sliderSeek;
 @property (weak, nonatomic) IBOutlet UILabel *txtSongName;

@@ -106,13 +106,13 @@ static NSString *const kReceiverAppID = @"1B082765";  //Replace with your app id
 	[self.deviceManager connect];
 	
 	// Start animating the cast connect images.
-	UIButton *chromecastButton = (UIButton *)self.chromecastBarButton.customView;
-	chromecastButton.tintColor = nil;
-	chromecastButton.imageView.animationImages =
-	@[ [UIImage imageNamed:@"cast_on0"], [UIImage imageNamed:@"cast_on1"],
-	   [UIImage imageNamed:@"cast_on2"], [UIImage imageNamed:@"cast_on1"] ];
-	chromecastButton.imageView.animationDuration = 2;
-	[chromecastButton.imageView startAnimating];
+//	UIButton *chromecastButton = (UIButton *)self.chromecastBarButton.customView;
+//	chromecastButton.tintColor = nil;
+//	chromecastButton.imageView.animationImages =
+//	@[ [UIImage imageNamed:@"cast_on0"], [UIImage imageNamed:@"cast_on1"],
+//	   [UIImage imageNamed:@"cast_on2"], [UIImage imageNamed:@"cast_on1"] ];
+//	chromecastButton.imageView.animationDuration = 2;
+//	[chromecastButton.imageView startAnimating];
 }
 
 - (void)disconnectFromDevice {

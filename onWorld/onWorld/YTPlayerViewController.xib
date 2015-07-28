@@ -32,12 +32,13 @@
                 <outlet property="playerView" destination="ps4-EE-CGm" id="hMP-F8-BsT"/>
                 <outlet property="scheduleView" destination="Duw-56-xMq" id="16X-hc-A3W"/>
                 <outlet property="sliderTrackView" destination="VXc-gC-PAR" id="icD-pN-lXp"/>
+                <outlet property="slidervolume" destination="qGK-d1-uxl" id="7js-KE-KYa"/>
                 <outlet property="tbvTableView" destination="NQI-Dl-sOo" id="Th7-Pr-0RI"/>
                 <outlet property="topView" destination="qsM-fq-0Oh" id="mBA-Wm-1yS"/>
                 <outlet property="topViewAdv" destination="thN-JW-zs5" id="Hhe-Qs-YEm"/>
-                <outlet property="txtDurated" destination="jZx-2r-t5m" id="s8K-lo-ej4"/>
-                <outlet property="txtDuration" destination="ROr-dV-Nc1" id="mYW-Hu-N7f"/>
+                <outlet property="txtTimePlaying" destination="jZx-2r-t5m" id="v1a-Mn-LGF"/>
                 <outlet property="txtTitle" destination="7c6-KW-x7H" id="7jq-aQ-jiE"/>
+                <outlet property="txtTotalTime" destination="ROr-dV-Nc1" id="bSb-X6-FWC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="volumnView" destination="TAy-aC-pcc" id="nXI-zM-xMi"/>
             </connections>
@@ -181,10 +182,21 @@ EFNraXA
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="music_mute_white_iphone" maximumValueImage="music_sound_white_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="qGK-d1-uxl">
+                            <rect key="frame" x="384" y="5" width="182" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="178" id="Bsf-fJ-kGe"/>
+                                <constraint firstAttribute="height" constant="30" id="UoP-ok-Feh"/>
+                            </constraints>
+                            <connections>
+                                <action selector="volumeChanged:" destination="-1" eventType="valueChanged" id="wzm-gt-OPZ"/>
+                            </connections>
+                        </slider>
                     </subviews>
                     <color key="backgroundColor" red="0.36078431372549019" green="0.56862745098039214" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="TAy-aC-pcc" secondAttribute="bottom" constant="5" id="3n2-qG-UW0"/>
+                        <constraint firstItem="qGK-d1-uxl" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="top" constant="5" id="60S-iX-wuo"/>
                         <constraint firstAttribute="trailing" secondItem="TAy-aC-pcc" secondAttribute="trailing" constant="4" id="DZi-Ta-x2W"/>
                         <constraint firstItem="yWB-mq-elu" firstAttribute="leading" secondItem="v5R-ix-xsn" secondAttribute="trailing" constant="2" id="FV5-pL-TMU"/>
                         <constraint firstAttribute="bottom" secondItem="v5R-ix-xsn" secondAttribute="bottom" id="NO3-ja-zwO"/>
@@ -192,6 +204,7 @@ EFNraXA
                         <constraint firstItem="7c6-KW-x7H" firstAttribute="leading" secondItem="yWB-mq-elu" secondAttribute="trailing" constant="5" id="Rv5-68-atO"/>
                         <constraint firstItem="yWB-mq-elu" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="top" constant="2" id="VPs-T2-61h"/>
                         <constraint firstItem="TAy-aC-pcc" firstAttribute="leading" secondItem="7c6-KW-x7H" secondAttribute="trailing" constant="8" id="VVB-oY-v86"/>
+                        <constraint firstAttribute="trailing" secondItem="qGK-d1-uxl" secondAttribute="trailing" constant="4" id="Yms-wr-4kz"/>
                         <constraint firstItem="v5R-ix-xsn" firstAttribute="leading" secondItem="qsM-fq-0Oh" secondAttribute="leading" id="fJw-tL-JZ4"/>
                         <constraint firstAttribute="bottom" secondItem="7c6-KW-x7H" secondAttribute="bottom" constant="10" id="oGt-ZL-lZ9"/>
                         <constraint firstAttribute="height" constant="40" id="wrB-UO-CKK"/>
@@ -219,7 +232,7 @@ EFNraXA
                                 <constraint firstAttribute="width" constant="40" id="mVj-dO-Owi"/>
                                 <constraint firstAttribute="height" constant="40" id="qfO-BM-SDG"/>
                             </constraints>
-                            <state key="normal" image="icon_player_cast">
+                            <state key="normal" image="cast_on">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -413,11 +426,13 @@ EFNraXA
         </view>
     </objects>
     <resources>
+        <image name="cast_on" width="27" height="21"/>
         <image name="icon_islive" width="8" height="8"/>
         <image name="icon_player" width="27" height="32"/>
         <image name="icon_player_back" width="22" height="33"/>
-        <image name="icon_player_cast" width="40" height="31"/>
         <image name="icon_playlist" width="45" height="29"/>
+        <image name="music_mute_white_iphone" width="30" height="30"/>
+        <image name="music_sound_white_iphone" width="30" height="30"/>
         <image name="player_line" width="1" height="47"/>
     </resources>
 </document>

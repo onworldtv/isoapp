@@ -64,7 +64,7 @@
                             <constraint firstItem="2RE-rw-rVO" firstAttribute="top" secondItem="Fis-q3-z0W" secondAttribute="bottom" constant="1" id="rIg-E4-yri"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="download.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="evZ-9K-Dc9">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="evZ-9K-Dc9">
                         <rect key="frame" x="4" y="2" width="60" height="60"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="8mp-OC-BQg"/>
@@ -90,7 +90,4 @@
             <point key="canvasLocation" x="218" y="431.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="download.jpeg" width="225" height="225"/>
-    </resources>
 </document>

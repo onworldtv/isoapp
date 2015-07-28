@@ -1,4 +1,4 @@
-//
+
 //  YTScreenDetailViewController.m
 //  OnWorld
 //
@@ -14,6 +14,7 @@
 #import "YTPlayerViewController.h"
 #import "YTAudioPlayerController.h"
 #import "YTScheduleViewController.h"
+#import "YTDeviceViewController.h"
 @interface YTScreenDetailViewController () <YTDelegatePlayItem,YTDelegateSelectRelativeItem,YTSelectedItemProtocol,DelegateSelectedScheduleItem>{
     NSMutableArray *viewControllers;
     YTContent *contentObj;
@@ -43,8 +44,27 @@
         self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
     }
     self.navigationController.navigationBar.topItem.title = @"";
+    
+    UIButton *rightBarItem=[UIButton buttonWithType:0];
+    rightBarItem.frame=CGRectMake(0,0,35,40);
+    
+    [rightBarItem addTarget:self  action:@selector(click_chromcast:)
+      forControlEvents:UIControlEventTouchUpInside];
+    [rightBarItem setImage:[UIImage imageNamed:@"icon_chromcast"]
+             forState:UIControlStateNormal];
+    UIBarButtonItem *RightButton=[[UIBarButtonItem alloc] initWithCustomView:rightBarItem];
+    self.navigationItem.rightBarButtonItem=RightButton;
+    
 }
 
+
+- (void)click_chromcast:(UIBarButtonItem *)sender {
+    
+    YTDeviceViewController *deviceViewCtrl = [[YTDeviceViewController alloc]init];
+    deviceViewCtrl.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:deviceViewCtrl animated:YES completion:nil];
+    
+}
 
 
 - (void)setContentID:(NSNumber *)ID {
@@ -74,7 +94,7 @@
                                                                                                    delegate:self];
                 [viewControllers addObject:scheduleViewCtrl];
             }else {
-                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]init];
+                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj];
                 [viewControllers addObject:timelineCtrl];
             }
         }
@@ -169,7 +189,6 @@
         if(musicPlayerCtrl) {
             UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
             [navCtrl pushViewController:musicPlayerCtrl animated:YES];
-            
         }
     }
 

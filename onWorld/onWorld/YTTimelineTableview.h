@@ -12,4 +12,6 @@
 
 @property (retain,nonatomic)NSMutableArray *contentItems;
 
+
+- (id)initWithContent:(NSArray *)array;
 @end

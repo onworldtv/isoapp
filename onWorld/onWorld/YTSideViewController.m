@@ -255,6 +255,7 @@ static const NSString * kYTSearch = @"SEARCH";
            
             NSArray *contentItems = [DATA_MANAGER getContentsByProviderId:selectedProviderID];
             YTTableViewController *providerViewCtr  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            [providerViewCtr.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [providerViewCtr setDelegate:self];
             [providerViewCtr setShowByCategory:NO];
             [providerViewCtr setEnableMoreButton:YES];
@@ -273,6 +274,7 @@ static const NSString * kYTSearch = @"SEARCH";
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
             NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID];
             YTTableViewController *categoryViewCtrl  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            [categoryViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [categoryViewCtrl setShowByCategory:NO];
             [categoryViewCtrl setShowRevealNavigator:YES];
             [categoryViewCtrl setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];

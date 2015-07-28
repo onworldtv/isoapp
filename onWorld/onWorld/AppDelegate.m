@@ -24,15 +24,15 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
     
-
+    CHROMCAST_MANAGER;
     DATA_MANAGER;
     
     
     
     // if mode = view && category = LiveTV then display schedule
-    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-        return [DATA_MANAGER pullGroupContent];
-    }];
+//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+//        return [DATA_MANAGER pullGroupContent];
+//    }];
 //
    
 //    [DATA_MANAGER pullAndSaveContentDetail:228];

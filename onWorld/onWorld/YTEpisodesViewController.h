@@ -10,4 +10,8 @@
 
 @interface YTEpisodesViewController : UITableViewController
 @property (retain,nonatomic)NSMutableArray *contentItems;
+
+
+
+- (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID;
 @end

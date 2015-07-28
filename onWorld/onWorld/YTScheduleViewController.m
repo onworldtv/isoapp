@@ -90,7 +90,7 @@
                   forControlEvents:UIControlEventTouchDown];
             if(i== index) {
                 [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:17]];
-                [btnTimeline setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+                [btnTimeline setTitleColor:[UIColor colorWithHexString:@"#5EA2FD"] forState:UIControlStateNormal];
                 btnTimeline.layer.borderWidth = 0.5f;
                 btnTimeline.layer.borderColor = [UIColor colorWithHexString:@"5ea2fd"].CGColor;
                 
@@ -106,8 +106,10 @@
 
 - (void)click_scheduleButton:(UIButton *)sender {
     UIButton *previouButton = buttons[index];
+    [previouButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     previouButton.layer.borderWidth =0;
     
+    [sender setTitleColor: [UIColor colorWithHexString:@"#5EA2FD"] forState:UIControlStateNormal];
     sender.layer.borderWidth = 0.5f;
     sender.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
     index = sender.tag;
@@ -125,9 +127,15 @@
     }
     
 }
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIDeviceOrientationDidChangeNotification
+                                                 object:nil];
 }
 
 

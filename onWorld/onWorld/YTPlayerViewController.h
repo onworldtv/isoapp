@@ -14,6 +14,9 @@
 @property (retain,nonatomic)NSURL * urlPath;
 
 @property (nonatomic, weak) IBOutlet YTSlider* sliderTrackView;
+@property (weak, nonatomic) IBOutlet UISlider *slidervolume;
+
+
 @property (weak,nonatomic)IBOutlet YTPlayerView *playerView;
 
 @property (nonatomic, weak) IBOutlet UIView* topView;
@@ -33,8 +36,8 @@
 @property (nonatomic, weak) IBOutlet UIButton* btnPlayList;
 @property (nonatomic, weak) IBOutlet UIButton* btnCast;
 
-@property (weak, nonatomic) IBOutlet UILabel *txtDurated;
-@property (weak, nonatomic) IBOutlet UILabel *txtDuration;
+@property (weak, nonatomic) IBOutlet UILabel *txtTimePlaying;
+@property (weak, nonatomic) IBOutlet UILabel *txtTotalTime;
 @property (weak, nonatomic) IBOutlet UILabel *txtTitle;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
@@ -53,6 +56,9 @@
 
 - (id)initWithID:(NSNumber*)ID;
 - (id)initWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline contentID:(NSNumber*)contentID;
+
+
+- (IBAction)volumeChanged:(id)sender;
 - (IBAction)beginScrubbing:(id)sender;
 - (IBAction)scrub:(id)sender;
 - (IBAction)endScrubbing:(id)sender;

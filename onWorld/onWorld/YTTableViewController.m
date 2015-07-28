@@ -161,6 +161,9 @@
         delta = 1;
     }
     float item = (subItems.count / _numberItems) + delta;
+    if(item * 10 + 10 > tableView.frame.size.height) {
+        return tableView.frame.size.height -100;
+    }
     return item * height + 10;
 
 }
@@ -256,11 +259,11 @@
         width = width / _numberItems;
         CGFloat height = 0;
         if([[title valueForKey:@"mode"] intValue] == 0) {// listen
-            height = width;
+            height = width - 5;
         }else {//view
             height =floorf((9 * width)/16);
         }
-        return CGSizeMake(width,height);
+        return CGSizeMake(width,height+24);
     }
     return CGSizeZero;
 }
@@ -282,7 +285,8 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

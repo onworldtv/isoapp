@@ -14,16 +14,39 @@
 
 @implementation YTDeviceViewController
 
+- (id)init {
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if(self) {
+        
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars=NO;
+    if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
+        self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+    }
+    
+    self.navigationItem.title = @"CHROMECAST";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(close:)];
+    self.navigationController.navigationBar.topItem.title = @"";
 }
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)close:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -38,7 +61,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdForChromecast = @"chromecast";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdForChromecast];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdForChromecast];
