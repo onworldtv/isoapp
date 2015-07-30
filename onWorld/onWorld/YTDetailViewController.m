@@ -47,10 +47,8 @@
     _txtDuration.text  = [YTOnWorldUtility stringWithTimeInterval:contentDetail.detail.duration.intValue];
     _lbDescription.text = contentDetail.desc;
     _txtContentName.text = contentDetail.name;
-    __weak UIImageView *imageView = _imgBanner;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:contentDetail.image completed:^(NSError *error, UIImage *image) {
-        [imageView setImage:image];
-    }];
+    [_imgBanner sd_setImageWithURL:[NSURL URLWithString:contentDetail.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+
 }
 
 - (IBAction)click_player:(id)sender {

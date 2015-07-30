@@ -28,18 +28,35 @@
     DATA_MANAGER;
     
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+               [DATA_MANAGER pullGroupContent];
+            });
+            return nil;
+        }];
+    });
+
     
-    // if mode = view && category = LiveTV then display schedule
-//    [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-//        return [DATA_MANAGER pullGroupContent];
-//    }];
-//
-   
-//    [DATA_MANAGER pullAndSaveContentDetail:228];
-//    
-//    YTScheduleViewController *viewCtrl = [[YTScheduleViewController alloc]initWithArray:arraySchedule delegate:nil];
-//    [self.window setRootViewController:viewCtrl];
-//    [self.window makeKeyAndVisible];
+    //set audio category with options - for this demo we'll do playback only
+    NSError *categoryError = nil;
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error:&categoryError];
+    
+    if (categoryError) {
+        NSLog(@"Error setting category! %@", [categoryError description]);
+    }
+    
+    //activation of audio session
+    NSError *activationError = nil;
+    BOOL success = [[AVAudioSession sharedInstance] setActive: YES error: &activationError];
+    if (!success) {
+        if (activationError) {
+            NSLog(@"Could not activate audio session. %@", [activationError localizedDescription]);
+        } else {
+            NSLog(@"audio session could not be activated!");
+        }
+    }
+
    
     return YES;
 }

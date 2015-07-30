@@ -237,10 +237,8 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
                               context:itemStatusContext];
             
             __weak UIImageView *imageView = self.imageView;
-            [[DLImageLoader sharedInstance]loadImageFromUrl:contentObj.image completed:^(NSError *error, UIImage *image) {
-                
-                [imageView setImage:image];
-            }];
+            
+            [self.imageView sd_setImageWithURL:[NSURL URLWithString:contentObj.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
 
         }
         

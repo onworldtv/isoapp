@@ -215,6 +215,7 @@ static YTDataManager *m_instance;
 }
 
 - (BFTask *)pullGroupContent {
+    
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     NSArray *categories = [YTCategory MR_findAll];
     
@@ -273,20 +274,99 @@ static YTDataManager *m_instance;
 }
 
 
-- (NSArray *)getContentsByProviderId:(int)providerID {
+- (BFTask *)getContentsByProviderId:(NSNumber *)providerID {
     
-//    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
-    NSArray *categories = [YTCategory MR_findAll];
-    NSMutableArray *items = [[NSMutableArray alloc]init];
-    for (YTCategory *catgory in categories) {
-        NSDictionary *categoryDict = @{@"id": catgory.cateID, @"name":catgory.name,@"mode":catgory.mode};
-        NSMutableArray *subItems = [NSMutableArray array];
-        NSArray *genries = [[catgory genre]allObjects];
-        if(genries.count > 0) {
-            for (YTGenre *genre in genries) {
-                NSArray *contents = [[genre content]allObjects];
-                for (YTContent *content in contents) {
-                    if(content.provider_id.intValue == providerID) {
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSArray *categories = [YTCategory MR_findAll];
+        NSMutableArray *items = [[NSMutableArray alloc]init];
+        for (YTCategory *catgory in categories) {
+            NSDictionary *categoryDict = @{@"id": catgory.cateID, @"name":catgory.name,@"mode":catgory.mode};
+            NSMutableArray *subItems = [NSMutableArray array];
+            NSArray *genries = [[catgory genre]allObjects];
+            if(genries.count > 0) {
+                for (YTGenre *genre in genries) {
+                    NSArray *contents = [[genre content]allObjects];
+                    for (YTContent *content in contents) {
+                        if(content.provider_id.intValue == providerID.intValue) {
+                            
+                            NSDictionary *contentDict = @{@"id":content.contentID,
+                                                          @"name":content.name,
+                                                          @"image":content.image,@"desc":content.desc,
+                                                          @"category":catgory.name};
+                            
+                            [subItems addObject:contentDict];
+                        }
+                    }
+                }
+            }
+            if(subItems.count > 0) {
+                NSDictionary *object = @{@"title":categoryDict, @"content":subItems};
+                [items addObject:object];
+            }
+        }
+        [completionSource setResult:items];
+    });
+    
+    return completionSource.task;
+
+}
+
+- (BFTask *)getAllCatatgoryByMode:(int)mode {
+    
+    BFTaskCompletionSource *completionTask = [BFTaskCompletionSource taskCompletionSource];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSArray *categories = [YTCategory MR_findByAttribute:@"mode" withValue:@(mode)];
+        NSMutableArray *items = [[NSMutableArray alloc]init];
+        for (YTCategory *catgory in categories) {
+            NSArray *genries = [[catgory genre]allObjects];
+            NSMutableArray *subItems = [NSMutableArray array];
+             NSDictionary *genreDict = @{@"id":catgory.cateID, @"name": catgory.name,@"mode":@(mode)};
+            if(genries.count > 0) {
+                for (YTGenre *genre in genries) {
+                    NSArray *contents = [[genre content]allObjects];
+                    for (YTContent *content in contents) {
+                        NSDictionary *contentDict = @{@"id":content.contentID,
+                                                      @"name":content.name,
+                                                      @"image":content.image,
+                                                      @"desc":content.desc,
+                                                      @"category":catgory.name};
+                        
+                        [subItems addObject:contentDict];
+                    }
+                }
+            }
+            
+            if(subItems.count > 0) {
+                NSDictionary *object = @{@"title":genreDict, @"content":subItems};
+                [items addObject:object];
+            }
+        }
+        [completionTask setResult:items];
+    });
+    
+    return completionTask.task;
+    
+}
+
+
+- (BFTask *)getGroupGenreByCategory:(NSNumber *)cateID {
+    
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSArray *categories = [YTCategory MR_findByAttribute:@"cateID" withValue:cateID];
+        NSMutableArray *items = [[NSMutableArray alloc]init];
+        for (YTCategory *catgory in categories) {
+            NSArray *genries = [[catgory genre]allObjects];
+            if(genries.count > 0) {
+                for (YTGenre *genre in genries) {
+                    NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName,@"mode":catgory.mode};
+                    NSMutableArray *subItems = [NSMutableArray array];
+                    
+                    NSArray *contents = [[genre content]allObjects];
+                    for (YTContent *content in contents) {
                         
                         NSDictionary *contentDict = @{@"id":content.contentID,
                                                       @"name":content.name,
@@ -295,54 +375,17 @@ static YTDataManager *m_instance;
                         
                         [subItems addObject:contentDict];
                     }
+                    if(subItems.count > 0) {
+                        NSDictionary *object = @{@"title":genreDict, @"content":subItems};
+                        [items addObject:object];
+                    }
                 }
             }
         }
-        if(subItems.count > 0) {
-            NSDictionary *object = @{@"title":categoryDict, @"content":subItems};
-            [items addObject:object];
-        }
-    }
-//    [completionSource setResult:items];
-//    return completionSource.task;
-    return items;
-}
-- (NSArray *)getGroupGenreByCategory:(int)cateID {
+        [completionSource setResult:items];
+    });
     
-    /*
-     [{"gen":{"id":int,"nam":nsstring},
-       "content":{"id":int, "name":nsstring}
-     },
-     { .......}
-     ]
-     */
-    NSArray *categories = [YTCategory MR_findByAttribute:@"cateID" withValue:@(cateID)];
-    NSMutableArray *items = [[NSMutableArray alloc]init];
-    for (YTCategory *catgory in categories) {
-        NSArray *genries = [[catgory genre]allObjects];
-        if(genries.count > 0) {
-            for (YTGenre *genre in genries) {
-                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName,@"mode":catgory.mode};
-                NSMutableArray *subItems = [NSMutableArray array];
-                
-                NSArray *contents = [[genre content]allObjects];
-                for (YTContent *content in contents) {
-                    
-                    NSDictionary *contentDict = @{@"id":content.contentID,
-                                                  @"name":content.name,
-                                                  @"image":content.image,@"desc":content.desc,
-                                                  @"category":catgory.name};
-                    
-                    [subItems addObject:contentDict];
-                }
-                if(subItems.count > 0) {
-                    NSDictionary *object = @{@"title":genreDict, @"content":subItems};
-                    [items addObject:object];
-                }
-            }
-        }
-    }
-    return items;
+    return completionSource.task;
 }
 
 - (BFTask *)pullAndSaveContentDetail:(NSNumber*)contentID {

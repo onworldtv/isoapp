@@ -8,6 +8,7 @@
 
 #import "YTHomeItemController.h"
 #import "YTGirdItemCell.h"
+
 @interface YTHomeItemController ()
 {
     NSArray *contentItems;
@@ -70,11 +71,11 @@
     NSDictionary *contentItem = contentItems[indexPath.row];
     itemCell.txtCategory.text = [contentItem valueForKey:@"category"];
     itemCell.txtTitle.text = [contentItem valueForKey:@"name"];
-    __weak UIImageView *imageView = itemCell.imgView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[contentItem valueForKey:@"image"]
-                                          completed:^(NSError *error, UIImage *image) {
-                                                   imageView.image = image;
-                                              }];
+    
+    [itemCell.imgView sd_setImageWithURL:[NSURL URLWithString:[contentItem valueForKey:@"image"]]
+                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
+ 
     return itemCell;
     
 }

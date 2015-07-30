@@ -23,23 +23,25 @@ PODS:
   - BFTask-Extras (0.2.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
-  - DLImageLoader (2.0.0)
   - HexColors (2.2.1)
   - MagicalRecord (2.3.0)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - BFTask-Extras
-  - DLImageLoader (~> 2.0.0)
   - HexColors (~> 2.2.1)
   - MagicalRecord
+  - SDWebImage (~> 3.7)
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BFTask-Extras: 0629733ef714a30ca8a3a1fc3402cd56b601f63d
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
-  DLImageLoader: b78e0d61d71e0fa2a1f3d26728b4ece43de85b06
   HexColors: abfd172e329dab59888614ccba6f216cec59289d
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
 
 COCOAPODS: 0.37.2

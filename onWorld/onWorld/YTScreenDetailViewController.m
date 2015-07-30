@@ -60,9 +60,7 @@
 
 - (void)click_chromcast:(UIBarButtonItem *)sender {
     
-    YTDeviceViewController *deviceViewCtrl = [[YTDeviceViewController alloc]init];
-    deviceViewCtrl.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:deviceViewCtrl animated:YES completion:nil];
+    [self performSegueWithIdentifier:@"listDeviceCast" sender:self];
     
 }
 

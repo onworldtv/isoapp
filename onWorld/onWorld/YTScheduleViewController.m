@@ -50,7 +50,6 @@
         }
         [self addScheduleButton];
     }
-    
 }
 
 
@@ -83,7 +82,7 @@
             UIButton *btnTimeline = [UIButton buttonWithType:UIButtonTypeSystem];
             [btnTimeline setTitle:timeline.title forState:UIControlStateNormal];
             
-            [btnTimeline setFrame:CGRectMake(delta * i + 1, 0, 100, 35)];
+            [btnTimeline setFrame:CGRectMake(delta * i + 1, 0, delta, 35)];
             [btnTimeline setTag:i];
             [btnTimeline addTarget:self
                             action:@selector(click_scheduleButton:)
@@ -181,10 +180,9 @@
     viewCell.txtContentName.text = [timeDic valueForKey:@"name"];
     viewCell.txtTimeline.text = [NSString stringWithFormat:@"%@ - %@",[timeDic valueForKey:@"start"],[timeDic valueForKey:@"end"]];
     viewCell.txtSinger.text = [timeDic valueForKey:@"description"];
-    __weak UIImageView *imageView = viewCell.avartar;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[timeDic valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
-        [imageView setImage:image];
-    }];
+    
+    [viewCell.avartar sd_setImageWithURL:[NSURL URLWithString:timeDic[@"image"]]
+                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
     return viewCell;
 }
@@ -196,5 +194,12 @@
         [m_delegate delegateSelectedScheduleItemWithIndexSchedule:index indexTimeline:indexPath.row];
     }
 }
+
+
+
+
+
+
+
 
 @end

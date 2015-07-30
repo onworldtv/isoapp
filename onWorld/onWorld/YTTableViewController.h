@@ -23,5 +23,8 @@
 @property (weak)id<YTSelectedItemProtocol>delegate;
 - (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items;
 
-- (void)setContentArray:(NSArray*)arr;
+
+- (id)initWithCategoryID:(NSNumber *)cateID providerID:(NSNumber *)provID;
+
+- (id)initWithMode:(YTMode)mode;
 @end

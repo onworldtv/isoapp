@@ -115,6 +115,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     [_tbvTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self loadDataForPlayer];
     
+    [chromecastController.deviceManager setVolume:0.0];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -389,6 +390,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 }
 
 - (void)startPlayer {
+    
     [self.loadingView setHidden:NO];
     [self.loadingView startAnimating];
     [self updateVolumeView];
@@ -401,7 +403,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                
                 url = [url stringByReplacingOccurrencesOfString:@"/index.m3u8" withString:@"/singer.m3u8"];
             }
-            
+            url = @"http://origin.onworldtv.com:1935/vodorigin/_definst_/series/Socola.Hay.Hoa.Hong/Socola.Hay.Hoa.Hong.2014.01.720p/index.m3u8?worldtokenstarttime=1438243720&worldtokenendtime=1438328320&worldtokenhash=XBmkiCtkJxnQZCaXKIZMyfteOnWG11w9WB6dW4AGbTI=";
+            [self beginPlayVideo];
             if (contentObj.image && [contentObj.image length] > 0) {
                 [chromecastController loadMedia:[NSURL URLWithString:url]
                                     thumbnailURL:[NSURL URLWithString:contentObj.image]
@@ -1009,13 +1012,9 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             [self.imgAdvView setHidden:NO];
             [self.btnCloseImageViewAdv setHidden:NO];
             __weak UIImageView *imageView = self.imageAdvView;
-            [[DLImageLoader sharedInstance]loadImageFromUrl:currentAdvInfo.url completed:^(NSError *error, UIImage *image) {
-//                imageView.contentMode = UIViewContentModeCenter;
-//                if (imageView.bounds.size.width > image.size.width && imageView.bounds.size.height > image.size.height) {
-//                    imageView.contentMode = UIViewContentModeScaleToFill;
-//                }
-                [imageView setImage:image];
-            }];
+            
+            [self.imageAdvView sd_setImageWithURL:[NSURL URLWithString:currentAdvInfo.url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+           
         }];
     }
 }
@@ -1106,15 +1105,25 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (IBAction)click_closePlayer:(id)sender {
     
-    [chromecastController stopCastMedia];
-    chromecastController.delegate = nil;
+    [self stopChromecastDevice];
+    
     UINavigationController *navigatorCtrl =self.navigationController;
     [navigatorCtrl.navigationBar setHidden:NO];
+    
     [self stopCurrentPlayer];
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 
+
+- (void)stopChromecastDevice {
+    if(chromecastController) {
+        [chromecastController stopCastMedia];
+        chromecastController.delegate = nil;
+        [chromecastTimer invalidate];
+        chromecastTimer = nil;
+    }
+}
 
 - (void)didFinishAdvPlayer {
 //     remove previous adv
@@ -1202,7 +1211,6 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 }
 
 - (IBAction)click_play:(id)sender {
-    
     
     if(chromecastController.isConnected) {
         if ([self isPlaying])
@@ -1327,7 +1335,6 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)updateInterfaceFromCast:(NSTimer *)timer {
     [chromecastController updateStatsFromDevice];
-    
     if (chromecastController.playerState == GCKMediaPlayerStateBuffering) {
         [self.loadingView startAnimating];
     } else {
@@ -1337,9 +1344,17 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     if(isPlayingAdv) {
         if (chromecastController.streamDuration > 0) {
             _advCurrentTime = chromecastController.streamPosition;
-            NSLog(@"%f",_advCurrentTime);
+            double time = floor(_advCurrentTime);
+            int i = (int)(currentAdvInfo.duration - time);
+            if (i >= 0) {
+                NSString *lbAdvSecond = [NSString stringWithFormat:@"This ad will close in %d", i];
+                [self.lbAdvSecondTime setText:lbAdvSecond];
+            }
+            else {
+                [self.lbAdvSecondTime setText:@""];
+            }
         }else {
-            NSLog(@"%f",chromecastController.streamDuration);
+            NSLog(@"adv player :%f",chromecastController.streamDuration);
         }
         if (chromecastController.playerState == GCKMediaPlayerStateIdle && chromecastController.mediaControlChannel.mediaStatus.idleReason == GCKMediaPlayerIdleReasonFinished) {
             NSLog(@"Finish play adv");
@@ -1347,6 +1362,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         }
     }else {
         if (chromecastController.streamDuration > 0) {
+             NSLog(@"video player %f",chromecastController.streamPosition);
             if (![self isScrubbing]) {
                 if (self.sliderTrackView.hidden) {
                     self.sliderTrackView.minimumValue = 0.f;
@@ -1359,7 +1375,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                     float maxValue = self.sliderTrackView.maximumValue;
                     self.sliderTrackView.value = minValue + (maxValue - minValue) * time / chromecastController.streamDuration;
                     self.txtTimePlaying.text = [YTOnWorldUtility stringWithTimeInterval:time];
-                    self.txtTotalTime.text = [YTOnWorldUtility stringWithTimeInterval:(chromecastController.streamDuration - time)];
+                    self.txtTotalTime.text = [YTOnWorldUtility stringWithTimeInterval:(chromecastController.streamDuration)];
                 }
             }
         }
@@ -1370,9 +1386,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         
         if (chromecastController.playerState == GCKMediaPlayerStatePaused ||
             chromecastController.playerState == GCKMediaPlayerStateIdle) {
+            isPlaying = NO;
             [self showPlayButton];
         } else if (chromecastController.playerState == GCKMediaPlayerStatePlaying ||
                    chromecastController.playerState == GCKMediaPlayerStateBuffering) {
+            isPlaying = YES;
             [self showStopButton];
         }
     }
@@ -1462,11 +1480,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     viewCell.txtContentName.text = [timeDic valueForKey:@"name"];
     viewCell.txtTimeline.text = [NSString stringWithFormat:@"%@ - %@",[timeDic valueForKey:@"start"],[timeDic valueForKey:@"end"]];
     viewCell.txtSinger.text = [timeDic valueForKey:@"description"];
-    __weak UIImageView *imageView = viewCell.avartar;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[timeDic valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
-                    [imageView setImage:image];
-    }];
-    
+    [viewCell.avartar sd_setImageWithURL:[NSURL URLWithString:[timeDic valueForKey:@"image"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+
     return viewCell;
 }
 

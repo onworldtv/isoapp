@@ -20,12 +20,12 @@
 
     if(selected) {
         [self.contentView setBackgroundColor:[UIColor colorWithHexString:@"6597de"]];
-        [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
-        [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"6597de"]];
+        [_txtContentName setTextColor:[UIColor whiteColor]];
+        [_txtEpisodes setTextColor:[UIColor whiteColor]];
     }else {
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
-        [_txtEpisodes setTextColor:[UIColor whiteColor]];
-        [_txtContentName setTextColor:[UIColor whiteColor]];
+        [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"4D4D4D"]];
+        [_txtContentName setTextColor:[UIColor colorWithHexString:@"8A8A8A"]];
     }
 
 }

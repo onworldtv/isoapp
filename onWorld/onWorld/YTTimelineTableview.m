@@ -8,6 +8,7 @@
 
 #import "YTTimelineTableview.h"
 #import "YTTimelineViewCell.h"
+#import "YTPlayerViewController.h"
 @interface YTTimelineTableview ()
 
 @end
@@ -18,7 +19,6 @@
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         _contentItems = [[NSMutableArray alloc]initWithArray:array];
-        
         
     }
     return self;
@@ -72,16 +72,25 @@
     cell.avartar.layer.cornerRadius = cell.avartar.frame.size.width / 2;
     cell.avartar.clipsToBounds = YES;
     cell.txtContentName.text = [item valueForKey:@"name"];
-    __weak UIImageView *imageView = cell.avartar;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
-        [imageView setImage:image];
-    }];
+    
+    [cell.avartar sd_setImageWithURL:[NSURL URLWithString:item[@"image"]]
+                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
     cell.txtSinger.text = @"";
     cell.txtTimeline.text = [NSString stringWithFormat:@"%f - %f",[[item valueForKey:@"start"] floatValue],[[item valueForKey:@"end"] floatValue]];
     
     [cell setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+   
+}
+
+
+
+
 
 
 @end

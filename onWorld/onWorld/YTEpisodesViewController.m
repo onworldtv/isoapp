@@ -40,7 +40,6 @@
     [super viewDidLoad];
     
     // Register Class for Cell Reuse Identifier
-    
     NSSortDescriptor *sdSortDate = [NSSortDescriptor sortDescriptorWithKey:@"episodesID" ascending:YES];
     _contentItems = [NSMutableArray arrayWithArray:[_contentItems sortedArrayUsingDescriptors:@[sdSortDate]]];
     
@@ -83,19 +82,23 @@
     cell.avatar.clipsToBounds = YES;
     [cell setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
     
-    if(item.episodesID == m_detailID) {
-        [cell setSelected:YES];
+    if(item.episodesID.intValue == m_detailID.intValue) {
+        [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition: UITableViewScrollPositionMiddle];
     }
-    __weak UIImageView *imageView = cell.avatar;
+  
+    [cell.avatar sd_setImageWithURL:[NSURL URLWithString:item.image]
+                       placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
-    
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
-        [imageView setImage:image];
-    }];
     cell.txtContentName.text = item.desc;
     cell.txtEpisodes.text = item.name;
     
     return cell;
+}
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
 }
 
 

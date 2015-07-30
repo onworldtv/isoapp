@@ -111,35 +111,8 @@
 
 - (void)delegateDisplayMoreCategoryMode:(int)mode {
     
-    NSArray *categories = [YTCategory MR_findByAttribute:@"mode" withValue:@(mode)];
-    NSMutableArray *items = [[NSMutableArray alloc]init];
-    for (YTCategory *catgory in categories) {
-        NSArray *genries = [[catgory genre]allObjects];
-        if(genries.count > 0) {
-            for (YTGenre *genre in genries) {
-                NSDictionary *genreDict = @{@"id":catgory.cateID, @"name": catgory.name,@"mode":@(mode)};
-                NSMutableArray *subItems = [NSMutableArray array];
-                
-                NSArray *contents = [[genre content]allObjects];
-                for (YTContent *content in contents) {
-                    
-                    NSDictionary *contentDict = @{@"id":content.contentID,
-                                                  @"name":content.name,
-                                                  @"image":content.image,
-                                                  @"desc":content.desc,
-                                                  @"category":catgory.name};
-                    
-                    [subItems addObject:contentDict];
-                }
-                if(subItems.count > 0) {
-                    NSDictionary *object = @{@"title":genreDict, @"content":subItems};
-                    [items addObject:object];
-                }
-            }
-        }
-    }
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:items];
+    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithMode:mode];
     [moreViewController setEnableMoreButton:YES];
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
     [navCtrll pushViewController:moreViewController animated:YES];

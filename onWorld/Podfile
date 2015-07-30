@@ -9,8 +9,7 @@ pod "AFNetworking", "~> 2.0"
 pod "BFTask-Extras"
 pod "MagicalRecord"
 pod "HexColors", "~> 2.2.1"
-pod "DLImageLoader", "~> 2.0.0"
-
+pod "SDWebImage", '~>3.7'
 post_install do |installer|
     installer.project.targets.each do |target|
         puts target.name

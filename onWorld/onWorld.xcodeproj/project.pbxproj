@@ -19,7 +19,6 @@
 		041CDD7B1B60F71D00B066A9 /* ChromecastDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7A1B60F71D00B066A9 /* ChromecastDeviceController.m */; };
 		041CDD7E1B60F8F000B066A9 /* VolumeChangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */; };
 		041CDD821B60F93700B066A9 /* YTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD801B60F93700B066A9 /* YTDeviceViewController.m */; };
-		041CDD831B60F93700B066A9 /* YTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */; };
 		04417EDE1B5CF1140068BEFC /* YTNavigationBarCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */; };
 		049E54D01B5FB38A0019BB66 /* YTDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */; };
 		04BCF0C61B60CD9C00E03D8A /* YTHomeItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */; };
@@ -88,6 +87,7 @@
 		04E23B8F1B37C08F0097A2D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E23B8D1B37C08F0097A2D5 /* LaunchScreen.xib */; };
 		04E23B9B1B37C08F0097A2D5 /* OnWorldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23B9A1B37C08F0097A2D5 /* OnWorldTests.m */; };
 		04E23C201B4F732900186B52 /* YTSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E23C1F1B4F732900186B52 /* YTSlider.m */; };
+		04E33BF21B6871A8008C87B4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E33BF11B6871A8008C87B4 /* AudioToolbox.framework */; };
 		04E424411B57BDC1003EFF92 /* YTAudioPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */; };
 		04E424421B57BDC1003EFF92 /* YTAudioPlayerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */; };
 		04EAA6821B4B67260099BE8E /* YTSearchViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EAA6801B4B67260099BE8E /* YTSearchViewCell.m */; };
@@ -160,7 +160,7 @@
 		041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeChangeController.m; sourceTree = "<group>"; };
 		041CDD7F1B60F93700B066A9 /* YTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTDeviceViewController.h; path = onWorld/YTDeviceViewController.h; sourceTree = SOURCE_ROOT; };
 		041CDD801B60F93700B066A9 /* YTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTDeviceViewController.m; path = onWorld/YTDeviceViewController.m; sourceTree = SOURCE_ROOT; };
-		041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTDeviceViewController.xib; path = onWorld/YTDeviceViewController.xib; sourceTree = SOURCE_ROOT; };
+		042632BA1B68DFC1001C162F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		04417EDC1B5CF1140068BEFC /* YTNavigationBarCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTNavigationBarCustom.h; path = onWorld/YTNavigationBarCustom.h; sourceTree = SOURCE_ROOT; };
 		04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTNavigationBarCustom.m; path = onWorld/YTNavigationBarCustom.m; sourceTree = SOURCE_ROOT; };
 		049E54CE1B5FB38A0019BB66 /* YTDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTDetailViewCell.h; path = onWorld/YTDetailViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -252,6 +252,7 @@
 		04E23BA51B37C0EC0097A2D5 /* OnWorld-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OnWorld-Prefix.pch"; sourceTree = "<group>"; };
 		04E23C1E1B4F732900186B52 /* YTSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTSlider.h; sourceTree = "<group>"; };
 		04E23C1F1B4F732900186B52 /* YTSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTSlider.m; sourceTree = "<group>"; };
+		04E33BF11B6871A8008C87B4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		04E4243E1B57BDC1003EFF92 /* YTAudioPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTAudioPlayerController.h; path = onWorld/YTAudioPlayerController.h; sourceTree = SOURCE_ROOT; };
 		04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTAudioPlayerController.m; path = onWorld/YTAudioPlayerController.m; sourceTree = SOURCE_ROOT; };
 		04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTAudioPlayerController.xib; path = onWorld/YTAudioPlayerController.xib; sourceTree = SOURCE_ROOT; };
@@ -313,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04E33BF21B6871A8008C87B4 /* AudioToolbox.framework in Frameworks */,
 				04D9B9D21B6770C300750D96 /* CoreText.framework in Frameworks */,
 				04D9B9D01B6770AA00750D96 /* MediaAccessibility.framework in Frameworks */,
 				04D9B9CE1B67709300750D96 /* SystemConfiguration.framework in Frameworks */,
@@ -390,7 +392,6 @@
 				041CDD731B60F28F00B066A9 /* YTChromcastManager.h */,
 				041CDD741B60F28F00B066A9 /* YTChromcastManager.m */,
 				041CDD801B60F93700B066A9 /* YTDeviceViewController.m */,
-				041CDD811B60F93700B066A9 /* YTDeviceViewController.xib */,
 			);
 			name = ChromCast;
 			sourceTree = "<group>";
@@ -737,6 +738,8 @@
 		1466DC379BDAE1A6B7E7A125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				042632BA1B68DFC1001C162F /* ImageIO.framework */,
+				04E33BF11B6871A8008C87B4 /* AudioToolbox.framework */,
 				04D9B9D11B6770C300750D96 /* CoreText.framework */,
 				04D9B9CF1B6770AA00750D96 /* MediaAccessibility.framework */,
 				04D9B9CD1B67709300750D96 /* SystemConfiguration.framework */,
@@ -865,7 +868,6 @@
 				04BCF0C71B60CD9C00E03D8A /* YTHomeItemController.xib in Resources */,
 				04EE8A911B44E5DB004133A5 /* YTEpisodesViewCell.xib in Resources */,
 				04EE8A961B44E5ED004133A5 /* YTTimelineViewCell.xib in Resources */,
-				041CDD831B60F93700B066A9 /* YTDeviceViewController.xib in Resources */,
 				04E23B8A1B37C08F0097A2D5 /* Main.storyboard in Resources */,
 				04EE8A8C1B44D171004133A5 /* YTDetailViewController.xib in Resources */,
 				04E1FA2B1B3A4DBF00D68AF4 /* SourceSansPro-ExtraLight.otf in Resources */,

@@ -19,6 +19,8 @@
     NSMutableArray *listButton;
     int index;
     NSMutableArray *tabItemTitle;
+    
+    NSCache *cache;
 }
 @end
 
@@ -66,6 +68,7 @@
     }
     
     if(viewControllers.count > 0) {
+        [self addScheduleButton];
         [self setup];
     }
 }
@@ -83,7 +86,7 @@
             UIButton *btnTimeline = [UIButton buttonWithType:UIButtonTypeSystem];
             [btnTimeline setTitle:tabItemTitle[i] forState:UIControlStateNormal];
             
-            [btnTimeline setFrame:CGRectMake(delta * i + 1, 0, 100, 35)];
+            [btnTimeline setFrame:CGRectMake(delta * i + 1, 0, delta, 35)];
             [btnTimeline setTag:i];
             if(viewControllers.count > 0) {
                 [btnTimeline addTarget:self
@@ -98,7 +101,7 @@
                 
             }else {
                 [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:17]];
-                [btnTimeline setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+                [btnTimeline setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
             }
             [listButton addObject:btnTimeline];
             [self.tabViewContainer addSubview:btnTimeline];

@@ -37,8 +37,8 @@
                         <constraint firstAttribute="height" constant="40" id="bop-9I-vkO"/>
                     </constraints>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="VKR-Jh-rIj">
-                    <rect key="frame" x="0.0" y="48" width="320" height="520"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="VKR-Jh-rIj">
+                    <rect key="frame" x="0.0" y="48" width="320" height="302"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Swb-6k-3w3">
                         <size key="itemSize" width="50" height="50"/>

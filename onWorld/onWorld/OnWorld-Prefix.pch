@@ -30,9 +30,9 @@
 #import "NSString+Utility.h"
 #import "DejalActivityView.h"
 #import "YTConstant.h"
-#import "DLImageLoader.h"
 #import "YTSelectedItemProtocol.h"
 #import "SWRevealViewController.h"
 #import "YTChromcastManager.h"
-
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDWebImageManager.h>
 #endif

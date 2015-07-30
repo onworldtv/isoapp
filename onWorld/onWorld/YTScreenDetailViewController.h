@@ -11,5 +11,5 @@
 @interface YTScreenDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property (weak,nonatomic)IBOutlet UITableView *tableView;
-@property (assign,nonatomic) NSNumber * contentID;
+@property (strong,nonatomic) NSNumber * contentID;
 @end

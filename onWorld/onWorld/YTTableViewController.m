@@ -15,6 +15,9 @@
 @interface YTTableViewController ()
 {
     int defaultNumberItems;
+    BOOL displayByMode;
+    YTMode m_mode;
+    NSNumber *m_categoryID,*m_providerID;
 }
 
 
@@ -31,11 +34,34 @@
     return self;
 }
 
+- (id)initWithMode:(YTMode)mode {
+    self = [super initWithStyle:UITableViewStylePlain];
+    if(self) {
+        m_mode = mode;
+        displayByMode = YES;
+    }
+    return self;
+}
+
+- (id)initWithCategoryID:(NSNumber *)cateID providerID:(NSNumber *)provID {
+    self = [super initWithStyle:UITableViewStylePlain];
+    if(self) {
+        m_categoryID = cateID;
+        m_providerID = provID;
+        m_mode = -1;
+    }
+    return self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [DejalBezelActivityView removeViewAnimated:YES];
+}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.edgesForExtendedLayout=UIRectEdgeNone;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector:@selector(deviceOrientationDidChange:)
@@ -80,7 +106,29 @@
     }
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-    [self.tableView reloadData];
+
+    
+    
+    BFTask *task = nil;
+    if(m_providerID == nil && m_categoryID) {
+        task = [DATA_MANAGER getGroupGenreByCategory:m_categoryID];
+    }else if(m_categoryID == nil && m_providerID) {
+        task = [DATA_MANAGER getContentsByProviderId:m_providerID];
+    }else if(displayByMode){
+        task = [DATA_MANAGER getAllCatatgoryByMode:m_mode];
+    }else {
+         task = [BFTask taskWithResult:nil];
+    }
+    [task continueWithBlock:^id(BFTask *task) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _contentItems = task.result;
+            [DejalBezelActivityView removeViewAnimated:YES];
+            [self.tableView reloadData];
+        });
+        return nil;
+    }];
+    
+    
 }
 
 
@@ -118,13 +166,14 @@
     
     return 1;
 }
-
+static int i = 0;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CellIdentifier";
     YTTableViewCell *cell = (YTTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell)
     {
+        NSLog(@"index :%d",i++);
         cell = [[YTTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     return cell;
@@ -149,22 +198,24 @@
     int mode = [[titleDic valueForKey:@"mode"] intValue];
     int height = 0;
     if(mode == 0) {
-        height = floorf(width / _numberItems);
+        height = floorf(width / _numberItems)+24;
     }else {
-        height = floorf((width * 9)/(16 * _numberItems));
+        height = floorf((width * 9)/(16 * _numberItems))+24;
     }
     NSArray *subItems = [itemsDict valueForKey:@"content"];
     if(subItems.count < _numberItems)
-        return height + 10;
+        return height + 10 ;
     int delta = subItems.count % _numberItems;
     if(delta > 0) {
         delta = 1;
     }
     float item = (subItems.count / _numberItems) + delta;
-    if(item * 10 + 10 > tableView.frame.size.height) {
-        return tableView.frame.size.height -100;
+    if(item * height + 10 > tableView.frame.size.height && _contentItems.count >1) {
+        return tableView.frame.size.height-80;
+
     }
-    return item * height + 10;
+  return item * height + 10;
+
 
 }
 
@@ -221,27 +272,25 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {    
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
-    
-    NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    int section = [(YTIndexedCollectionView *)collectionView indexPath].section;
+    NSDictionary *itemsAtPath = _contentItems[section];
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
-    
     NSDictionary * item = subItems[indexPath.item];
+    
     [cell.txtTitle setText:[item valueForKey:@"name"]];
-    
-     __weak UIImageView *imageView = cell.imgView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:[item valueForKey:@"image"] completed:^(NSError *error, UIImage *image) {
-        if(error == nil) {
-            [imageView setImage:image];
-        }
-    }];
-    
     if(_showByCategory){
         cell.txtCategory.text = [item valueForKey:@"category"];
     }else {
         [cell.txtCategory setHidden:YES];
     }
+
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:item[@"image"]]
+                        placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+
+    
     return cell;
 }
+
 
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -268,7 +317,6 @@
     return CGSizeZero;
 }
 
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSDictionary *itemdict = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].row];
@@ -288,6 +336,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 @end

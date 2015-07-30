@@ -37,5 +37,8 @@
     
 }
 
+- (void)setSelected:(BOOL)selected {
+    [_txtCategory setTextColor:[UIColor whiteColor]];
+}
 
 @end

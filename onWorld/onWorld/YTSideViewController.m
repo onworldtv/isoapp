@@ -253,8 +253,7 @@ static const NSString * kYTSearch = @"SEARCH";
             selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
            
-            NSArray *contentItems = [DATA_MANAGER getContentsByProviderId:selectedProviderID];
-            YTTableViewController *providerViewCtr  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            YTTableViewController *providerViewCtr  = [[YTTableViewController alloc]initWithCategoryID:nil providerID:@(selectedProviderID)];
             [providerViewCtr.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [providerViewCtr setDelegate:self];
             [providerViewCtr setShowByCategory:NO];
@@ -272,8 +271,7 @@ static const NSString * kYTSearch = @"SEARCH";
             selectedCategoryID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:selectedCategoryID];
-            YTTableViewController *categoryViewCtrl  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+            YTTableViewController *categoryViewCtrl  = [[YTTableViewController alloc]initWithCategoryID:@(selectedCategoryID) providerID:nil];
             [categoryViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [categoryViewCtrl setShowByCategory:NO];
             [categoryViewCtrl setShowRevealNavigator:YES];
@@ -289,8 +287,7 @@ static const NSString * kYTSearch = @"SEARCH";
 
 - (void)didSelectCategory:(int)categoryID {
     
-    NSArray *contentItems = [DATA_MANAGER getGroupGenreByCategory:categoryID];
-    YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithStyle:UITableViewStylePlain withArray:contentItems];
+    YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithCategoryID:@(categoryID) providerID:nil];
     [moreCategoriesViewController setShowByCategory:NO];
     [moreCategoriesViewController setShowRevealNavigator:YES];
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];

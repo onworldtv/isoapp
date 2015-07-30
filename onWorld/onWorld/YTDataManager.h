@@ -28,12 +28,13 @@
 
 - (BFTask *)pullGroupContent;
 
+- (BFTask *)getAllCatatgoryByMode:(int)mode;
 
 - (BFTask *)pullAndSaveContentDetail:(NSNumber*)contentID;
 
-- (NSArray *)getContentsByProviderId:(int)providerID;
+- (BFTask *)getContentsByProviderId:(NSNumber *)providerID;
 
-- (NSArray *)getGroupGenreByCategory:(int)cateID;
+- (BFTask *)getGroupGenreByCategory:(NSNumber *)cateID;
     
 - (BFTask *)advInfoWithURLString:(NSString *)urlPath;
 

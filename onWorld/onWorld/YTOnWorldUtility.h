@@ -28,4 +28,5 @@ static NSString *kYTPassword = @"kYTPassword";
 
 + (NSString *)stringWithTimeInterval:(NSTimeInterval)totalSeconds;
 
++ (UIImage *)redrawUIImage:(UIImage *)image withSize:(CGSize)size;
 @end

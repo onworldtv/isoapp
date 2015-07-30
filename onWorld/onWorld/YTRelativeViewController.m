@@ -13,7 +13,7 @@
     int defaultNumber;
     NSArray *arrayRelatives;
     int mode;
-    
+
 }
 @end
 
@@ -46,7 +46,6 @@
     [self.collectionView registerClass:[YTGirdItemCell class] forCellWithReuseIdentifier:@"itemCell"];
     
 }
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -84,11 +83,12 @@
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"itemCell" forIndexPath:indexPath];
     cell.txtTitle.text = item.name;
     [cell.txtCategory setHidden:YES];
-    __weak UIImageView *imageView = cell.imgView;
-    [[DLImageLoader sharedInstance]loadImageFromUrl:item.image completed:^(NSError *error, UIImage *image) {
-        [imageView setImage:image];
-    }];
+    NSString *key = [NSString stringWithFormat:@"%d",indexPath.row];
+
     
+    
+    [cell.imgView sd_setImageWithURL:[NSURL URLWithString:item.image]
+                    placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     return cell;
 }
 

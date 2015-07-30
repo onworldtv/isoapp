@@ -103,7 +103,17 @@
     int hour = seconds / 3600;
     int mins = (seconds % 3600) / 60;
     int secs = seconds % 60;
-    return [NSString stringWithFormat:@"%02li:%02li:%02li", (long)hour, (long)mins, secs];
+    return [NSString stringWithFormat:@"%02li:%02li:%02li", (long)hour, (long)mins, (long)secs];
+}
+
++ (UIImage *)redrawUIImage:(UIImage *)image withSize:(CGSize)size{
+   
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+    CGRect imageRect = CGRectMake(0.0, 0.0, size.width, size.height);
+    [image drawInRect:imageRect];
+    UIImage *appImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return appImage;
 }
 
 @end
