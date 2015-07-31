@@ -20,17 +20,18 @@
     int index;
     NSMutableArray *tabItemTitle;
     
-    NSCache *cache;
+    id<YTSelectedItemProtocol> m_delegate;
 }
 @end
 
 @implementation YTTimelineViewController
 
 
-- (id)initWithContent:(YTContent*)content {
+- (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate {
     self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil]; {
         contentObj = content;
         index = 0;
+        m_delegate = delegate;
     }
     return self;
 }
@@ -53,14 +54,14 @@
     
     
     if(contentObj.detail.timeline.allObjects.count >0) {
-        m_timelineViewController = [[YTTimelineTableview alloc]initWithContent:contentObj.detail.timeline.allObjects];
+        m_timelineViewController = [[YTTimelineTableview alloc]initWithContent:contentObj.detail.timeline.allObjects delegate:m_delegate];
         [viewControllers addObject:m_timelineViewController];
         [tabItemTitle addObject:@"TIMELINE"];
     }else {
         [self.btnTimeLine setEnabled:NO];
     }
     if(contentObj.detail.episode.allObjects.count >0) {
-        m_episodesViewController = [[YTEpisodesViewController alloc]initWithContent:contentObj.detail.episode.allObjects detailID:contentObj.contentID];
+        m_episodesViewController = [[YTEpisodesViewController alloc]initWithContent:contentObj.detail.episode.allObjects detailID:contentObj.contentID delegate:m_delegate];
         [viewControllers addObject:m_episodesViewController];
         [tabItemTitle addObject:@"EPISODES"];
     }else {

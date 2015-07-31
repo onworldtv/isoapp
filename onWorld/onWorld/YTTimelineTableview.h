@@ -13,5 +13,5 @@
 @property (retain,nonatomic)NSMutableArray *contentItems;
 
 
-- (id)initWithContent:(NSArray *)array;
+- (id)initWithContent:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate ;
 @end

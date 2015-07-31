@@ -17,6 +17,7 @@
 - (void)delegatePlayitem:(int)itemID;
 - (void)delegateDisplayMoreCategoryMode:(int)mode;
 
+- (void)playItemWithCategoryId:(NSNumber *)contentID scheduleInded:(int)schedule_index timelineIndex:(int)timeline_index;
 
 - (void)didSelectCategory:(int)categoryID;
 

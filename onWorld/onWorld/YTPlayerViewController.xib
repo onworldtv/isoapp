@@ -25,6 +25,7 @@
                 <outlet property="btnPlay" destination="ShU-6d-09D" id="CvW-t2-Vv2"/>
                 <outlet property="btnPlayList" destination="6he-DF-qJA" id="Bnd-TX-rxx"/>
                 <outlet property="imageAdvView" destination="DxQ-21-ldO" id="zip-Qg-1UL"/>
+                <outlet property="imageBanner" destination="yER-ry-0bC" id="P9a-00-s0j"/>
                 <outlet property="imgAdvView" destination="ydq-wv-yIl" id="bH0-lZ-hEA"/>
                 <outlet property="lbAdvSecondTime" destination="jGd-rk-lHL" id="YrZ-VT-Xe3"/>
                 <outlet property="liveView" destination="nFe-Gz-EDe" id="WBE-gr-G06"/>
@@ -134,13 +135,20 @@ EFNraXA
                                 <constraint firstAttribute="trailing" secondItem="N4F-wT-IQE" secondAttribute="trailing" constant="17" id="x2b-hw-i2o"/>
                             </constraints>
                         </view>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yER-ry-0bC">
+                            <rect key="frame" x="45" y="48" width="479" height="224"/>
+                        </imageView>
                     </subviews>
                     <constraints>
+                        <constraint firstItem="yER-ry-0bC" firstAttribute="top" secondItem="thN-JW-zs5" secondAttribute="bottom" constant="8" id="9ho-X8-aLO"/>
                         <constraint firstAttribute="trailing" secondItem="XfS-rs-m98" secondAttribute="trailing" id="BdB-XN-69H"/>
                         <constraint firstItem="XfS-rs-m98" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="aKK-Jp-lXy"/>
+                        <constraint firstAttribute="trailing" secondItem="yER-ry-0bC" secondAttribute="trailing" constant="44" id="b3Q-ma-Kpr"/>
                         <constraint firstItem="thN-JW-zs5" firstAttribute="top" secondItem="ps4-EE-CGm" secondAttribute="top" id="chW-c8-Lo7"/>
                         <constraint firstAttribute="trailing" secondItem="thN-JW-zs5" secondAttribute="trailing" id="eAd-WB-VQy"/>
                         <constraint firstItem="ydq-wv-yIl" firstAttribute="top" secondItem="ps4-EE-CGm" secondAttribute="top" id="ePq-RU-0oc"/>
+                        <constraint firstItem="yER-ry-0bC" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" constant="45" id="lCe-oP-cP0"/>
+                        <constraint firstItem="XfS-rs-m98" firstAttribute="top" secondItem="yER-ry-0bC" secondAttribute="bottom" constant="8" id="ly4-C0-F1w"/>
                         <constraint firstAttribute="bottom" secondItem="XfS-rs-m98" secondAttribute="bottom" id="p82-hg-8et"/>
                         <constraint firstAttribute="trailing" secondItem="ydq-wv-yIl" secondAttribute="trailing" id="ppQ-jh-WPm"/>
                         <constraint firstItem="ydq-wv-yIl" firstAttribute="leading" secondItem="ps4-EE-CGm" secondAttribute="leading" id="vhW-ir-xpF"/>
@@ -331,6 +339,7 @@ EFNraXA
                 </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="m6d-7c-VKs">
                     <rect key="frame" x="265" y="142" width="37" height="37"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="color" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                 </activityIndicatorView>
                 <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duw-56-xMq" userLabel="timeline">

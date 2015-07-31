@@ -43,8 +43,10 @@
     self.collectionView.dataSource = dataSourceDelegate;
     self.collectionView.delegate = dataSourceDelegate;
     self.collectionView.indexPath = indexPath;
-    
     [self.collectionView reloadData];
 }
 
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [self.contentView setBackgroundColor:[UIColor whiteColor]];
+}
 @end

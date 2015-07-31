@@ -289,7 +289,7 @@ static const NSString * kYTSearch = @"SEARCH";
     
     YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithCategoryID:@(categoryID) providerID:nil];
     [moreCategoriesViewController setShowByCategory:NO];
-    [moreCategoriesViewController setShowRevealNavigator:YES];
+    [moreCategoriesViewController setShowRevealNavigator:NO];
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
     [navCtrll pushViewController:moreCategoriesViewController animated:YES];
 

@@ -44,7 +44,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tbvTableView;
 
 @property (nonatomic, weak) IBOutlet UIImageView* imageAdvView;
-
+@property (nonatomic, weak) IBOutlet UIImageView* imageBanner;
 - (IBAction)click_closePlayer:(id)sender;
 - (IBAction)click_cast:(id)sender;
 - (IBAction)click_playlist:(id)sender;

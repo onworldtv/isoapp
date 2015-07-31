@@ -19,7 +19,7 @@
 
 - (void)setViewControllers:(NSArray *)newViewControllers;
 
-- (id)initWithContent:(YTContent*)content;
+- (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate;
 
 
 

@@ -68,6 +68,7 @@
 - (void)setContentID:(NSNumber *)ID {
     
     [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
+    
      viewControllers = [NSMutableArray array];
     _contentID = ID;
     contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:ID];
@@ -92,7 +93,7 @@
                                                                                                    delegate:self];
                 [viewControllers addObject:scheduleViewCtrl];
             }else {
-                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj];
+                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self];
                 [viewControllers addObject:timelineCtrl];
             }
         }
@@ -152,6 +153,28 @@
 
 #pragma mark - protocol
 
+
+- (void)delegatePlayitem:(int)itemID {
+    YTContent *playItem = [YTContent MR_findFirstByAttribute:@"contentID" withValue:@(itemID)];
+    if(contentObj) {
+        if(contentObj.detail.mode.intValue == ModeView) {
+            
+            YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithID:playItem.contentID];
+            if(playerViewCtrl) {
+                UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+                [navCtrl pushViewController:playerViewCtrl animated:YES];
+            }
+        }else {
+            YTAudioPlayerController *musicPlayerCtrl = [[YTAudioPlayerController alloc]initWithID:playItem.contentID];
+            if(musicPlayerCtrl) {
+                UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+                [navCtrl pushViewController:musicPlayerCtrl animated:YES];
+                
+            }
+        }
+    }
+}
+
 - (void)delegatePlayItemWithID:(NSNumber *)itemID {
     
     if(contentObj.detail.mode.intValue == ModeView) {
@@ -170,6 +193,22 @@
         }
     }
 }
+
+- (void)playItemWithCategoryId:(NSNumber *)contentID scheduleInded:(int)schedule_index timelineIndex:(int)timeline_index {
+    if(!contentObj)
+        return ;
+    if(contentObj.detail.mode.intValue == ModeView) {
+        
+        YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithIndexSchedule:schedule_index
+                                                                                        indexTimeline:timeline_index
+                                                                                            contentID:contentObj.contentID];
+        if(playerViewCtrl) {
+            UINavigationController *navCtrl = (UINavigationController *)[self.revealViewController frontViewController];
+            [navCtrl pushViewController:playerViewCtrl animated:YES];
+        }
+    }
+}
+
 
 - (void)delegateSelectedScheduleItemWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline {
     

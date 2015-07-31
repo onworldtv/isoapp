@@ -77,7 +77,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }];
 }
 
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -150,28 +149,20 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 
 
 
-//- (void)changeVolume:(id)sender
-//{
-//    if (CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
-//        float idealVolume = self.volumeSlider.value/10.0f;
-//        idealVolume = MIN(1.0, MAX(0.0, idealVolume));
-//        
-//        [CHROMCAST_MANAGER.chromcastCtrl.deviceManager setVolume:idealVolume];
-//    }
-//}
-//
-//- (void)updateVolumeView
-//{
-//    if (CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
-//        self.volumeView.hidden = YES;
-//        self.volumeSlider.hidden = NO;
-//        self.volumeSlider.value = CHROMCAST_MANAGER.chromcastCtrl.deviceMuted ? 0.0 : CHROMCAST_MANAGER.chromcastCtrl.deviceVolume*10.0f;
-//    }
-//    else {
-//        self.volumeView.hidden = NO;
-//        self.volumeSlider.hidden = YES;
-//    }
-//}
+
+
+- (void)updateVolumeView
+{
+    if (CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
+        self.sliderVolume.hidden = YES;
+        self.sliderVolume.hidden = NO;
+        self.sliderVolume.value = CHROMCAST_MANAGER.chromcastCtrl.deviceMuted ? 0.0 : CHROMCAST_MANAGER.chromcastCtrl.deviceVolume*10.0f;
+    }
+    else {
+        self.sliderVolume.hidden = NO;
+        self.sliderVolume.hidden = YES;
+    }
+}
 
 
 - (void)startAudio {
@@ -180,8 +171,9 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         
         if(CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
             
+            NSURL *urlPath = [NSURL URLWithString:contentObj.detail.link];
             if (contentObj.image && [contentObj.image length] > 0) {
-                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:[NSURL URLWithString:contentObj.detail.link]
+                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:urlPath
                                    thumbnailURL:[NSURL URLWithString:contentObj.image]
                                           title:contentObj.name
                                        subtitle:@""
@@ -191,7 +183,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
                                           music:(contentObj.detail.mode == 0)];
             }
             else {
-                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:[NSURL URLWithString:contentObj.detail.link]
+                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:urlPath
                                    thumbnailURL:nil
                                           title:contentObj.name
                                        subtitle:@""
@@ -208,14 +200,14 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
             
             chromecastTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                                target:self
-                                                             selector:@selector(updateInterfaceFromCast:)
+                                                             selector:@selector(updateInterfaceMusicPlayer:)
                                                              userInfo:nil
                                                               repeats:YES];
 
         }
         else {
+            
             [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
-            //        NSURL *url = [NSURL URLWithString:@"http://origin.onworldtv.com:1935/adstream/ITV.Home.Shopping.Ad.720p.mp4/playlist.m3u8"];
             
             NSURL *url = [NSURL URLWithString:contentObj.detail.link];
             AVPlayerItem *adPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
@@ -236,7 +228,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
                               options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
                               context:itemStatusContext];
             
-            __weak UIImageView *imageView = self.imageView;
             
             [self.imageView sd_setImageWithURL:[NSURL URLWithString:contentObj.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
 
@@ -248,10 +239,27 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
+
+- (void)updateViewToPlayChromecastDevice {
+    
+    if(chromecastManager.isConnected) {
+        self.sliderVolume.hidden = NO;
+        self.systemVolume.hidden = YES;
+    }else {
+        self.sliderVolume.hidden = YES;
+        self.systemVolume.hidden = NO;
+    }
+    
+}
+
+
+
 - (void)updateInterfaceMusicPlayer:(NSTimer *)timer {
     
     if(CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
+        NSLog(@"%d",chromecastManager.streamDuration);
         if (chromecastManager.streamDuration > 0) {
+            NSLog(@"%d",chromecastManager.streamPosition);
             if (![self isScrubbing]) {
                 if (self.sliderSeek.hidden) {
                     self.sliderSeek.minimumValue = 0.f;
@@ -267,10 +275,11 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
                     self.txtDuration.text = [YTOnWorldUtility stringWithTimeInterval:(chromecastManager.streamDuration - time)];
                 }
             }
-        }
-        else {
+        }else {
             self.sliderSeek.hidden = YES;
             self.sliderSeek.minimumValue = 0.f;
+            self.txtcurrentTime.hidden = YES;
+            self.txtDuration.hidden = YES;
         }
         
         
@@ -523,6 +532,15 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [self.queuePlayer removeAllItems];
     [self.queuePlayer pause];
 
+    if(chromecastManager) {
+        if(chromecastManager.isConnected) {
+            [chromecastManager stopCastMedia];
+            if(chromecastTimer) {
+                [chromecastTimer invalidate];
+                chromecastTimer = nil;
+            }
+        }
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:AVAudioSessionInterruptionNotification
@@ -545,12 +563,12 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
 }
 - (void)syncButtonPlay {
-    if(self.queuePlayer.rate >0.0) {
+    if(self.queuePlayer.rate > 0.0) {
         [self.queuePlayer pause];
-        [self.btnPlay setImage:[UIImage imageNamed:@"pause_icon"] forState:UIControlStateNormal];
+        [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
     }else {
         [self.queuePlayer play];
-        [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
+        [self.btnPlay setImage:[UIImage imageNamed:@"pause_icon"] forState:UIControlStateNormal];
     }
 }
 
@@ -569,6 +587,17 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 - (IBAction)click_back:(id)sender {
+    
+}
+
+- (IBAction)volumeChanged:(id)sender {
+    
+    if (CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
+        float idealVolume = self.sliderVolume.value/10.0f;
+        idealVolume = MIN(1.0, MAX(0.0, idealVolume));
+        
+        [CHROMCAST_MANAGER.chromcastCtrl.deviceManager setVolume:idealVolume];
+    }
 }
 
 

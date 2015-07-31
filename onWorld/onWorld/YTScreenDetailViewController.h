@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YTScreenDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface YTScreenDetailViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,YTSelectedItemProtocol>
 
 @property (weak,nonatomic)IBOutlet UITableView *tableView;
 @property (strong,nonatomic) NSNumber * contentID;

@@ -24,8 +24,10 @@
                 <outlet property="btnPlay" destination="qmS-Hy-kAt" id="YGS-6O-3u8"/>
                 <outlet property="btnPrevious" destination="bYj-Df-3Ad" id="uvu-k6-QMO"/>
                 <outlet property="imageView" destination="NW8-Vd-a6W" id="Frt-SX-7Dl"/>
+                <outlet property="loadingView" destination="1nn-uj-gmO" id="GEl-Ho-0FL"/>
                 <outlet property="lyricView" destination="Vmp-o2-KaZ" id="BTK-kr-zMh"/>
                 <outlet property="sliderSeek" destination="FDv-QP-7Ag" id="Eh7-fC-PR9"/>
+                <outlet property="sliderVolume" destination="yC6-vj-Yzd" id="arW-kB-eWB"/>
                 <outlet property="systemVolume" destination="xYp-zW-CZ8" id="6h2-uC-s2Y"/>
                 <outlet property="txtDuration" destination="ykv-zY-Xec" id="NBJ-5H-WeY"/>
                 <outlet property="txtLyric" destination="W6o-VW-g9t" id="iNo-R9-eQk"/>
@@ -69,7 +71,7 @@
                                 <action selector="click_next:" destination="-1" eventType="touchUpInside" id="t2S-rU-x3o"/>
                             </connections>
                         </button>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="FDv-QP-7Ag">
+                        <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="FDv-QP-7Ag">
                             <rect key="frame" x="66" y="8" width="187" height="31"/>
                             <connections>
                                 <action selector="beginScrubbing:" destination="-1" eventType="touchDown" id="A1Q-GY-Jmx"/>
@@ -129,37 +131,49 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYp-zW-CZ8" customClass="MPVolumeView">
-                            <rect key="frame" x="31" y="184" width="258" height="26"/>
+                            <rect key="frame" x="8" y="184" width="304" height="26"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="26" id="v8G-w5-QJT"/>
                             </constraints>
                         </view>
+                        <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" minimumValueImage="music_mute_iphone" maximumValueImage="music_sound_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="yC6-vj-Yzd">
+                            <rect key="frame" x="6" y="183" width="308" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="6ub-dI-FYe"/>
+                            </constraints>
+                            <connections>
+                                <action selector="volumeChanged:" destination="-1" eventType="valueChanged" id="4Xe-nD-X31"/>
+                            </connections>
+                        </slider>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="lnu-QS-MLu" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="1oV-TB-Z8E"/>
-                        <constraint firstAttribute="trailing" secondItem="xYp-zW-CZ8" secondAttribute="trailing" constant="31" id="2cV-rH-USo"/>
+                        <constraint firstAttribute="trailing" secondItem="xYp-zW-CZ8" secondAttribute="trailing" constant="8" id="2cV-rH-USo"/>
                         <constraint firstAttribute="height" constant="213" id="4LQ-z0-sSb"/>
                         <constraint firstItem="FDv-QP-7Ag" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="68" id="6Nz-nT-wXM"/>
                         <constraint firstItem="3uy-hM-pnV" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="7ha-MI-BRa"/>
                         <constraint firstItem="o0w-Ec-2jC" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="8b9-YX-pbh"/>
+                        <constraint firstAttribute="bottom" secondItem="yC6-vj-Yzd" secondAttribute="bottom" id="F2Z-YU-1g3"/>
                         <constraint firstAttribute="trailing" secondItem="lnu-QS-MLu" secondAttribute="trailing" constant="18" id="Nw9-3L-9b4"/>
                         <constraint firstAttribute="trailing" secondItem="jaG-Ky-kau" secondAttribute="trailing" constant="31" id="Rjh-HQ-zIP"/>
                         <constraint firstAttribute="bottom" secondItem="qmS-Hy-kAt" secondAttribute="bottom" constant="37" id="TQO-Z9-GoJ"/>
                         <constraint firstItem="qmS-Hy-kAt" firstAttribute="bottom" secondItem="jaG-Ky-kau" secondAttribute="bottom" id="U40-ul-2OO"/>
                         <constraint firstItem="qmS-Hy-kAt" firstAttribute="bottom" secondItem="bYj-Df-3Ad" secondAttribute="bottom" id="V2P-Lv-sAl"/>
-                        <constraint firstItem="xYp-zW-CZ8" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="31" id="W3O-vU-pMb"/>
+                        <constraint firstItem="xYp-zW-CZ8" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="W3O-vU-pMb"/>
                         <constraint firstItem="qmS-Hy-kAt" firstAttribute="top" secondItem="lnu-QS-MLu" secondAttribute="bottom" constant="5" id="ZPb-Yu-T4m"/>
                         <constraint firstItem="o0w-Ec-2jC" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="14" id="Zyg-qP-8oc"/>
                         <constraint firstItem="FDv-QP-7Ag" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="8" id="cEz-OS-ETG"/>
                         <constraint firstItem="lnu-QS-MLu" firstAttribute="top" secondItem="3uy-hM-pnV" secondAttribute="bottom" constant="-5" id="e0L-VO-cLA"/>
+                        <constraint firstAttribute="trailing" secondItem="yC6-vj-Yzd" secondAttribute="trailing" constant="8" id="ega-5o-YDZ"/>
                         <constraint firstAttribute="centerX" secondItem="qmS-Hy-kAt" secondAttribute="centerX" id="ett-hp-lP7"/>
                         <constraint firstItem="bYj-Df-3Ad" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="31" id="j0v-Zh-ZMX"/>
                         <constraint firstAttribute="trailing" secondItem="ykv-zY-Xec" secondAttribute="trailing" constant="8" id="kSF-a6-UuL"/>
                         <constraint firstAttribute="trailing" secondItem="3uy-hM-pnV" secondAttribute="trailing" constant="8" id="l2X-7J-nl5"/>
                         <constraint firstAttribute="trailing" secondItem="FDv-QP-7Ag" secondAttribute="trailing" constant="69" id="o0d-5V-dIW"/>
                         <constraint firstAttribute="bottom" secondItem="xYp-zW-CZ8" secondAttribute="bottom" constant="3" id="trJ-sY-Wq2"/>
+                        <constraint firstItem="yC6-vj-Yzd" firstAttribute="leading" secondItem="Crh-16-kT4" secondAttribute="leading" constant="8" id="ukH-fX-JGQ"/>
                         <constraint firstItem="ykv-zY-Xec" firstAttribute="top" secondItem="Crh-16-kT4" secondAttribute="top" constant="12" id="ung-pX-66G"/>
                     </constraints>
                 </view>
@@ -212,6 +226,9 @@
                         <constraint firstAttribute="trailing" secondItem="Vmp-o2-KaZ" secondAttribute="trailing" constant="8" id="iuy-wc-Jxi"/>
                     </constraints>
                 </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="1nn-uj-gmO">
+                    <rect key="frame" x="150" y="274" width="37" height="37"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -232,6 +249,8 @@
         <image name="icon_audio_next" width="110" height="106"/>
         <image name="icon_audio_player" width="110" height="106"/>
         <image name="icon_audio_previours" width="110" height="106"/>
+        <image name="music_mute_iphone" width="30" height="30"/>
+        <image name="music_sound_iphone" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

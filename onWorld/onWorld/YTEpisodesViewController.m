@@ -10,6 +10,7 @@
 #import "YTEpisodesViewCell.h"
 @interface YTEpisodesViewController () {
     NSNumber *m_detailID;
+    id<YTSelectedItemProtocol>m_delegate;
 }
 
 @end
@@ -18,12 +19,12 @@
 
 
 
-- (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID; {
+- (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID delegate:(id<YTSelectedItemProtocol>)delegate {
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         _contentItems = [[NSMutableArray alloc]initWithArray:array];
         m_detailID = detailID;
-        
+        m_delegate = delegate;
         
     }
     return self;
@@ -98,7 +99,10 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    YTEpisodes *episodes = _contentItems[indexPath.row];
+    if([m_delegate respondsToSelector:@selector(delegatePlayitem:)]) {
+        [m_delegate delegatePlayitem:episodes.episodesID.intValue];
+    }
 }
 
 

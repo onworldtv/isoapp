@@ -152,7 +152,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    }
 
 #pragma mark - UITableViewDataSource Methods
 
@@ -242,13 +245,11 @@ static int i = 0;
     }else {
         [headerCell.btnMore setHidden:YES];
     }
-    
-    
-    
-    
+
     [headerCell.txtTitle setText:[titleDict valueForKey:@"name"]];
     return headerCell;
 }
+
 
 
 - (void)click_showMore:(UIButton *)sender{
@@ -319,7 +320,8 @@ static int i = 0;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSDictionary *itemdict = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].row];
+
+    NSDictionary *itemdict = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
 
     NSDictionary *item = [[itemdict valueForKey:@"content"] objectAtIndex:indexPath.row];
     

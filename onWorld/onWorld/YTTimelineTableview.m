@@ -10,16 +10,18 @@
 #import "YTTimelineViewCell.h"
 #import "YTPlayerViewController.h"
 @interface YTTimelineTableview ()
-
+{
+    id<YTSelectedItemProtocol>m_delegate;
+}
 @end
 
 @implementation YTTimelineTableview
 
-- (id)initWithContent:(NSArray *)array {
+- (id)initWithContent:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate  {
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         _contentItems = [[NSMutableArray alloc]initWithArray:array];
-        
+        m_delegate = delegate;
     }
     return self;
 }
@@ -84,7 +86,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if([m_delegate respondsToSelector:@selector(playItemWithCategoryId:scheduleInded:timelineIndex:)]) {
+        [m_delegate playItemWithCategoryId:nil scheduleInded:0 timelineIndex:indexPath.row];
+    }
    
 }
 
