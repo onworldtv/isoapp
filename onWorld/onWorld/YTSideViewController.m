@@ -249,11 +249,13 @@ static const NSString * kYTSearch = @"SEARCH";
         }
     }else if(indexPath.section == 1){
         
-        if(selectedProviderID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
+//        if(selectedProviderID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
             selectedProviderID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
            
-            YTTableViewController *providerViewCtr  = [[YTTableViewController alloc]initWithCategoryID:nil providerID:@(selectedProviderID)];
+            YTTableViewController *providerViewCtr  = [[YTTableViewController alloc]initWithCategoryID:nil
+                                                                                            providerID:@(selectedProviderID)
+                                                                                            showInMain:NO];
             [providerViewCtr.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
             [providerViewCtr setDelegate:self];
             [providerViewCtr setShowByCategory:NO];
@@ -264,16 +266,21 @@ static const NSString * kYTSearch = @"SEARCH";
             [navCtrll pushViewController:providerViewCtr animated:YES];
             
            
-        }
+//        }
     }else if (indexPath.section == 2) {
         
-        if(selectedCategoryID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
+//        if(selectedCategoryID != [[menus[indexPath.row] valueForKey:@"id"] intValue]) {
             selectedCategoryID = [[menus[indexPath.row] valueForKey:@"id"] intValue];
             
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            YTTableViewController *categoryViewCtrl  = [[YTTableViewController alloc]initWithCategoryID:@(selectedCategoryID) providerID:nil];
+            YTTableViewController *categoryViewCtrl  = [[YTTableViewController alloc]initWithCategoryID:@(selectedCategoryID)
+                                                                                             providerID:nil
+                                                                                             showInMain:NO];
+        
             [categoryViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+            [categoryViewCtrl setDelegate:self];
             [categoryViewCtrl setShowByCategory:NO];
+            [categoryViewCtrl setEnableMoreButton:YES];
             [categoryViewCtrl setShowRevealNavigator:YES];
             [categoryViewCtrl setNavigatorTitle:[menus[indexPath.row] valueForKey:@"name"]];
             UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
@@ -281,18 +288,19 @@ static const NSString * kYTSearch = @"SEARCH";
         }
         
         
-    }
+//    }
 }
 
 
-- (void)didSelectCategory:(int)categoryID {
+- (void)showAllContentInsideGenre:(int)genreID flag:(BOOL)flag {
     
-    YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithCategoryID:@(categoryID) providerID:nil];
+    YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithCategoryID:@(genreID) providerID:nil showInMain:flag];
     [moreCategoriesViewController setShowByCategory:NO];
-    [moreCategoriesViewController setShowRevealNavigator:NO];
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
     [navCtrll pushViewController:moreCategoriesViewController animated:YES];
 
 }
+
+
 
 @end

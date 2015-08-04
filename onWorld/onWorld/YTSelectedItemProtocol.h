@@ -19,6 +19,8 @@
 
 - (void)playItemWithCategoryId:(NSNumber *)contentID scheduleInded:(int)schedule_index timelineIndex:(int)timeline_index;
 
-- (void)didSelectCategory:(int)categoryID;
+- (void)didSelectCategory:(int)categoryID ;
+
+- (void)showAllContentInsideGenre:(int)genreID flag:(BOOL)flag;
 
 @end

@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *tabViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (nonatomic, weak) UIViewController *selectedViewController;
-
+@property (nonatomic, assign) int  tag;
 - (void)setViewControllers:(NSArray *)newViewControllers;
 
 - (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate;

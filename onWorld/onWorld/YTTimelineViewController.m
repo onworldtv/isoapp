@@ -62,6 +62,7 @@
     }
     if(contentObj.detail.episode.allObjects.count >0) {
         m_episodesViewController = [[YTEpisodesViewController alloc]initWithContent:contentObj.detail.episode.allObjects detailID:contentObj.contentID delegate:m_delegate];
+        [m_episodesViewController setCellViewTag:1];
         [viewControllers addObject:m_episodesViewController];
         [tabItemTitle addObject:@"EPISODES"];
     }else {
@@ -77,6 +78,7 @@
 
 
 - (void)addScheduleButton {
+
     if(viewControllers.count >0) {
         
         listButton = [NSMutableArray array];
@@ -156,6 +158,7 @@
     
 }
 - (void)buttonSellected {
+    
     
     if(selectedIndex == 0) {
         

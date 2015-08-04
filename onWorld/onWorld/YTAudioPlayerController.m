@@ -165,6 +165,8 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
+
+
 - (void)startAudio {
     
     if(contentObj) {
@@ -257,9 +259,9 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 - (void)updateInterfaceMusicPlayer:(NSTimer *)timer {
     
     if(CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
-        NSLog(@"%d",chromecastManager.streamDuration);
+        NSLog(@"%f",chromecastManager.streamDuration);
         if (chromecastManager.streamDuration > 0) {
-            NSLog(@"%d",chromecastManager.streamPosition);
+            NSLog(@"%f",chromecastManager.streamPosition);
             if (![self isScrubbing]) {
                 if (self.sliderSeek.hidden) {
                     self.sliderSeek.minimumValue = 0.f;
@@ -294,15 +296,15 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
-
-
 - (void)audioPlayerDidFinish:(NSNotification*)notification {
     [self didFinishAudioPlayerItem];
 }
 
+
 - (void)audioLoadPlayerFailured:(NSNotification *)notification {
     [self didFinishAudioPlayerItem];
 }
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if(context == itemStatusContext) {
         AVPlayerItemStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
@@ -329,8 +331,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
 }
 
--(void)removePlayerTimeObserver
-{
+-(void)removePlayerTimeObserver{
     if (playerTimerObserver)
     {
         [self.queuePlayer removeTimeObserver:playerTimerObserver];
@@ -338,22 +339,20 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
 }
 
-- (IBAction)beginScrubbing:(id)sender
-{
+- (IBAction)beginScrubbing:(id)sender{
     mRestoreAfterScrubbingRate = [self.queuePlayer rate];
     [self.queuePlayer setRate:0.f];
     
     /* Remove previous timer. */
     [self removePlayerTimeObserver];
 }
-- (BOOL)isScrubbing
-{
+
+- (BOOL)isScrubbing{
     return mRestoreAfterScrubbingRate != 0.f;
 }
 
 /* Set the player current time to match the scrubber position. */
-- (IBAction)scrub:(id)sender
-{
+- (IBAction)scrub:(id)sender{
     if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
     {
         isSeeking = YES;
@@ -383,8 +382,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 /* The user has released the movie thumb control to stop scrubbing through the movie. */
-- (IBAction)endScrubbing:(id)sender
-{
+- (IBAction)endScrubbing:(id)sender{
     if (!playerTimerObserver)
     {
         CMTime playerDuration = [self playerItemDuration];
@@ -416,8 +414,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
-
-
 - (void)didFinishAudioPlayerItem {
    
     [DejalBezelActivityView removeViewAnimated:YES];
@@ -439,8 +435,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [self syncScrubber];
     [self syncButtonPlay];
 }
-
-
 
 
 -(void)initScrubberTimer{
@@ -478,6 +472,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 //    }
 }
 
+
 - (void)syncScrubber{
     
     
@@ -500,6 +495,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
 }
 
+
 - (CMTime)playerItemDuration{
     
     AVPlayerItem *playerItem = [self.queuePlayer currentItem];
@@ -509,7 +505,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
     return(kCMTimeInvalid);
 }
-
 
 
 - (void)didReceiveMemoryWarning {
@@ -522,8 +517,8 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
 }
-- (void)viewWillDisappear:(BOOL)animated
-{
+
+- (void)viewWillDisappear:(BOOL)animated{
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [self resignFirstResponder];
     
@@ -562,6 +557,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 - (void)showPlayButton {
     [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
 }
+
 - (void)syncButtonPlay {
     if(self.queuePlayer.rate > 0.0) {
         [self.queuePlayer pause];
@@ -571,8 +567,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         [self.btnPlay setImage:[UIImage imageNamed:@"pause_icon"] forState:UIControlStateNormal];
     }
 }
-
-
 
 
 - (IBAction)click_play:(id)sender {
@@ -606,9 +600,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 - (void) remoteControlReceivedWithEvent: (UIEvent *) receivedEvent {
     [self _remoteControlReceivedWithEvent:receivedEvent];
 }
-
-
-
 
 
 - (void)_remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {

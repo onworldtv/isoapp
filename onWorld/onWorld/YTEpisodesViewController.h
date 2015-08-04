@@ -10,8 +10,6 @@
 
 @interface YTEpisodesViewController : UITableViewController
 @property (retain,nonatomic)NSMutableArray *contentItems;
-
-
-
+@property (assign,nonatomic)int cellViewTag;
 - (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID delegate:(id<YTSelectedItemProtocol>)delegate;
 @end

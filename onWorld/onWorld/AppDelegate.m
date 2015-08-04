@@ -27,14 +27,14 @@
     DATA_MANAGER;
     
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//        [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//               [DATA_MANAGER pullGroupContent];
-//            });
-//            return nil;
-//        }];
-//    });
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+               [DATA_MANAGER pullGroupContent];
+            });
+            return nil;
+        }];
+    });
 
     
     //set audio category with options - for this demo we'll do playback only

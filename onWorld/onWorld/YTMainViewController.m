@@ -112,7 +112,8 @@
 - (void)delegateDisplayMoreCategoryMode:(int)mode {
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithMode:mode];
+    YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithMode:mode showInMain:NO];
+    [moreViewController setDelegate:self];
     [moreViewController setEnableMoreButton:YES];
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
     [navCtrll pushViewController:moreViewController animated:YES];
@@ -120,6 +121,13 @@
 }
 
 
+- (void)showAllContentInsideGenre:(int)genreID flag:(BOOL)flag {
+    
+    YTTableViewController *moreCategoriesViewController  = [[YTTableViewController alloc]initWithCategoryID:@(genreID) providerID:nil showInMain:flag];
+    [moreCategoriesViewController setShowByCategory:NO];
+    UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
+    [navCtrll pushViewController:moreCategoriesViewController animated:YES];
+}
 
 
 #pragma mark - tableview delegate

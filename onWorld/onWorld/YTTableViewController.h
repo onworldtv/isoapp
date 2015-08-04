@@ -11,10 +11,7 @@
 
 @interface YTTableViewController : UITableViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
-
-
-
-@property (nonatomic,retain)NSString * navigatorTitle;
+@property (nonatomic,strong)NSString * navigatorTitle;
 @property (nonatomic,assign)BOOL       showRevealNavigator;
 @property (nonatomic,assign)BOOL       showByCategory; // show genre group
 @property (nonatomic,assign)int numberItems;
@@ -24,7 +21,7 @@
 - (id)initWithStyle:(UITableViewStyle)style withArray:(NSArray *)items;
 
 
-- (id)initWithCategoryID:(NSNumber *)cateID providerID:(NSNumber *)provID;
+- (id)initWithCategoryID:(NSNumber *)cateID providerID:(NSNumber *)provID showInMain:(BOOL )flag;
 
-- (id)initWithMode:(YTMode)mode;
+- (id)initWithMode:(YTMode)mode showInMain:(BOOL)flag;
 @end

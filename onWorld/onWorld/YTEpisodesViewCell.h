@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet UILabel *txtEpisodes;
 @property (weak, nonatomic) IBOutlet UILabel *txtContentName;
+@property (assign,nonatomic)int cellViewTag;
 @end

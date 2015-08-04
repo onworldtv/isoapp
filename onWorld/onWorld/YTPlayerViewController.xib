@@ -24,6 +24,7 @@
                 <outlet property="btnCloseImageViewAdv" destination="Ok4-ZS-j2m" id="UfY-qo-Egj"/>
                 <outlet property="btnPlay" destination="ShU-6d-09D" id="CvW-t2-Vv2"/>
                 <outlet property="btnPlayList" destination="6he-DF-qJA" id="Bnd-TX-rxx"/>
+                <outlet property="contentLiveView" destination="gL8-9X-jma" id="bAZ-Xp-ruF"/>
                 <outlet property="imageAdvView" destination="DxQ-21-ldO" id="zip-Qg-1UL"/>
                 <outlet property="imageBanner" destination="yER-ry-0bC" id="P9a-00-s0j"/>
                 <outlet property="imgAdvView" destination="ydq-wv-yIl" id="bH0-lZ-hEA"/>
@@ -34,6 +35,7 @@
                 <outlet property="scheduleView" destination="Duw-56-xMq" id="16X-hc-A3W"/>
                 <outlet property="sliderTrackView" destination="VXc-gC-PAR" id="icD-pN-lXp"/>
                 <outlet property="slidervolume" destination="qGK-d1-uxl" id="7js-KE-KYa"/>
+                <outlet property="tbvEpisodes" destination="BPZ-EZ-YGA" id="WiB-Fp-Q0I"/>
                 <outlet property="tbvTableView" destination="NQI-Dl-sOo" id="Th7-Pr-0RI"/>
                 <outlet property="topView" destination="qsM-fq-0Oh" id="mBA-Wm-1yS"/>
                 <outlet property="topViewAdv" destination="thN-JW-zs5" id="Hhe-Qs-YEm"/>
@@ -201,7 +203,7 @@ EFNraXA
                             </connections>
                         </slider>
                     </subviews>
-                    <color key="backgroundColor" red="0.36078431372549019" green="0.56862745098039214" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.36078431372549019" green="0.56862745098039214" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="TAy-aC-pcc" secondAttribute="bottom" constant="5" id="3n2-qG-UW0"/>
                         <constraint firstItem="qGK-d1-uxl" firstAttribute="top" secondItem="qsM-fq-0Oh" secondAttribute="top" constant="5" id="60S-iX-wuo"/>
@@ -339,12 +341,19 @@ EFNraXA
                 </view>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="m6d-7c-VKs">
                     <rect key="frame" x="265" y="142" width="37" height="37"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="color" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                 </activityIndicatorView>
                 <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duw-56-xMq" userLabel="timeline">
                     <rect key="frame" x="327" y="40" width="241" height="240"/>
                     <subviews>
+                        <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BPZ-EZ-YGA" userLabel="tbEpisode">
+                            <rect key="frame" x="0.0" y="0.0" width="241" height="240"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="Xo5-8M-BCq"/>
+                                <outlet property="delegate" destination="-1" id="5kE-9t-0uX"/>
+                            </connections>
+                        </tableView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gL8-9X-jma">
                             <rect key="frame" x="0.0" y="0.0" width="241" height="35"/>
                             <subviews>
@@ -400,15 +409,31 @@ EFNraXA
                     </subviews>
                     <color key="backgroundColor" red="0.36078431372549019" green="0.56862745098039214" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="BPZ-EZ-YGA" secondAttribute="bottom" id="4oq-oJ-TTn"/>
+                        <constraint firstItem="BPZ-EZ-YGA" firstAttribute="leading" secondItem="Duw-56-xMq" secondAttribute="leading" id="4w6-cw-9tg"/>
+                        <constraint firstItem="BPZ-EZ-YGA" firstAttribute="top" secondItem="Duw-56-xMq" secondAttribute="top" id="6QI-cX-vQQ"/>
                         <constraint firstAttribute="trailing" secondItem="NQI-Dl-sOo" secondAttribute="trailing" id="9Hz-Bc-THd"/>
                         <constraint firstItem="gL8-9X-jma" firstAttribute="top" secondItem="Duw-56-xMq" secondAttribute="top" id="Gpg-yH-nZV"/>
+                        <constraint firstItem="BPZ-EZ-YGA" firstAttribute="top" secondItem="Duw-56-xMq" secondAttribute="top" id="JOh-72-efu"/>
+                        <constraint firstItem="BPZ-EZ-YGA" firstAttribute="leading" secondItem="Duw-56-xMq" secondAttribute="leading" id="KsP-eU-DqI"/>
                         <constraint firstAttribute="trailing" secondItem="gL8-9X-jma" secondAttribute="trailing" id="Maj-dg-Sgh"/>
                         <constraint firstAttribute="bottom" secondItem="NQI-Dl-sOo" secondAttribute="bottom" id="NaH-6m-fIC"/>
                         <constraint firstItem="NQI-Dl-sOo" firstAttribute="top" secondItem="gL8-9X-jma" secondAttribute="bottom" id="OuV-pk-YZF"/>
+                        <constraint firstAttribute="trailing" secondItem="BPZ-EZ-YGA" secondAttribute="trailing" id="P2K-T6-AkV"/>
                         <constraint firstItem="NQI-Dl-sOo" firstAttribute="leading" secondItem="Duw-56-xMq" secondAttribute="leading" id="Vy0-sn-9fw"/>
                         <constraint firstAttribute="width" constant="241" id="a0n-at-Znc"/>
+                        <constraint firstAttribute="bottom" secondItem="BPZ-EZ-YGA" secondAttribute="bottom" id="gmU-yf-sWT"/>
+                        <constraint firstAttribute="trailing" secondItem="BPZ-EZ-YGA" secondAttribute="trailing" id="imb-fa-Wt6"/>
                         <constraint firstItem="gL8-9X-jma" firstAttribute="leading" secondItem="Duw-56-xMq" secondAttribute="leading" id="tF5-Ht-bBC"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="4w6-cw-9tg"/>
+                            <exclude reference="6QI-cX-vQQ"/>
+                            <exclude reference="gmU-yf-sWT"/>
+                            <exclude reference="imb-fa-Wt6"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

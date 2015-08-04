@@ -47,6 +47,8 @@
     UINib *nib = [UINib nibWithNibName:@"YTEpisodesViewCell" bundle:nil];
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"cellIdentify"];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.tableView setBackgroundView:nil];
+    self.tableView.backgroundColor = [UIColor clearColor];
      [self.tableView reloadData];
 }
 
@@ -62,7 +64,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 77;
+    return 65;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _contentItems.count;
@@ -92,6 +94,8 @@
     
     cell.txtContentName.text = item.desc;
     cell.txtEpisodes.text = item.name;
+    cell.tag = _cellViewTag;
+    
     
     return cell;
 }

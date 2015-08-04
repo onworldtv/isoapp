@@ -35,7 +35,9 @@
 - (BFTask *)getContentsByProviderId:(NSNumber *)providerID;
 
 - (BFTask *)getGroupGenreByCategory:(NSNumber *)cateID;
-    
+
+- (BFTask *)getAllContentInGenre:(NSNumber *)genre;
+
 - (BFTask *)advInfoWithURLString:(NSString *)urlPath;
 
 @end

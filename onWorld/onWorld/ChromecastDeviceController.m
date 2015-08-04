@@ -392,7 +392,7 @@ didCompleteLoadWithSessionID:(NSInteger)sessionID {
 	// Create chromecast bar button.
 	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
 		_btnImage = [[UIImage imageNamed:@"cast_off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-		_btnImageConnected = [[UIImage imageNamed:@"cast_on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+		_btnImageConnected = [[UIImage imageNamed:@"AppIcon"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 	}
 	
 	UIButton *chromecastButton = [UIButton buttonWithType:UIButtonTypeSystem];

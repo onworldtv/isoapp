@@ -25,11 +25,11 @@
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEJ-Go-TiH">
-                        <rect key="frame" x="252" y="5" width="58" height="30"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEJ-Go-TiH">
+                        <rect key="frame" x="252" y="0.0" width="58" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="58" id="4fe-15-Obo"/>
-                            <constraint firstAttribute="height" constant="30" id="ThT-dK-KII"/>
+                            <constraint firstAttribute="height" constant="40" id="ThT-dK-KII"/>
                         </constraints>
                         <state key="normal" image="more_white">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,7 +38,7 @@
                 </subviews>
                 <color key="backgroundColor" red="0.1615852176" green="0.55331917980000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstItem="AEJ-Go-TiH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="DSR-hI-G3s"/>
+                    <constraint firstItem="AEJ-Go-TiH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="DSR-hI-G3s"/>
                     <constraint firstItem="xJR-nL-5C2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Eky-dK-T2k"/>
                     <constraint firstAttribute="centerY" secondItem="xJR-nL-5C2" secondAttribute="centerY" id="Hkw-eN-Hf8"/>
                     <constraint firstAttribute="trailing" secondItem="AEJ-Go-TiH" secondAttribute="trailing" constant="10" id="Mnb-DZ-NOO"/>
@@ -51,7 +51,7 @@
                 <outlet property="btnMore" destination="AEJ-Go-TiH" id="AHp-Zs-yiz"/>
                 <outlet property="txtTitle" destination="xJR-nL-5C2" id="jza-v0-yW7"/>
             </connections>
-            <point key="canvasLocation" x="255" y="253"/>
+            <point key="canvasLocation" x="530" y="175"/>
         </tableViewCell>
     </objects>
     <resources>

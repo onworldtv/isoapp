@@ -67,6 +67,7 @@
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="episodesID" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="YTDetail" inverseName="episode" inverseEntity="YTDetail" syncable="YES"/>
     </entity>
@@ -98,7 +99,7 @@
         <element name="YTCountry" positionX="0" positionY="0" width="128" height="90"/>
         <element name="YTDetail" positionX="0" positionY="0" width="128" height="345"/>
         <element name="YTDirector" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="YTEpisodes" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="YTEpisodes" positionX="0" positionY="0" width="128" height="133"/>
         <element name="YTGenre" positionX="0" positionY="0" width="128" height="105"/>
         <element name="YTProvider" positionX="0" positionY="0" width="128" height="75"/>
         <element name="YTTag" positionX="0" positionY="0" width="128" height="90"/>

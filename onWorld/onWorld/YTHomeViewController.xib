@@ -49,11 +49,11 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56L-Dp-ru0">
-                            <rect key="frame" x="252" y="5" width="58" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="56L-Dp-ru0">
+                            <rect key="frame" x="252" y="0.0" width="58" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="58" id="Wtz-1c-XNZ"/>
-                                <constraint firstAttribute="height" constant="30" id="up2-7n-lAr"/>
+                                <constraint firstAttribute="height" constant="40" id="up2-7n-lAr"/>
                             </constraints>
                             <state key="normal" image="more_white">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -67,7 +67,7 @@
                     <constraints>
                         <constraint firstItem="56L-Dp-ru0" firstAttribute="leading" secondItem="5ha-fs-LyS" secondAttribute="trailing" constant="21" id="Adc-ni-V0H"/>
                         <constraint firstAttribute="trailing" secondItem="56L-Dp-ru0" secondAttribute="trailing" constant="10" id="EIs-4r-M3Q"/>
-                        <constraint firstItem="56L-Dp-ru0" firstAttribute="top" secondItem="YfM-CW-91V" secondAttribute="top" constant="5" id="GR9-Ya-9Gw"/>
+                        <constraint firstItem="56L-Dp-ru0" firstAttribute="top" secondItem="YfM-CW-91V" secondAttribute="top" id="GR9-Ya-9Gw"/>
                         <constraint firstAttribute="height" constant="40" id="HwB-0z-cp4"/>
                         <constraint firstItem="5ha-fs-LyS" firstAttribute="top" secondItem="YfM-CW-91V" secondAttribute="top" constant="10" id="QN9-MH-kdG"/>
                         <constraint firstItem="5ha-fs-LyS" firstAttribute="leading" secondItem="YfM-CW-91V" secondAttribute="leading" constant="8" id="fCU-5n-QQ8"/>

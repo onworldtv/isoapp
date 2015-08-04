@@ -664,7 +664,6 @@
 			children = (
 				04F3A1411B461E7200C8DCCD /* Sub View Controller */,
 				04EE8A9E1B452649004133A5 /* TimeLine & Episodes */,
-				04EE8A971B44F22D004133A5 /* Tableview Cell */,
 			);
 			name = "Content Detail";
 			sourceTree = "<group>";
@@ -685,6 +684,7 @@
 		04EE8A9E1B452649004133A5 /* TimeLine & Episodes */ = {
 			isa = PBXGroup;
 			children = (
+				04EE8A971B44F22D004133A5 /* Tableview Cell */,
 				04EE8A831B44D0D0004133A5 /* YTTimelineViewController.h */,
 				04EE8A841B44D0D0004133A5 /* YTTimelineViewController.m */,
 				04EE8A851B44D0D0004133A5 /* YTTimelineViewController.xib */,

@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber * episodesID;
 @property (nonatomic, retain) NSString * image;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * link;
 @property (nonatomic, retain) YTDetail *detail;
 
 @end

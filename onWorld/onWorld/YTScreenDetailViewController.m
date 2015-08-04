@@ -15,9 +15,12 @@
 #import "YTAudioPlayerController.h"
 #import "YTScheduleViewController.h"
 #import "YTDeviceViewController.h"
-@interface YTScreenDetailViewController () <YTDelegatePlayItem,YTDelegateSelectRelativeItem,YTSelectedItemProtocol,DelegateSelectedScheduleItem>{
+
+@interface YTScreenDetailViewController () <YTDelegatePlayItem,YTDelegateSelectRelativeItem,YTSelectedItemProtocol,DelegateSelectedScheduleItem,ChromecastControllerDelegate>{
     NSMutableArray *viewControllers;
     YTContent *contentObj;
+    UIButton *rightBarItem;
+
 }
 
 @end
@@ -36,8 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
-     NSLog(@"%s",__FUNCTION__);
+    [CHROMCAST_MANAGER.chromcastCtrl setDelegate:self];
+    
     self.edgesForExtendedLayout=UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars=NO;
     if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
@@ -45,22 +48,43 @@
     }
     self.navigationController.navigationBar.topItem.title = @"";
     
-    UIButton *rightBarItem=[UIButton buttonWithType:0];
+    rightBarItem=[UIButton buttonWithType:0];
     rightBarItem.frame=CGRectMake(0,0,35,40);
+    NSString *castImage = @"cast_off";
+    if(CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
+        castImage = @"cast_on";
+    }
     
     [rightBarItem addTarget:self  action:@selector(click_chromcast:)
       forControlEvents:UIControlEventTouchUpInside];
-    [rightBarItem setImage:[UIImage imageNamed:@"icon_chromcast"]
+    [rightBarItem setImage:[UIImage imageNamed:castImage]
              forState:UIControlStateNormal];
+   
+     rightBarItem.imageView.animationImages = @[[UIImage imageNamed:@"cast_white_on0"], [UIImage imageNamed:@"cast_white_on1"],[UIImage imageNamed:@"cast_white_on2"],[UIImage imageNamed:@"cast_white_on1"]];
+    
     UIBarButtonItem *RightButton=[[UIBarButtonItem alloc] initWithCustomView:rightBarItem];
     self.navigationItem.rightBarButtonItem=RightButton;
     
 }
 
 
+
+- (void)didConnectToDevice:(GCKDevice *)device {
+    [rightBarItem setImage:[UIImage imageNamed:@"cast_on"] forState:UIControlStateNormal];
+}
+
+
+- (void)didDisconnect {
+    [rightBarItem setImage:[UIImage imageNamed:@"cast_off"] forState:UIControlStateNormal];
+}
+
+
+
 - (void)click_chromcast:(UIBarButtonItem *)sender {
     
     [self performSegueWithIdentifier:@"listDeviceCast" sender:self];
+    
+    [rightBarItem.imageView setAnimationDuration:10];
     
 }
 

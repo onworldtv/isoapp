@@ -17,7 +17,7 @@
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Main View Controller-->
+        <!-- -->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="mainViewController" id="BYZ-38-t0r" customClass="YTMainViewController" sceneMemberID="viewController">
@@ -56,7 +56,8 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" id="87V-cf-Fmd">
+                    <navigationItem key="navigationItem" title=" " id="87V-cf-Fmd">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Mel-81-fz6"/>
                         <barButtonItem key="leftBarButtonItem" title="Item" image="menu" id="mih-oX-NDD"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -163,6 +164,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Kov-ff-qKZ" secondAttribute="trailing" id="NGF-wP-ZNe"/>
                             <constraint firstItem="kqQ-lp-G8C" firstAttribute="top" secondItem="Kov-ff-qKZ" secondAttribute="bottom" id="NrB-cK-h8b"/>

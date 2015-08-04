@@ -30,12 +30,10 @@
                         <constraint firstAttribute="height" constant="35" id="hMk-bu-wJg"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pN-dK-r3Z">
+                <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pN-dK-r3Z" userLabel="containView">
                     <rect key="frame" x="0.0" y="39" width="320" height="261"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="8pN-dK-r3Z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1Yh-2d-5RU"/>
                 <constraint firstItem="tkw-cs-PNW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4Us-io-fAv"/>
@@ -49,7 +47,7 @@
                 <constraint firstItem="UY0-JM-w9B" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vqS-ej-esU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="273" y="301"/>
+            <point key="canvasLocation" x="509" y="307"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

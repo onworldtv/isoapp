@@ -16,6 +16,7 @@
 {
     int defaultNumberItems;
     BOOL displayByMode;
+    BOOL contentsByGenre;
     YTMode m_mode;
     NSNumber *m_categoryID,*m_providerID;
 }
@@ -34,21 +35,23 @@
     return self;
 }
 
-- (id)initWithMode:(YTMode)mode {
+- (id)initWithMode:(YTMode)mode showInMain:(BOOL)flag{
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         m_mode = mode;
         displayByMode = YES;
+        contentsByGenre = flag;
     }
     return self;
 }
 
-- (id)initWithCategoryID:(NSNumber *)cateID providerID:(NSNumber *)provID {
+- (id)initWithCategoryID:(NSNumber *)cateID providerID:(NSNumber *)provID showInMain:(BOOL )flag{
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         m_categoryID = cateID;
         m_providerID = provID;
         m_mode = -1;
+        contentsByGenre = flag;
     }
     return self;
 }
@@ -61,16 +64,6 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    self.edgesForExtendedLayout=UIRectEdgeNone;
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector:@selector(deviceOrientationDidChange:)
-                                                 name: UIDeviceOrientationDidChangeNotification
-                                               object: nil];
-    if(_contentItems.count ==0) {
-        [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
-    }
-    
     SWRevealViewController *revealViewController = self.revealViewController;
     if (_showRevealNavigator )
     {
@@ -87,37 +80,52 @@
                 self.navigationItem.title = _navigatorTitle;
                 self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWith8BitRed:48 green:125 blue:210]};
             }else {
-                 self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
             }
-           
         }
     }else {
         if (!self.navigationItem.title || self.navigationItem.title.length <= 0) {
             if(_navigatorTitle != nil)
                 self.navigationItem.title = _navigatorTitle;
-            
             else
                 self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header"]];
         }
     }
+    
     self.navigationController.navigationBar.topItem.title = @"";
+    [super viewDidLoad];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector:@selector(deviceOrientationDidChange:)
+                                                 name: UIDeviceOrientationDidChangeNotification
+                                               object: nil];
+    if(_contentItems.count ==0) {
+        [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
+    }
+    
     if(_numberItems == 0) {
         _numberItems = defaultNumberItems = 2;
     }
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
-
-    
     
     BFTask *task = nil;
-    if(m_providerID == nil && m_categoryID) {
-        task = [DATA_MANAGER getGroupGenreByCategory:m_categoryID];
-    }else if(m_categoryID == nil && m_providerID) {
-        task = [DATA_MANAGER getContentsByProviderId:m_providerID];
-    }else if(displayByMode){
-        task = [DATA_MANAGER getAllCatatgoryByMode:m_mode];
+    if(contentsByGenre) {
+        task = [DATA_MANAGER getAllContentInGenre:m_categoryID];
     }else {
-         task = [BFTask taskWithResult:nil];
+        if(m_providerID == nil && m_categoryID) {
+            task = [DATA_MANAGER getGroupGenreByCategory:m_categoryID];
+        }else if(m_categoryID == nil && m_providerID) {
+            task = [DATA_MANAGER getContentsByProviderId:m_providerID];
+        }else if(displayByMode){
+            task = [DATA_MANAGER getAllCatatgoryByMode:m_mode];
+        }else {
+            task = [BFTask taskWithResult:nil];
+        }
     }
     [task continueWithBlock:^id(BFTask *task) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -127,11 +135,7 @@
         });
         return nil;
     }];
-    
-    
 }
-
-
 
 - (void)setContentArray:(NSArray*)arr{
     
@@ -194,30 +198,43 @@ static int i = 0;
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    CGFloat width  = tableView.frame.size.width - 10;
-    NSInteger section = indexPath.section;
-    NSDictionary *itemsDict = _contentItems[section];
-    NSDictionary *titleDic = [itemsDict valueForKey:@"title"];
-    int mode = [[titleDic valueForKey:@"mode"] intValue];
-    int height = 0;
-    if(mode == 0) {
-        height = floorf(width / _numberItems)+24;
+    if(_contentItems.count == 1) {
+        return tableView.frame.size.height-40;
+        
     }else {
-        height = floorf((width * 9)/(16 * _numberItems))+24;
+        
+        CGFloat width  = tableView.frame.size.width - 10;
+        NSInteger section = indexPath.section;
+        NSDictionary *itemsDict = _contentItems[section];
+        NSDictionary *titleDic = [itemsDict valueForKey:@"title"];
+        int mode = [[titleDic valueForKey:@"mode"] intValue];
+        
+        int height = 0;
+        if(mode == 0) {
+            height = floorf(width / _numberItems) - 5;
+        }else {
+            height = floorf((width * 9)/(16 * _numberItems)) + 24;
+        }
+        
+        NSArray *subItems = [itemsDict valueForKey:@"content"];
+        if(_enableMoreButton && subItems.count >6) {
+            return 3 * height;
+        }
+        if(subItems.count < _numberItems &&_contentItems.count > 1)
+            return height + 20 ;
+        int delta = subItems.count % _numberItems;
+        if(delta > 0) {
+            delta = 1;
+        }
+        float item = (subItems.count / _numberItems) + delta;
+        if(item * height + 10 > tableView.frame.size.height && _contentItems.count >=1) {
+            return tableView.frame.size.height-80;
+            
+        }else if (item * height + 10 < tableView.frame.size.height && _contentItems.count ==1) {
+            return tableView.frame.size.height;
+        }
+        return item * height + 10;
     }
-    NSArray *subItems = [itemsDict valueForKey:@"content"];
-    if(subItems.count < _numberItems)
-        return height + 10 ;
-    int delta = subItems.count % _numberItems;
-    if(delta > 0) {
-        delta = 1;
-    }
-    float item = (subItems.count / _numberItems) + delta;
-    if(item * height + 10 > tableView.frame.size.height && _contentItems.count >1) {
-        return tableView.frame.size.height-80;
-
-    }
-  return item * height + 10;
 
 
 }
@@ -236,15 +253,21 @@ static int i = 0;
     NSDictionary *item = _contentItems[section];
     NSDictionary *titleDict = [item valueForKey:@"title"];
     
-    if(_enableMoreButton) {
-        [headerCell.btnMore setHidden:NO];
-        [headerCell.btnMore setTag:[[titleDict valueForKey:@"id"] intValue]];
-        [headerCell.btnMore addTarget:self
-                               action:@selector(click_showMore:)
-                     forControlEvents:UIControlEventTouchUpInside];
+    NSArray *subItem = item[@"content"];
+    if(subItem.count >=6) {
+        if(_enableMoreButton) {
+            [headerCell.btnMore setHidden:NO];
+            [headerCell.btnMore setTag:[[titleDict valueForKey:@"id"] intValue]];
+            [headerCell.btnMore addTarget:self
+                                   action:@selector(click_showMore:)
+                         forControlEvents:UIControlEventTouchUpInside];
+        }else {
+            [headerCell.btnMore setHidden:YES];
+        }
     }else {
-        [headerCell.btnMore setHidden:YES];
+           [headerCell.btnMore setHidden:YES];
     }
+    
 
     [headerCell.txtTitle setText:[titleDict valueForKey:@"name"]];
     return headerCell;
@@ -253,9 +276,12 @@ static int i = 0;
 
 
 - (void)click_showMore:(UIButton *)sender{
-    if([_delegate respondsToSelector:@selector(didSelectCategory:)]) {
+    if([_delegate respondsToSelector:@selector(showAllContentInsideGenre:flag:)]) {
         int tag = sender.tag;
-        [_delegate didSelectCategory:tag];
+        if(!m_providerID && m_categoryID)
+            [_delegate showAllContentInsideGenre:tag flag:YES];
+        else
+            [_delegate showAllContentInsideGenre:tag flag:NO];
     }
 }
 
@@ -267,6 +293,8 @@ static int i = 0;
     
     NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
+    if(subItems.count > 6 && _enableMoreButton)
+        return 6;
     return subItems.count;
 }
 
@@ -311,9 +339,9 @@ static int i = 0;
         if([[title valueForKey:@"mode"] intValue] == 0) {// listen
             height = width - 5;
         }else {//view
-            height =floorf((9 * width)/16);
+            height =floorf((9 * width)/16)+24;
         }
-        return CGSizeMake(width,height+24);
+        return CGSizeMake(width,height);
     }
     return CGSizeZero;
 }

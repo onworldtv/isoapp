@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "YTPlayerView.h"
 #import "YTSlider.h"
-@interface YTPlayerViewController : UIViewController <UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate,ChromecastControllerDelegate>
+@interface YTPlayerViewController : UIViewController <UIGestureRecognizerDelegate,UITableViewDataSource,UITableViewDelegate,ChromecastControllerDelegate,YTSelectedItemProtocol>
 
 @property (retain,nonatomic)NSURL * urlPath;
 
@@ -29,6 +29,9 @@
 @property (nonatomic, weak) IBOutlet UIView* scheduleView;
 
 
+@property (nonatomic, weak) IBOutlet UIView* contentLiveView;
+@property (nonatomic, weak) IBOutlet UIView* testView;
+
 @property (nonatomic, weak) IBOutlet MPVolumeView * volumnView;
 @property (nonatomic, weak) IBOutlet UIButton* btnCloseImageViewAdv;
 @property (nonatomic, weak) IBOutlet UIButton* btnSkip;
@@ -42,6 +45,8 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 @property (weak, nonatomic) IBOutlet UITableView *tbvTableView;
+@property (weak, nonatomic) IBOutlet UITableView *tbvEpisodes;
+
 
 @property (nonatomic, weak) IBOutlet UIImageView* imageAdvView;
 @property (nonatomic, weak) IBOutlet UIImageView* imageBanner;

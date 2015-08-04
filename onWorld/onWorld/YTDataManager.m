@@ -29,7 +29,7 @@ static YTDataManager *m_instance;
     self = [super init];
     if(self) {
         [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"OnWorld.sqlite"];
-        self.homeData = [NSArray array];
+      
         NSLog(@"%@", [[NSPersistentStore MR_urlForStoreName:[MagicalRecord defaultStoreName]] path]);
     }
     return self;
@@ -110,7 +110,7 @@ static YTDataManager *m_instance;
                                         YTCategory *category = [YTCategory MR_findFirstByAttribute:@"cateID"
                                                                                          withValue:@(cateID)
                                                                                          inContext:localContext];
-//                                        NSLog(@"Category: %@, gen :%@",category.name,response);
+                                        NSLog(@"Category: %@, gen :%@",category.name,response);
                                         for(NSDictionary *item in items) {
                                             
                                             YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@([[item valueForKey:@"id"] intValue]) inContext:localContext];
@@ -119,7 +119,9 @@ static YTDataManager *m_instance;
                                             }
                                             genre.genID = @([[item valueForKey:@"id"] intValue]);
                                             genre.genName = [item valueForKey:@"name"];
+                                            
                                             if(category){
+                                                [category removeGenreObject:genre];
                                                [category addGenreObject:genre];
                                             }
                                         }
@@ -142,20 +144,17 @@ static YTDataManager *m_instance;
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     
     NSArray * categories =[YTCategory MR_findAll];
-    NSMutableArray *tasks = [NSMutableArray array];
+    BFTask *task = [BFTask taskWithResult:nil];
     if(categories.count > 0) {
         for (YTCategory *category in categories) {
-           [tasks addObject:[self getAllGenreByCateID:category.cateID.intValue]];
+            task =[task continueWithBlock:^id(BFTask *task) {
+                return [self getAllGenreByCateID:category.cateID.intValue];
+            }];
         }
-        [[BFTask taskForCompletionOfAllTasks:tasks] continueWithBlock:^id(BFTask *task) {
-            if(task.error == nil){
-                [completionSource setResult:nil];
-            }else {
-                [completionSource setError:task.error];
-            }
+        [task continueWithBlock:^id(BFTask *task) {
+            [completionSource setResult:task];
             return nil;
         }];
-        
     }else {
         [completionSource setResult:nil];
     }
@@ -225,6 +224,7 @@ static YTDataManager *m_instance;
             NSArray *gens = [category.genre allObjects];
             for (YTGenre *gen in gens) {
                 task = [task continueWithBlock:^id(BFTask *task) {
+                    
                     return [self pullContentByCate:category.cateID.intValue genre:gen.genID.intValue];
                 }];
             }
@@ -236,10 +236,11 @@ static YTDataManager *m_instance;
 }
 
 - (BFTask *)pullContentByCate:(int)cateID genre:(int)genID {
+    
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     [NETWORK_MANAGER getContentByCategory:cateID genre:genID
                              successBlock:^(AFHTTPRequestOperation *operation, id response) {
-                                 
+
                                  NSArray *items = [response valueForKey:@"items"];
                                  [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                      
@@ -289,7 +290,7 @@ static YTDataManager *m_instance;
                 for (YTGenre *genre in genries) {
                     NSArray *contents = [[genre content]allObjects];
                     for (YTContent *content in contents) {
-                        if(content.provider_id.intValue == providerID.intValue) {
+                        if(content.provider_id.intValue == providerID.intValue || providerID.intValue == -1) {
                             
                             NSDictionary *contentDict = @{@"id":content.contentID,
                                                           @"name":content.name,
@@ -388,6 +389,41 @@ static YTDataManager *m_instance;
     return completionSource.task;
 }
 
+- (BFTask *)getAllContentInGenre:(NSNumber *)genre {
+    
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        NSMutableArray *items = [[NSMutableArray alloc]init];
+        NSArray *genries = [YTGenre MR_findByAttribute:@"genID" withValue:genre];
+        if(genries.count > 0) {
+            for (YTGenre *genre in genries) {
+                NSDictionary *genreDict = @{@"id": genre.genID, @"name": genre.genName,@"mode":genre.category.mode};
+                NSMutableArray *subItems = [NSMutableArray array];
+                
+                NSArray *contents = [[genre content]allObjects];
+                for (YTContent *content in contents) {
+                    
+                    NSDictionary *contentDict = @{@"id":content.contentID,
+                                                  @"name":content.name,
+                                                  @"image":content.image,@"desc":content.desc,
+                                                  @"category":@""};
+                    
+                    [subItems addObject:contentDict];
+                }
+                if(subItems.count > 0) {
+                    NSDictionary *object = @{@"title":genreDict, @"content":subItems};
+                    [items addObject:object];
+                }
+            }
+        }
+        [completionSource setResult:items];
+    });
+    
+    return completionSource.task;
+}
+
+
 - (BFTask *)pullAndSaveContentDetail:(NSNumber*)contentID {
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     [NETWORK_MANAGER contentDetail:contentID.intValue
@@ -454,7 +490,7 @@ static YTDataManager *m_instance;
                                       episodes.image = [episo valueForKeyPath:@"image"];
                                       episodes.desc = [episo valueForKeyPath:@"description"];
                                       episodes.episodesID = @([[episo valueForKeyPath:@"id"] intValue]);
-                                      
+                                      episodes.link = episo[@"link"];
                                       [detail addEpisodeObject:episodes];
                                   }
                               }

@@ -265,11 +265,12 @@ static YTNetWorkManager *m_instance;
 - (void)pullGenreByCategory:(int)cateID  successBlock:(SuccessBlock)successBlock
                failureBlock:(FailureBlock)failureBlock {
     
-    NSString *urlPath = [NSString stringWithFormat:@"%@/genre&lang_id=%ld&category_id=%d&token=%@", kServerBaseURL,(long)languageId,cateID,access_token];
+    NSString *urlPath = [NSString stringWithFormat:@"%@/genre&lang_id=%ld&category_id=%d&token=%@&isfull=2", kServerBaseURL,(long)languageId,cateID,access_token];
     [self sendRequestWithServicePath:urlPath
                          postContent:nil
                        requestMethod:@"GET"
                         successBlock:^(AFHTTPRequestOperation *operation, id response) {
+
                             int errorcode =[[response valueForKey:@"error"] intValue];
                             if(errorcode == 1) {
                                 failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.Genre" code:errorcode userInfo:response]);

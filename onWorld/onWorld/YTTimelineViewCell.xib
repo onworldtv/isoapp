@@ -87,7 +87,7 @@
                 <outlet property="txtSinger" destination="2RE-rw-rVO" id="B4o-aE-WW7"/>
                 <outlet property="txtTimeline" destination="vZ5-Oo-msC" id="Iwl-eV-53A"/>
             </connections>
-            <point key="canvasLocation" x="218" y="431.5"/>
+            <point key="canvasLocation" x="612" y="375.5"/>
         </tableViewCell>
     </objects>
 </document>

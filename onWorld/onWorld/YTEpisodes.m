@@ -16,6 +16,7 @@
 @dynamic episodesID;
 @dynamic image;
 @dynamic name;
+@dynamic link;
 @dynamic detail;
 
 @end
