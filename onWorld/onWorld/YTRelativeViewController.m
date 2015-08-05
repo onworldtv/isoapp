@@ -83,9 +83,6 @@
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"itemCell" forIndexPath:indexPath];
     cell.txtTitle.text = item.name;
     [cell.txtCategory setHidden:YES];
-    NSString *key = [NSString stringWithFormat:@"%d",indexPath.row];
-
-    
     
     [cell.imgView sd_setImageWithURL:[NSURL URLWithString:item.image]
                     placeholderImage:[UIImage imageNamed:@"placeholder.png"]];

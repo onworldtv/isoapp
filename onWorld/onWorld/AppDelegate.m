@@ -29,9 +29,9 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-               [DATA_MANAGER pullGroupContent];
-            });
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//               [DATA_MANAGER pullGroupContent];
+//            });
             return nil;
         }];
     });

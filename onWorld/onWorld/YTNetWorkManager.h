@@ -49,14 +49,7 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
                           failureBlock:(FailureBlock)failureBlock;
 
 
-- (void)pullCategoriesByProvider:(int)provID
-                    successBlock:(SuccessBlock)successBlock
-                    failureBlock:(FailureBlock)failureBlock;
 
-
-- (void)pullGenreByProvider:(int)provID categoryID:(int)cateID
-                    successBlock:(SuccessBlock)successBlock
-                    failureBlock:(FailureBlock)failureBlock;
 
 
 
@@ -76,6 +69,9 @@ typedef void (^FailureBlock)(AFHTTPRequestOperation *operation,NSError*error);
 - (void)getHomeContentWithSuccessBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
 
 
+-(void)pullGenreAndContentWithCategoryID:(int)cateID
+                            successBlock:(SuccessBlock)successBlock
+                            failureBlock:(FailureBlock)failureBlock;
 
 - (void)getAdvWithUrl:(NSString *)advUrl successBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock;
 @end

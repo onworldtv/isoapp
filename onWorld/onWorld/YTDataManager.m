@@ -101,41 +101,65 @@ static YTDataManager *m_instance;
     
     BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
     
-    [NETWORK_MANAGER pullGenreByCategory:cateID
-                            successBlock:^(AFHTTPRequestOperation *operation, id response) {
-                                NSDictionary *items = [response valueForKey:@"items"];
-                                if(items.count > 0) {
-                                    
-                                    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                        YTCategory *category = [YTCategory MR_findFirstByAttribute:@"cateID"
-                                                                                         withValue:@(cateID)
-                                                                                         inContext:localContext];
-                                        NSLog(@"Category: %@, gen :%@",category.name,response);
-                                        for(NSDictionary *item in items) {
-                                            
-                                            YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@([[item valueForKey:@"id"] intValue]) inContext:localContext];
-                                            if(genre == nil) {
-                                                genre = [YTGenre MR_createEntityInContext:localContext];
-                                            }
-                                            genre.genID = @([[item valueForKey:@"id"] intValue]);
-                                            genre.genName = [item valueForKey:@"name"];
-                                            
-                                            if(category){
-                                                [category removeGenreObject:genre];
-                                               [category addGenreObject:genre];
-                                            }
-                                        }
-                                    } completion:^(BOOL contextDidSave, NSError *error) {
-                                        if(error == nil)
-                                            [completionSource setResult:nil];
-                                        else
-                                            [completionSource setError:error];
-                                    }];
-                                }
-                                
-                            } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                [completionSource setError:error];
-                            }];
+    [NETWORK_MANAGER pullGenreAndContentWithCategoryID:cateID
+                                          successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                                              if([response[@"error"] intValue] == 0) {
+                                                  NSArray *items = response[@"groups"];
+                                                  if(items) {
+                                                      [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+                                                          YTCategory *category = [YTCategory MR_findFirstByAttribute:@"cateID"
+                                                                                                           withValue:@(cateID)
+                                                                                                           inContext:localContext];
+                                                          for(NSDictionary *item in items) {
+                                                              
+                                                              //save genre
+                                                              YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@([[item valueForKey:@"id"] intValue]) inContext:localContext];
+                                                              if(genre == nil) {
+                                                                  genre = [YTGenre MR_createEntityInContext:localContext];
+                                                              }else {
+                                                                  genre.content = nil;
+                                                              }
+                                                              genre.genID = @([[item valueForKey:@"id"] intValue]);
+                                                              genre.genName = [item valueForKey:@"name"];
+                                                              
+                                                              if(category){
+                                                                  [category removeGenreObject:genre];
+                                                                  [category addGenreObject:genre];
+                                                                  
+                                                              }
+                                                              // save content
+                                                              NSMutableSet *setContents = [[NSMutableSet alloc]init];
+                                                              for(NSDictionary *contentDict in item[@"items"]) {
+                                                                  YTContent *content = [YTContent MR_findFirstByAttribute:@"contentID"
+                                                                                                                withValue:contentDict[@"id"]
+                                                                                                                inContext:localContext];
+                                                                  if(content == nil) {
+                                                                      content = [YTContent MR_createEntityInContext:localContext];
+                                                                  }
+                                                                  content.name = contentDict[@"name"];
+                                                                  content.contentID = @([contentDict[@"id"] intValue]);
+                                                                  content.image = contentDict[@"image"];
+                                                                  content.desc = contentDict[@"description"];
+                                                                  content.provider_id = @([contentDict[@"provider_id"] intValue]);
+                                                                  [setContents addObject:content];
+                                                              }
+                                                              if(setContents.allObjects.count >0 && genre){
+                                                                  [genre addContent:setContents];
+                                                              }
+                                                          }
+                                                      } completion:^(BOOL contextDidSave, NSError *error) {
+                                                          if(!error) {
+                                                              [completionSource setResult:nil];
+                                                          }else {
+                                                              [completionSource setError:error];
+                                                          }
+                                                      }];
+                                                  }
+                                              }
+                                          } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                              [completionSource setError:error];
+                                          }];
+   
     return completionSource.task;
 }
 

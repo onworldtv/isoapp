@@ -32,6 +32,7 @@
                 <outlet property="liveView" destination="nFe-Gz-EDe" id="WBE-gr-G06"/>
                 <outlet property="loadingView" destination="m6d-7c-VKs" id="Bod-a6-E0r"/>
                 <outlet property="playerView" destination="ps4-EE-CGm" id="hMP-F8-BsT"/>
+                <outlet property="rightScheduleViewContraint" destination="JsW-fn-4Fd" id="6uR-hO-yMA"/>
                 <outlet property="scheduleView" destination="Duw-56-xMq" id="16X-hc-A3W"/>
                 <outlet property="sliderTrackView" destination="VXc-gC-PAR" id="icD-pN-lXp"/>
                 <outlet property="slidervolume" destination="qGK-d1-uxl" id="7js-KE-KYa"/>

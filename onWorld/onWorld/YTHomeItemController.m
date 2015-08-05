@@ -94,9 +94,9 @@
         if(m_mode == 0) {// listen
             height = width - 5;
         }else {//view
-            height =floorf((9 * width)/16);
+            height =floorf((9 * width)/16)+24;
         }
-        return CGSizeMake(width,height + 24);
+        return CGSizeMake(width,height);
     }
     return CGSizeMake(width, HEIGHT_COLLECTION_ITEM);
 }

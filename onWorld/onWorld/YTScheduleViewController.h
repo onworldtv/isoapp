@@ -10,7 +10,7 @@
 
 @protocol DelegateSelectedScheduleItem <NSObject>
 
-- (void)delegateSelectedScheduleItemWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline;
+- (void)delegateSelectedScheduleItemWithIndexSchedule:(int)index_schedule indexTimeline:(NSNumber *)timelineID;
 
 @end
 @interface YTScheduleViewController : UIViewController

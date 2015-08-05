@@ -217,50 +217,9 @@ static YTNetWorkManager *m_instance;
     
 }
 
-- (void)pullCategoriesByProvider:(int)provID successBlock:(SuccessBlock)successBlock failureBlock:(FailureBlock)failureBlock {
-    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&provider_id=%d&token=%@", kServerBaseURL,(long)languageId,provID,access_token];
-    
-    [self sendRequestWithServicePath:urlPath
-                         postContent:nil
-                       requestMethod:@"GET"
-                        successBlock:^(AFHTTPRequestOperation *operation, id response) {
-                            int errorcode =[[response valueForKey:@"error"] intValue];
-                            if(errorcode == 1) {
-                                failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.CategoriesByProvider" code:errorcode userInfo:response]);
-                               
-                            }else {
-                                successBlock(operation,response);
-                            }
-                        } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
-                            failureBlock(operation,error);
-                        }];
-    
-}
+
 
 #pragma mark -genre
-
-- (void)pullGenreByProvider:(int)provID categoryID:(int)cateID
-               successBlock:(SuccessBlock)successBlock
-               failureBlock:(FailureBlock)failureBlock {
-
-    NSString *urlPath = [NSString stringWithFormat:@"%@/category&lang_id=%ld&provider_id=%d&category_id=%d&token=%@", kServerBaseURL,(long)languageId,provID,cateID,access_token];
-    
-    [self sendRequestWithServicePath:urlPath
-                         postContent:nil
-                       requestMethod:@"GET"
-                        successBlock:^(AFHTTPRequestOperation *operation, id response) {
-                            int errorcode =[[response valueForKey:@"error"] intValue];
-                            if(errorcode == 1) {
-                                failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.Genre" code:errorcode userInfo:response]);
-                            }else {
-                                successBlock(operation,response);
-                            }
-                        } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
-                            failureBlock(operation,error);
-                        }];
-
-}
-
 
 - (void)pullGenreByCategory:(int)cateID  successBlock:(SuccessBlock)successBlock
                failureBlock:(FailureBlock)failureBlock {
@@ -304,6 +263,29 @@ static YTNetWorkManager *m_instance;
                         }];
 }
 
+
+
+-(void)pullGenreAndContentWithCategoryID:(int)cateID
+                            successBlock:(SuccessBlock)successBlock
+                            failureBlock:(FailureBlock)failureBlock {
+    
+    
+    NSString *urlPath = [NSString stringWithFormat:@"%@/contentgroup&lang_id=1&category_id=%d", kServerBaseURL,cateID];
+    [self sendRequestWithServicePath:urlPath
+                         postContent:nil
+                       requestMethod:@"GET"
+                        successBlock:^(AFHTTPRequestOperation *operation, id response) {
+                            int errorcode =[[response valueForKey:@"error"] intValue];
+                            if(errorcode == 1) {
+                                failureBlock(operation,[NSError errorWithDomain:@"com.OnWorldTV.ContentDetail" code:errorcode userInfo:response]);
+                            }else {
+                                successBlock(operation,response);
+                            }
+                        } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+                            failureBlock(operation,error);
+                        }];
+
+}
 
 - (void)getContentByCategory:(int)contentID genre:(int)genID
                 successBlock:(SuccessBlock)successBlock

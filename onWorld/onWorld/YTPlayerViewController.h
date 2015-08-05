@@ -47,6 +47,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tbvTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tbvEpisodes;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightScheduleViewContraint;
 
 @property (nonatomic, weak) IBOutlet UIImageView* imageAdvView;
 @property (nonatomic, weak) IBOutlet UIImageView* imageBanner;
@@ -60,8 +61,10 @@
 - (IBAction)click_AdvView:(id)sender;
 
 - (id)initWithID:(NSNumber*)ID;
-- (id)initWithIndexSchedule:(int)index_schedule indexTimeline:(int)index_timeline contentID:(NSNumber*)contentID;
 
+- (id)initWithIndexSchedule:(int)index_schedule indexTimeline:(NSNumber *)timelineID contentID:(NSNumber*)contentID;
+
+- (id)initPlayID:(NSNumber *)ID episodesID:(NSNumber *)episodesID;
 
 - (IBAction)volumeChanged:(id)sender;
 - (IBAction)beginScrubbing:(id)sender;

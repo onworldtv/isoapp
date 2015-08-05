@@ -190,8 +190,10 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if([m_delegate respondsToSelector:@selector(delegateSelectedScheduleItemWithIndexSchedule:indexTimeline:)]) {
-        [m_delegate delegateSelectedScheduleItemWithIndexSchedule:index indexTimeline:indexPath.row];
+         NSDictionary *timeDic = listTimeline[indexPath.row];
+        [m_delegate delegateSelectedScheduleItemWithIndexSchedule:index indexTimeline:@([timeDic[@"id"] intValue])];
     }
 }
 

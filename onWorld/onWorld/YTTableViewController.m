@@ -98,6 +98,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.edgesForExtendedLayout=UIRectEdgeNone;
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector:@selector(deviceOrientationDidChange:)
@@ -254,7 +255,7 @@ static int i = 0;
     NSDictionary *titleDict = [item valueForKey:@"title"];
     
     NSArray *subItem = item[@"content"];
-    if(subItem.count >=6) {
+    if(subItem.count >=6 && _contentItems.count >1) {
         if(_enableMoreButton) {
             [headerCell.btnMore setHidden:NO];
             [headerCell.btnMore setTag:[[titleDict valueForKey:@"id"] intValue]];
@@ -292,8 +293,9 @@ static int i = 0;
 {
     
     NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
+    
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
-    if(subItems.count > 6 && _enableMoreButton)
+    if(subItems.count > 6 && _enableMoreButton && _contentItems.count >1)
         return 6;
     return subItems.count;
 }
@@ -356,7 +358,7 @@ static int i = 0;
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
   
     YTScreenDetailViewController *detailViewCtrl = [(UIStoryboard *)[YTOnWorldUtility appStoryboard]instantiateViewControllerWithIdentifier:@"detailViewController"];
-    [detailViewCtrl setContentID:[item valueForKey:@"id"]];
+    [detailViewCtrl setContentID:@([[item valueForKey:@"id"] intValue])];
    
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];

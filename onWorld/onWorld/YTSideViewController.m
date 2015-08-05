@@ -72,6 +72,7 @@ static const NSString * kYTSearch = @"SEARCH";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     if([NETWORK_MANAGER isLogin]) {
         NSDictionary *userMenu = @{@"Home": @[MENU_INFO,MENU_HOME,MENU_SEARCH,MENU_LOGOUT]};
         [arrMenu replaceObjectAtIndex:0 withObject:userMenu];

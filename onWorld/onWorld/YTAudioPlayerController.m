@@ -40,6 +40,7 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     return self;
 }
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     chromecastManager = CHROMCAST_MANAGER.chromcastCtrl;
 }
 - (void)viewDidLoad {

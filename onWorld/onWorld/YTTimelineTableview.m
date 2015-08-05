@@ -87,7 +87,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if([m_delegate respondsToSelector:@selector(playItemWithCategoryId:scheduleInded:timelineIndex:)]) {
-        [m_delegate playItemWithCategoryId:nil scheduleInded:0 timelineIndex:indexPath.row];
+        NSDictionary *item = _contentItems[indexPath.row];
+        [m_delegate playItemWithCategoryId:nil scheduleInded:0 timelineIndex:@([item[@"id"] intValue])];
     }
    
 }
