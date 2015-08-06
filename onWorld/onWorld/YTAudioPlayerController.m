@@ -43,6 +43,13 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     [super viewWillAppear:animated];
     chromecastManager = CHROMCAST_MANAGER.chromcastCtrl;
 }
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [UIViewController attemptRotationToDeviceOrientation];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -78,12 +85,15 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }];
 }
 
+
+
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    }
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    else
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
 - (BOOL)shouldAutorotate
@@ -95,9 +105,9 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
         return UIInterfaceOrientationMaskPortrait;
-    return UIInterfaceOrientationMaskLandscape;
+    else
+        return UIInterfaceOrientationMaskLandscape;
 }
-
 
 - (void)bindingData {
     _txtSongName.text = contentObj.name;

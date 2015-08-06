@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "YTScheduleViewController.h"
+#import "YTAudioPlayerController.h"
 
 @interface AppDelegate ()
 
@@ -28,12 +28,7 @@
     
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [[DATA_MANAGER pullAllMetaData] continueWithBlock:^id(BFTask *task) {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//               [DATA_MANAGER pullGroupContent];
-//            });
-            return nil;
-        }];
+        [DATA_MANAGER pullAllMetaData];
     });
 
     
@@ -82,6 +77,22 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
 }
+
+
+
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    
+    SWRevealViewController *revealViewController = (SWRevealViewController*) window.rootViewController;
+    if(revealViewController) {
+        UINavigationController *rootNavigationCtrl = (UINavigationController*)[revealViewController frontViewController];
+        UIViewController *topViewCtrl =  rootNavigationCtrl.topViewController;
+        if([topViewCtrl isKindOfClass:[YTAudioPlayerController class]]) {
+            return UIInterfaceOrientationMaskPortrait;
+        }
+    }
+    return UIInterfaceOrientationMaskAll;
+}
+
 
 
 @end
