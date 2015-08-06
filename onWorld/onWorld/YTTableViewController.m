@@ -12,7 +12,7 @@
 #import "YTTableHeaderCell.h"
 #import "YTScreenDetailViewController.h"
 
-@interface YTTableViewController ()
+@interface YTTableViewController ()<UIScrollViewDelegate>
 {
     int defaultNumberItems;
     BOOL displayByMode;
@@ -181,7 +181,6 @@ static int i = 0;
     YTTableViewCell *cell = (YTTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell)
     {
-        NSLog(@"index :%d",i++);
         cell = [[YTTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     return cell;
@@ -219,20 +218,20 @@ static int i = 0;
         
         NSArray *subItems = [itemsDict valueForKey:@"content"];
         if(_enableMoreButton && subItems.count >6) {
-            return 3 * height;
+            return (3 * height) + 10;
         }
         if(subItems.count < _numberItems &&_contentItems.count > 1)
-            return height + 20 ;
+            return height + 30 ;
         int delta = subItems.count % _numberItems;
         if(delta > 0) {
             delta = 1;
         }
         float item = (subItems.count / _numberItems) + delta;
         if(item * height + 10 > tableView.frame.size.height && _contentItems.count >=1) {
-            return tableView.frame.size.height-80;
+            return tableView.frame.size.height- 70;
             
         }else if (item * height + 10 < tableView.frame.size.height && _contentItems.count ==1) {
-            return tableView.frame.size.height;
+            return tableView.frame.size.height+10;
         }
         return item * height + 10;
     }
@@ -295,8 +294,10 @@ static int i = 0;
     NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
     
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
-    if(subItems.count > 6 && _enableMoreButton && _contentItems.count >1)
+    if(subItems.count > 6 && _enableMoreButton && _contentItems.count >1) {
+        collectionView.scrollEnabled = NO;
         return 6;
+    }
     return subItems.count;
 }
 
@@ -363,6 +364,10 @@ static int i = 0;
     UINavigationController *navigationController = (UINavigationController*) [self.revealViewController frontViewController];
     [navigationController pushViewController:detailViewCtrl animated:YES];
 }
+
+
+
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

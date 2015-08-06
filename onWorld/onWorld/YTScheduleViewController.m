@@ -73,7 +73,7 @@
         
         buttons = [NSMutableArray array];
         int width = self.topView.frame.size.width;
-        int delta = width/3;
+        int delta = width/arraySchedule.count;
         for(int i=0;i<arraySchedule.count;i++) {
             if(i > 2) {
                 return ;
@@ -168,14 +168,7 @@
     viewCell.avartar.layer.cornerRadius = viewCell.avartar.frame.size.width / 2;
     viewCell.avartar.clipsToBounds = YES;
     
-    /*
-     name	:	Bird Nest Collagen
-     image	:	http://img.onworldtv.com/wxh/timeline/2015/04/07/510768-ITV-homeshopping.jpg
-     description	:
-     link	:	http://204.9.200.244/sata/itv/Bird.Nest.Collagen.720p/index.m3u8
-     start	:	00:00:00
-     end	:	00:02:30
-     */
+
     
     viewCell.txtContentName.text = [timeDic valueForKey:@"name"];
     viewCell.txtTimeline.text = [NSString stringWithFormat:@"%@ - %@",[timeDic valueForKey:@"start"],[timeDic valueForKey:@"end"]];
@@ -186,7 +179,6 @@
     
     return viewCell;
 }
-
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

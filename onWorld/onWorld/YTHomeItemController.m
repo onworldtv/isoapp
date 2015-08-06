@@ -9,7 +9,7 @@
 #import "YTHomeItemController.h"
 #import "YTGirdItemCell.h"
 
-@interface YTHomeItemController ()
+@interface YTHomeItemController () 
 {
     NSArray *contentItems;
     int m_mode;
