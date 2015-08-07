@@ -23,7 +23,6 @@
 		049E54D01B5FB38A0019BB66 /* YTDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */; };
 		04BCF0C61B60CD9C00E03D8A /* YTHomeItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */; };
 		04BCF0C71B60CD9C00E03D8A /* YTHomeItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BCF0C51B60CD9C00E03D8A /* YTHomeItemController.xib */; };
-		04C8BE4F1B731A240012122E /* OWNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C8BE4E1B731A240012122E /* OWNavigationController.m */; };
 		04D9B9CE1B67709300750D96 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D9B9CD1B67709300750D96 /* SystemConfiguration.framework */; };
 		04D9B9D01B6770AA00750D96 /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D9B9CF1B6770AA00750D96 /* MediaAccessibility.framework */; };
 		04D9B9D21B6770C300750D96 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D9B9D11B6770C300750D96 /* CoreText.framework */; };
@@ -121,7 +120,6 @@
 		04F1F8351B54F92D00A9A76E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F1F8341B54F92D00A9A76E /* AVFoundation.framework */; };
 		04FC89671B3D468A00C496A8 /* YTGirdItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FC89661B3D468A00C496A8 /* YTGirdItemCell.m */; };
 		04FC896F1B3D677100C496A8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FC896E1B3D677100C496A8 /* CoreGraphics.framework */; };
-		04FF6DD41B73089400AB1014 /* UINavigationController+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FF6DD31B73089400AB1014 /* UINavigationController+Orientation.m */; };
 		99D071B6766AA0DD2E88CCF7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 057883AA109A0B65946A3D87 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -169,8 +167,6 @@
 		04BCF0C31B60CD9C00E03D8A /* YTHomeItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTHomeItemController.h; path = onWorld/YTHomeItemController.h; sourceTree = SOURCE_ROOT; };
 		04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTHomeItemController.m; path = onWorld/YTHomeItemController.m; sourceTree = SOURCE_ROOT; };
 		04BCF0C51B60CD9C00E03D8A /* YTHomeItemController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTHomeItemController.xib; path = onWorld/YTHomeItemController.xib; sourceTree = SOURCE_ROOT; };
-		04C8BE4D1B731A240012122E /* OWNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OWNavigationController.h; sourceTree = "<group>"; };
-		04C8BE4E1B731A240012122E /* OWNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OWNavigationController.m; sourceTree = "<group>"; };
 		04D9B9CD1B67709300750D96 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		04D9B9CF1B6770AA00750D96 /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
 		04D9B9D11B6770C300750D96 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -307,8 +303,6 @@
 		04FC89651B3D468A00C496A8 /* YTGirdItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YTGirdItemCell.h; sourceTree = "<group>"; };
 		04FC89661B3D468A00C496A8 /* YTGirdItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YTGirdItemCell.m; sourceTree = "<group>"; };
 		04FC896E1B3D677100C496A8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		04FF6DD21B73089400AB1014 /* UINavigationController+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Orientation.h"; path = "onWorld/UINavigationController+Orientation.h"; sourceTree = SOURCE_ROOT; };
-		04FF6DD31B73089400AB1014 /* UINavigationController+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Orientation.m"; path = "onWorld/UINavigationController+Orientation.m"; sourceTree = SOURCE_ROOT; };
 		057883AA109A0B65946A3D87 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02870C58E4009013CD64688 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -513,8 +507,6 @@
 		04E1FA121B3A45F800D68AF4 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				04C8BE4D1B731A240012122E /* OWNavigationController.h */,
-				04C8BE4E1B731A240012122E /* OWNavigationController.m */,
 				04DDB4BF1B53A02200083F41 /* XMLDictionary.h */,
 				04DDB4C01B53A02200083F41 /* XMLDictionary.m */,
 				040467601B3B9ED5005E58C3 /* DejalActivityView.h */,
@@ -532,8 +524,6 @@
 				04E23C1E1B4F732900186B52 /* YTSlider.h */,
 				04E23C1F1B4F732900186B52 /* YTSlider.m */,
 				041CDD781B60F71000B066A9 /* ChromCast */,
-				04FF6DD21B73089400AB1014 /* UINavigationController+Orientation.h */,
-				04FF6DD31B73089400AB1014 /* UINavigationController+Orientation.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -947,7 +937,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04C8BE4F1B731A240012122E /* OWNavigationController.m in Sources */,
 				04E1FA4B1B3AB2F300D68AF4 /* NSString+Utility.m in Sources */,
 				04EAA6821B4B67260099BE8E /* YTSearchViewCell.m in Sources */,
 				04DF3AB71B56198800BE79B7 /* YTGenre.m in Sources */,
@@ -976,7 +965,6 @@
 				0402325C1B3810620093E85C /* YTSideViewController.m in Sources */,
 				041CDD751B60F28F00B066A9 /* YTChromcastManager.m in Sources */,
 				04EE10EC1B55284B00273628 /* YTDataManager.m in Sources */,
-				04FF6DD41B73089400AB1014 /* UINavigationController+Orientation.m in Sources */,
 				04EE62CC1B427AB200AB6FCD /* YTTableViewController.m in Sources */,
 				04DF3AAB1B56198700BE79B7 /* YTTimeline.m in Sources */,
 				041CDD7E1B60F8F000B066A9 /* VolumeChangeController.m in Sources */,

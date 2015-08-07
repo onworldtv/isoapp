@@ -48,7 +48,14 @@
     return 2;
 }
 
-
++ (int)numberItemPerTableCell {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return 6;
+    }else if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 12;
+    }
+    return 0;
+}
 
 + (CGSize)collectionViewCellSizeByWidth:(int)width{
     int delta = width % [self collectionViewItemPerRow];

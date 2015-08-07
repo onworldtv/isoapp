@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "YTAudioPlayerController.h"
-
+#import "YTPlayerViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -88,6 +88,8 @@
         UIViewController *topViewCtrl =  rootNavigationCtrl.topViewController;
         if([topViewCtrl isKindOfClass:[YTAudioPlayerController class]]) {
             return UIInterfaceOrientationMaskPortrait;
+        }else if ([topViewCtrl isKindOfClass:[YTPlayerViewController class]]) {
+            return UIInterfaceOrientationMaskLandscape;
         }
     }
     return UIInterfaceOrientationMaskAll;

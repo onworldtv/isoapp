@@ -352,7 +352,7 @@
         <!--Navigation Controller-->
         <scene sceneID="mLW-YH-4ci">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="leN-QV-Irk" customClass="OWNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="leN-QV-Irk" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="luW-6i-Xcq" customClass="YTNavigationBarCustom">
@@ -371,7 +371,7 @@
         <!--Navigation Controller-->
         <scene sceneID="57x-gD-H98">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K4w-iW-tHM" customClass="OWNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="K4w-iW-tHM" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AOi-tf-G9G" customClass="YTNavigationBarCustom">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -389,7 +389,7 @@
         <!--Navigation Controller-->
         <scene sceneID="bav-7y-Auj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="E1Q-JM-o00" customClass="OWNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="E1Q-JM-o00" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="p9K-nG-mxx" customClass="YTNavigationBarCustom">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

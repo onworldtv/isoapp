@@ -7,24 +7,42 @@
 //
 
 #import "YTAudioPlayerController.h"
+#import "YTAdvInfo.h"
+#import "YTPlayerView.h"
+
 
 static void *itemRateContext = &itemRateContext;
 static void *itemStatusContext = &itemStatusContext;
 static void *itemCurrentContext = &itemCurrentContext;
 static void *itemkeepUpContext = &itemkeepUpContext;
 static void *itemBufferEmptyContext = &itemBufferEmptyContext;
+static void *itemAdvContext = &itemAdvContext;
+
+
 
 @interface YTAudioPlayerController (){
     NSNumber * contentID;
     id timerObserver;
     YTContent *contentObj;
     YTDetail *detail;
-    id playerTimerObserver;
+    id playerTimerObserver,localTimer, advTimerObserver;
     float mRestoreAfterScrubbingRate;
-    BOOL isSeeking;
+    
+    
+    YTAdvInfo *currnetAdvInfo;
+    AVPlayer *advPlayer;
+    AVPlayerItem  *advPlayerItem;
     
     ChromecastDeviceController *chromecastManager;
     id chromecastTimer;
+    
+    YTAdv * currentAdvObject;
+    NSMutableArray * m_adv;
+    
+    BOOL isPlayingAdv;
+    
+    NSTimer *timer;
+    NSTimer *timerSkip;
 }
 
 @property (strong, nonatomic) AVQueuePlayer *queuePlayer;
@@ -39,17 +57,19 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
     return self;
 }
+
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     chromecastManager = CHROMCAST_MANAGER.chromcastCtrl;
 }
 
-- (void) viewDidAppear:(BOOL)animated
-{
+- (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     [UIViewController attemptRotationToDeviceOrientation];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -79,35 +99,67 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     
     [task continueWithBlock:^id(BFTask *task) {
         
-        [self startAudio];
+        [self setHiddenLoadingView:NO];
         [self bindingData];
+        [self loadAdvData];
+        [[self parserAdvInfo] continueWithBlock:^id(BFTask *task) {
+            if(currnetAdvInfo) {
+                if(currentAdvObject.type.intValue == TypeVideo && currentAdvObject.start.intValue == 0) { // play adv
+                    [self startAdv];
+                }else {
+                    [self startAudio];
+                }
+            }else {
+                [self didFinishAdv];
+            }
+            return nil;
+        }];
         return nil;
     }];
 }
 
-
-
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    else
-        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
 }
 
-- (BOOL)shouldAutorotate
-{
-    return YES;
+- (void)viewWillDisappear:(BOOL)animated{
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder];
+    
+    AVPlayerItem *playerItem = self.queuePlayer.currentItem;
+    [playerItem removeObserver:self forKeyPath:@"status"];
+    [playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+    [playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    
+    [self removePlayerTimeObserver];
+    [self.queuePlayer removeAllItems];
+    [self.queuePlayer pause];
+    
+    if(chromecastManager) {
+        if(chromecastManager.isConnected) {
+            [chromecastManager stopCastMedia];
+            if(chromecastTimer) {
+                [chromecastTimer invalidate];
+                chromecastTimer = nil;
+            }
+        }
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVAudioSessionInterruptionNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                  object:nil];
+    
+    [super viewWillDisappear:animated];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        return UIInterfaceOrientationMaskPortrait;
-    else
-        return UIInterfaceOrientationMaskLandscape;
-}
 
 - (void)bindingData {
     _txtSongName.text = contentObj.name;
@@ -115,18 +167,8 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
-- (void)initSystemVolumn {
-    
-    _systemVolume.showsVolumeSlider = YES;
-    _systemVolume.showsRouteButton = NO;
-    for (UIView *vw in _systemVolume.subviews) {
-        if ([vw isKindOfClass:[UISlider class]]) {
-            [((UISlider*)vw) setMinimumValueImage:[UIImage imageNamed:@"music_mute_iphone"]];
-            [((UISlider*)vw) setMaximumValueImage:[UIImage imageNamed:@"music_sound_iphone"]];
-        }
-    }
-    
-}
+
+
 - (void)sharedSession {
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -159,11 +201,9 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
+#pragma mark - volume view
 
-
-
-- (void)updateVolumeView
-{
+- (void)updateVolumeView{
     if (CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
         self.sliderVolume.hidden = YES;
         self.sliderVolume.hidden = NO;
@@ -175,84 +215,23 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
 }
 
-
-
-
-- (void)startAudio {
+- (void)initSystemVolumn {
     
-    if(contentObj) {
-        
-        if(CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
-            
-            NSURL *urlPath = [NSURL URLWithString:contentObj.detail.link];
-            if (contentObj.image && [contentObj.image length] > 0) {
-                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:urlPath
-                                   thumbnailURL:[NSURL URLWithString:contentObj.image]
-                                          title:contentObj.name
-                                       subtitle:@""
-                                       mimeType:@"application/vnd.apple.mpegurl"
-                                      startTime:0
-                                       autoPlay:YES
-                                          music:(contentObj.detail.mode == 0)];
-            }
-            else {
-                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:urlPath
-                                   thumbnailURL:nil
-                                          title:contentObj.name
-                                       subtitle:@""
-                                       mimeType:@"application/vnd.apple.mpegurl"
-                                      startTime:0
-                                       autoPlay:YES
-                                          music:(contentObj.detail.mode == 0)];
-            }
-            
-            if (chromecastTimer) {
-                [chromecastTimer invalidate];
-                chromecastTimer = nil;
-            }
-            
-            chromecastTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                               target:self
-                                                             selector:@selector(updateInterfaceMusicPlayer:)
-                                                             userInfo:nil
-                                                              repeats:YES];
-
+    _systemVolume.showsVolumeSlider = YES;
+    _systemVolume.showsRouteButton = NO;
+    for (UIView *vw in _systemVolume.subviews) {
+        if ([vw isKindOfClass:[UISlider class]]) {
+            [((UISlider*)vw) setMinimumValueImage:[UIImage imageNamed:@"music_mute_iphone"]];
+            [((UISlider*)vw) setMaximumValueImage:[UIImage imageNamed:@"music_sound_iphone"]];
         }
-        else {
-            
-            [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
-            
-            NSURL *url = [NSURL URLWithString:contentObj.detail.link];
-            AVPlayerItem *adPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
-            
-            self.queuePlayer = [[AVQueuePlayer alloc]initWithItems:@[adPlayerItem]];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(audioPlayerDidFinish:)
-                                                         name:AVPlayerItemDidPlayToEndTimeNotification
-                                                       object:adPlayerItem];
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(audioLoadPlayerFailured:)
-                                                         name:AVPlayerItemFailedToPlayToEndTimeNotification
-                                                       object:adPlayerItem];
-            
-            [adPlayerItem addObserver:self forKeyPath:@"status"
-                              options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
-                              context:itemStatusContext];
-            
-            
-            [self.imageView sd_setImageWithURL:[NSURL URLWithString:contentObj.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-
-        }
-        
-    }else {
-        [self didFinishAudioPlayerItem];
     }
+    
 }
 
 
 
+
+#pragma mark - chromecast
 - (void)updateViewToPlayChromecastDevice {
     
     if(chromecastManager.isConnected) {
@@ -264,8 +243,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
     
 }
-
-
 
 - (void)updateInterfaceMusicPlayer:(NSTimer *)timer {
     
@@ -307,16 +284,10 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 }
 
 
-- (void)audioPlayerDidFinish:(NSNotification*)notification {
-    [self didFinishAudioPlayerItem];
-}
-
-
-- (void)audioLoadPlayerFailured:(NSNotification *)notification {
-    [self didFinishAudioPlayerItem];
-}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    AVPlayerItem *playerItem = [self.queuePlayer currentItem];
     if(context == itemStatusContext) {
         AVPlayerItemStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         switch (status) {
@@ -327,17 +298,76 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
             
             break;
             case AVPlayerItemStatusReadyToPlay:{
-                [DejalBezelActivityView removeViewAnimated:YES];
+                [self setHiddenLoadingView:YES];
                 [self.queuePlayer play];
                 [self initScrubberTimer];
+                if(currentAdvObject)
+                    [self scheduleTimerDisplayAdv];
+                
                 NSLog(@"AVPlayerItemStatusReadyToPlay");
-                isSeeking = NO;
             }
             break;
+                
             default:
                 break;
         }
-    }else {
+    }else if (context == itemkeepUpContext) {
+        if (playerItem.playbackLikelyToKeepUp) {
+            [self.loadingView stopAnimating];
+            [self.loadingView setHidden:YES];
+            [self showStopButton];
+        }
+        else {
+            [self showPlayButton];
+        }
+    }else if (context == itemBufferEmptyContext) {
+        if (playerItem.playbackBufferEmpty) {
+            [self.loadingView setHidden:YES];
+            [self.loadingView stopAnimating];
+            [self showStopButton];
+        }else {
+            [self.loadingView setHidden:NO];
+            [self.loadingView startAnimating];
+            [self showPlayButton];
+        }
+
+    }else if (context == itemRateContext) {
+        [self syncPlaybutton];
+    }else if (context == itemCurrentContext) {
+        
+    }else if (context == itemAdvContext) {
+        AVPlayerItemStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+        switch (status) {
+            case AVPlayerItemStatusFailed: {
+                [self didFinishAdv];
+                NSLog(@"adv - AVPlayerItemStatusFailed");
+            }
+                
+            break;
+            case AVPlayerItemStatusReadyToPlay:{
+                NSLog(@"adv - AVPlayerItemStatusReadyToPlay");
+                [self setHiddenLoadingView:YES];
+                [advPlayer play];
+                isPlayingAdv = YES;
+                
+                if(currentAdvObject.skip.intValue == 1) { // allow show button skip
+                    timerSkip = [NSTimer scheduledTimerWithTimeInterval:currentAdvObject.skipeTime.intValue
+                                                                        target:self
+                                                                      selector:@selector(timerAppearSkipButton:)
+                                                                      userInfo:nil
+                                                                       repeats:NO];
+                }
+
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    
+    else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -348,7 +378,134 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         [self.queuePlayer removeTimeObserver:playerTimerObserver];
         playerTimerObserver = nil;
     }
+   
 }
+
+
+
+#pragma mark - audio 
+
+- (void)startAudio {
+    
+    if(contentObj) {
+        
+        if(CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
+            
+            NSURL *urlPath = [NSURL URLWithString:contentObj.detail.link];
+            if (contentObj.image && [contentObj.image length] > 0) {
+                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:urlPath
+                                              thumbnailURL:[NSURL URLWithString:contentObj.image]
+                                                     title:contentObj.name
+                                                  subtitle:@""
+                                                  mimeType:@"application/vnd.apple.mpegurl"
+                                                 startTime:0
+                                                  autoPlay:YES
+                                                     music:(contentObj.detail.mode == 0)];
+            }
+            else {
+                [CHROMCAST_MANAGER.chromcastCtrl loadMedia:urlPath
+                                              thumbnailURL:nil
+                                                     title:contentObj.name
+                                                  subtitle:@""
+                                                  mimeType:@"application/vnd.apple.mpegurl"
+                                                 startTime:0
+                                                  autoPlay:YES
+                                                     music:(contentObj.detail.mode == 0)];
+            }
+            
+            if (chromecastTimer) {
+                [chromecastTimer invalidate];
+                chromecastTimer = nil;
+            }
+            
+            chromecastTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                               target:self
+                                                             selector:@selector(updateInterfaceMusicPlayer:)
+                                                             userInfo:nil
+                                                              repeats:YES];
+        }
+        else {
+            [self setHiddenLoadingView:NO];
+            NSURL *url = [NSURL URLWithString:contentObj.detail.link];
+            AVPlayerItem *adPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
+            
+            self.queuePlayer = [[AVQueuePlayer alloc]initWithItems:@[adPlayerItem]];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(audioPlayerDidFinish:)
+                                                         name:AVPlayerItemDidPlayToEndTimeNotification
+                                                       object:adPlayerItem];
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(audioLoadPlayerFailured:)
+                                                         name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                       object:adPlayerItem];
+            
+
+            
+            /* Observe the AVPlayer "rate" property to update the scrubber control. */
+            [advPlayer addObserver:self
+                          forKeyPath:@"rate"
+                             options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                             context:itemRateContext];
+            [advPlayer addObserver:self
+                          forKeyPath:@"currentItem"
+                             options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                             context:itemCurrentContext];
+            
+            [adPlayerItem addObserver:self forKeyPath:@"status"
+                              options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+                              context:itemStatusContext];
+            
+            [adPlayerItem addObserver:self
+                           forKeyPath:@"playbackLikelyToKeepUp"
+                              options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                              context:itemkeepUpContext];
+            
+            [adPlayerItem addObserver:self
+                           forKeyPath:@"playbackBufferEmpty"
+                              options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                              context:itemBufferEmptyContext];
+        }
+    }else {
+        [self didFinishAudioPlayerItem];
+    }
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:contentObj.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+}
+
+- (void)audioPlayerDidFinish:(NSNotification*)notification {
+    [self didFinishAudioPlayerItem];
+}
+
+- (void)audioLoadPlayerFailured:(NSNotification *)notification {
+    [self didFinishAudioPlayerItem];
+}
+
+- (void)didFinishAudioPlayerItem {
+    
+    [self removePlayerTimeObserver];
+    
+    if(self.queuePlayer) {
+        [self.queuePlayer.currentItem removeObserver:self forKeyPath:@"status"];
+        [self.queuePlayer.currentItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+        [self.queuePlayer.currentItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    }
+    
+    if(self.queuePlayer.items.count > 0) {
+        [self.queuePlayer advanceToNextItem];
+    }else {
+        
+    }
+    [self.queuePlayer seekToTime:kCMTimeZero];
+    [self.sliderSeek setValue:0.0];
+    [self.txtcurrentTime setText:@"00:00:00"];
+    [self syncScrubber];
+    [self showPlayButton];
+}
+
+
+
+#pragma mark - seek
 
 - (IBAction)beginScrubbing:(id)sender{
     mRestoreAfterScrubbingRate = [self.queuePlayer rate];
@@ -364,125 +521,73 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
 
 /* Set the player current time to match the scrubber position. */
 - (IBAction)scrub:(id)sender{
-    if ([sender isKindOfClass:[UISlider class]] && !isSeeking)
-    {
-        isSeeking = YES;
-        UISlider* slider = sender;
-        
-        CMTime playerDuration = [self playerItemDuration];
-        if (CMTIME_IS_INVALID(playerDuration)) {
-            return;
-        }
-        
-        double duration = CMTimeGetSeconds(playerDuration);
-        if (isfinite(duration))
-        {
-            float minValue = [slider minimumValue];
-            float maxValue = [slider maximumValue];
-            float value = [slider value];
-            
-            double time = duration * (value - minValue) / (maxValue - minValue);
-            
-            [self.queuePlayer seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    isSeeking = NO;
-                });
-            }];
-        }
-    }
 }
 
 /* The user has released the movie thumb control to stop scrubbing through the movie. */
 - (IBAction)endScrubbing:(id)sender{
-    if (!playerTimerObserver)
+    
+    CMTime playerDuration = [self playerItemDuration];
+    if (CMTIME_IS_INVALID(playerDuration))
     {
-        CMTime playerDuration = [self playerItemDuration];
-        if (CMTIME_IS_INVALID(playerDuration))
-        {
-            return;
-        }
-        
-        double duration = CMTimeGetSeconds(playerDuration);
-        if (isfinite(duration))
-        {
-            CGFloat width = CGRectGetWidth([self.sliderSeek bounds]);
-            double tolerance = 0.5f * duration / width;
-            
-            __weak YTAudioPlayerController *weakSelf = self;
-            playerTimerObserver = [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(tolerance, NSEC_PER_SEC) queue:NULL usingBlock:
-                                   ^(CMTime time)
-                                   {
-                                       [weakSelf syncScrubber];
-                                   }];
-        }
+        return;
     }
     
-    if (mRestoreAfterScrubbingRate)
+    double duration = CMTimeGetSeconds(playerDuration);
+    if (isfinite(duration))
     {
-        [self.queuePlayer setRate:mRestoreAfterScrubbingRate];
-        mRestoreAfterScrubbingRate = 0.f;
+       __weak YTAudioPlayerController *weakSelf = self;
+        localTimer = [self.queuePlayer  addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.2f, NSEC_PER_SEC) queue:NULL usingBlock:
+                      ^(CMTime time)
+                      {
+                          [weakSelf syncScrubber];
+                      }];
+        float value = [self.sliderSeek value];
+        float minValue = [self.sliderSeek minimumValue];
+        float maxValue = [self.sliderSeek maximumValue];
+        double time = duration * (value - minValue) / (maxValue - minValue);
+        
+        [self.queuePlayer  seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC)];
+        [self.queuePlayer  play];
     }
 }
 
 
-- (void)didFinishAudioPlayerItem {
-   
-    [DejalBezelActivityView removeViewAnimated:YES];
-    
-    [self removePlayerTimeObserver];
-    
-    if(self.queuePlayer) {
-        [self.queuePlayer.currentItem removeObserver:self forKeyPath:@"status"];
+#pragma mark - Scrubber
+
+- (void)initScrubberTimer{
+    //    if(detail.isLive.intValue == 0) {
+    double interval = .1f;
+    CMTime playerDuration = [self playerItemDuration];
+    if (CMTIME_IS_INVALID(playerDuration))
+    {
+        [self.txtDuration setHidden:YES];
+        [self.txtcurrentTime setHidden:YES];
+        [self.sliderSeek setHidden:YES];
+        return;
     }
-    
-    if(self.queuePlayer.items.count > 0) {
-        [self.queuePlayer advanceToNextItem];
+    double duration = CMTimeGetSeconds(playerDuration);
+    if (isfinite(duration))
+    {
+        CGFloat width = CGRectGetWidth([self.sliderSeek bounds]);
+        interval = 0.5f * duration / width;
+        NSString *txtInterVal = [YTOnWorldUtility stringWithTimeInterval:duration];
+        [self.txtDuration setText:txtInterVal];
     }else {
-        
+        [self.txtDuration setHidden:YES];
+        [self.txtcurrentTime setHidden:YES];
+        [self.sliderSeek setHidden:YES];
+        return ;
     }
-    [self.queuePlayer seekToTime:kCMTimeZero];
-    [self.sliderSeek setValue:0.0];
-    [self.txtcurrentTime setText:@"00:00:00"];
-    [self syncScrubber];
-    [self syncButtonPlay];
+    
+    /* Update the scrubber during normal playback. */
+    __weak YTAudioPlayerController *weakSelf = self;
+    playerTimerObserver = [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
+                                                                         queue:NULL /* If you pass NULL, the main queue is used. */
+                                                                    usingBlock:^(CMTime time){
+                                                                        [weakSelf syncScrubber];
+                                                                    }];
+    //    }
 }
-
-
--(void)initScrubberTimer{
-//    if(detail.isLive.intValue == 0) {
-        double interval = .1f;
-        CMTime playerDuration = [self playerItemDuration];
-        if (CMTIME_IS_INVALID(playerDuration))
-        {
-            [self.txtDuration setHidden:YES];
-            [self.txtcurrentTime setHidden:YES];
-            [self.sliderSeek setHidden:YES];
-            return;
-        }
-        double duration = CMTimeGetSeconds(playerDuration);
-        if (isfinite(duration))
-        {
-            CGFloat width = CGRectGetWidth([self.sliderSeek bounds]);
-            interval = 0.5f * duration / width;
-            NSString *txtInterVal = [YTOnWorldUtility stringWithTimeInterval:duration];
-            [self.txtDuration setText:txtInterVal];
-        }else {
-            [self.txtDuration setHidden:YES];
-            [self.txtcurrentTime setHidden:YES];
-            [self.sliderSeek setHidden:YES];
-            return ;
-        }
-        
-        /* Update the scrubber during normal playback. */
-        __weak YTAudioPlayerController *weakSelf = self;
-       playerTimerObserver = [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(interval, NSEC_PER_SEC)
-                                                                        queue:NULL /* If you pass NULL, the main queue is used. */
-                                                                   usingBlock:^(CMTime time){
-                                                                       [weakSelf syncScrubber];
-                                                                   }];
-//    }
-}
-
 
 - (void)syncScrubber{
     
@@ -506,7 +611,6 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     }
 }
 
-
 - (CMTime)playerItemDuration{
     
     AVPlayerItem *playerItem = [self.queuePlayer currentItem];
@@ -523,44 +627,17 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    [self becomeFirstResponder];
-}
 
-- (void)viewWillDisappear:(BOOL)animated{
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-    [self resignFirstResponder];
-    
-    AVPlayerItem *playerItem = self.queuePlayer.currentItem;
-    [playerItem removeObserver:self forKeyPath:@"status"];
-    [self.queuePlayer removeAllItems];
-    [self.queuePlayer pause];
 
-    if(chromecastManager) {
-        if(chromecastManager.isConnected) {
-            [chromecastManager stopCastMedia];
-            if(chromecastTimer) {
-                [chromecastTimer invalidate];
-                chromecastTimer = nil;
-            }
-        }
+#pragma mark - control
+
+- (void)syncPlaybutton {
+    if(self.queuePlayer.rate >0) {
+        [self.btnPlay setImage:[UIImage imageNamed:@"pause_icon"] forState:UIControlStateNormal];
+    }else {
+        [self.btnPlay setImage:[UIImage imageNamed:@"icon_audio_player"] forState:UIControlStateNormal];
     }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:AVAudioSessionInterruptionNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:AVPlayerItemDidPlayToEndTimeNotification
-                                                  object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:AVPlayerItemFailedToPlayToEndTimeNotification
-                                                  object:nil];
-    
-    [super viewWillDisappear:animated];
 }
-
 - (void)showStopButton {
     [self.btnPlay setImage:[UIImage imageNamed:@"pause_icon"] forState:UIControlStateNormal];
 }
@@ -595,6 +672,13 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
     
 }
 
+- (IBAction)click_cloase_imagAdv:(id)sender {
+    [self.advImageView setHidden:YES];
+}
+
+- (IBAction)click_skip:(id)sender {
+}
+
 - (IBAction)volumeChanged:(id)sender {
     
     if (CHROMCAST_MANAGER.chromcastCtrl.isConnected) {
@@ -604,6 +688,184 @@ static void *itemBufferEmptyContext = &itemBufferEmptyContext;
         [CHROMCAST_MANAGER.chromcastCtrl.deviceManager setVolume:idealVolume];
     }
 }
+
+
+
+#pragma mark - control audio view
+
+
+- (void)setHiddenLoadingView:(BOOL)flag {
+    if(flag) {
+        [self.loadingView stopAnimating];
+    }else {
+        [self.loadingView startAnimating];
+    }
+    [self.loadingView setHidden:flag];
+}
+#pragma mark - adv 
+
+- (void)loadAdvData {
+    
+    NSArray *advs = [contentObj.detail.adv allObjects];
+    NSSortDescriptor *sortStart = [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:YES];
+    m_adv  = [[NSMutableArray alloc]initWithArray:[advs sortedArrayUsingDescriptors:@[sortStart]]];
+    if(m_adv.count >0) {
+        currentAdvObject = m_adv [0];
+    }
+}
+
+
+
+- (BFTask *)parserAdvInfo{
+    
+    BFTaskCompletionSource *completionSource = [BFTaskCompletionSource taskCompletionSource];
+    [[DATA_MANAGER advInfoWithURLString:currentAdvObject.link] continueWithBlock:^id(BFTask *task) {
+        if(task.error) {
+            [completionSource setError:task.error];
+        }else {
+            currnetAdvInfo = task.result;
+            [completionSource setResult:nil];
+        }
+        return nil;
+    }];
+    return completionSource.task;
+}
+
+
+- (void)startAdv {
+    
+   
+    if(self.queuePlayer) { // pause audio
+        [self.queuePlayer pause];
+    }
+    if(currentAdvObject) {
+        if(currentAdvObject.type.intValue == TypeVideo) {
+            if(currnetAdvInfo) {
+                NSURL *url = [NSURL URLWithString:currnetAdvInfo.url];
+                AVPlayerItem *playItem = [[AVPlayerItem alloc] initWithURL:url];
+                
+                [[NSNotificationCenter defaultCenter] addObserver:self
+                                                         selector:@selector(videoAdvPlayerItemDidReachEnd:)
+                                                             name:AVPlayerItemDidPlayToEndTimeNotification
+                                                           object:advPlayerItem];
+                
+                [[NSNotificationCenter defaultCenter] addObserver:self
+                                                         selector:@selector(videoAdPlayerItemFailedToReachEnd:)
+                                                             name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                           object:advPlayerItem];
+                
+                [playItem addObserver:self forKeyPath:@"status"
+                              options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+                              context:itemAdvContext];
+                
+                advPlayerItem = playItem;
+                advPlayer = [[AVPlayer alloc]initWithPlayerItem:advPlayerItem];
+                
+                // update duration & current time
+                __weak YTAudioPlayerController * weakSelf = self;
+                advTimerObserver= [advPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, 1) queue:NULL usingBlock:^(CMTime time) {
+                    
+                    int i = (int)(currnetAdvInfo.duration - CMTimeGetSeconds(advPlayer.currentTime));
+                    if (i >= 0) {
+                        NSString *lbAdvSecond = [NSString stringWithFormat:@"This ad will close in %d", i];
+                        [weakSelf.lbAdvTime setText:lbAdvSecond];
+                    }
+                    else {
+                        [weakSelf.lbAdvTime setText:@""];
+                    }
+                }];
+                [self.queuePlayer pause];
+                [advPlayer play];
+            }else {
+                [self didFinishAdv];
+            }
+        }else if(currentAdvObject.type.intValue == TypeImage){
+            
+            [self.advImageView setHidden:NO];
+            [self.imgAdv sd_setImageWithURL:[NSURL URLWithString:currnetAdvInfo.url] placeholderImage:[UIImage imageNamed:@"placeHolder.png"]];
+        }
+    }
+}
+
+
+
+- (void)releaseCurrentAdv {
+    
+    [advPlayerItem removeObserver:self forKeyPath:@"status"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:advPlayerItem];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                  object:advPlayerItem];
+
+    
+}
+
+- (void)didFinishAdv {
+    if(m_adv.count > 0) {
+        [m_adv removeObjectAtIndex:0];
+        [self nextAdv];
+    }
+    if(self.queuePlayer) { // played
+        [self.queuePlayer play];
+    }else {
+        [self startAudio];
+    }
+}
+
+- (void)nextAdv {
+    if(m_adv.count > 0) {
+        currentAdvObject = m_adv[0];
+    }else {
+        currnetAdvInfo = nil;
+        currentAdvObject = nil;
+    }
+}
+
+
+- (void)scheduleTimerDisplayAdv {
+    
+    [timer invalidate];
+    timer = nil;
+    timer = [NSTimer scheduledTimerWithTimeInterval:currnetAdvInfo.start
+                                             target:self
+                                           selector:@selector(timerDisplayAdv:)
+                                           userInfo:nil repeats:NO];
+}
+
+
+- (void)timerDisplayAdv:(NSTimer *)timer {
+   
+    if(currentAdvObject.type.intValue == TypeVideo) {
+        if(self.queuePlayer) {
+            [self.queuePlayer pause];
+        }
+    }
+    [self startAdv];
+}
+
+- (void)timerAppearSkipButton:(NSTimer *)timer {
+    if(isPlayingAdv) {
+        _btnSkip.hidden = NO;
+    }
+    [timerSkip invalidate];
+    timerSkip = nil;
+    
+}
+
+
+
+- (void)videoAdvPlayerItemDidReachEnd:(NSNotification *)notification {
+    [self didFinishAdv];
+    
+}
+
+- (void)videoAdPlayerItemFailedToReachEnd:(NSNotification *)notification {
+    [self didFinishAdv];
+
+}
+
 
 
 

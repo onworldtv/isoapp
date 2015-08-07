@@ -345,10 +345,10 @@ EFNraXA
                     <color key="color" red="0.3803921938" green="0.64313727620000005" blue="0.98039221759999995" alpha="1" colorSpace="deviceRGB"/>
                 </activityIndicatorView>
                 <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duw-56-xMq" userLabel="timeline">
-                    <rect key="frame" x="327" y="40" width="241" height="240"/>
+                    <rect key="frame" x="268" y="40" width="300" height="240"/>
                     <subviews>
                         <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="BPZ-EZ-YGA" userLabel="tbEpisode">
-                            <rect key="frame" x="0.0" y="0.0" width="241" height="240"/>
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="240"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="Xo5-8M-BCq"/>
@@ -356,10 +356,10 @@ EFNraXA
                             </connections>
                         </tableView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gL8-9X-jma">
-                            <rect key="frame" x="0.0" y="0.0" width="241" height="35"/>
+                            <rect key="frame" x="0.0" y="0.0" width="300" height="35"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nFe-Gz-EDe" userLabel="live view">
-                                    <rect key="frame" x="183" y="4" width="55" height="28"/>
+                                    <rect key="frame" x="242" y="4" width="55" height="28"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_islive" translatesAutoresizingMaskIntoConstraints="NO" id="gSp-0O-RFk">
                                             <rect key="frame" x="6" y="10" width="8" height="8"/>
@@ -393,7 +393,7 @@ EFNraXA
                             </constraints>
                         </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-Dl-sOo">
-                            <rect key="frame" x="0.0" y="35" width="241" height="205"/>
+                            <rect key="frame" x="0.0" y="35" width="300" height="205"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="241" id="xoZ-GQ-Tyd"/>
                             </constraints>
@@ -422,7 +422,7 @@ EFNraXA
                         <constraint firstItem="NQI-Dl-sOo" firstAttribute="top" secondItem="gL8-9X-jma" secondAttribute="bottom" id="OuV-pk-YZF"/>
                         <constraint firstAttribute="trailing" secondItem="BPZ-EZ-YGA" secondAttribute="trailing" id="P2K-T6-AkV"/>
                         <constraint firstItem="NQI-Dl-sOo" firstAttribute="leading" secondItem="Duw-56-xMq" secondAttribute="leading" id="Vy0-sn-9fw"/>
-                        <constraint firstAttribute="width" constant="241" id="a0n-at-Znc"/>
+                        <constraint firstAttribute="width" constant="300" id="a0n-at-Znc"/>
                         <constraint firstAttribute="bottom" secondItem="BPZ-EZ-YGA" secondAttribute="bottom" id="gmU-yf-sWT"/>
                         <constraint firstAttribute="trailing" secondItem="BPZ-EZ-YGA" secondAttribute="trailing" id="imb-fa-Wt6"/>
                         <constraint firstItem="gL8-9X-jma" firstAttribute="leading" secondItem="Duw-56-xMq" secondAttribute="leading" id="tF5-Ht-bBC"/>

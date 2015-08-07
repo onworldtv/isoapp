@@ -136,9 +136,8 @@
                         <constraint firstItem="EYT-jL-V64" firstAttribute="width" secondItem="7mo-Hx-WoK" secondAttribute="width" id="yfF-5V-MzG"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qYT-32-cnz" userLabel="containerView">
-                    <rect key="frame" x="0.0" y="90" width="320" height="478"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qYT-32-cnz" userLabel="containerView">
+                    <rect key="frame" x="0.0" y="90" width="320" height="325"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

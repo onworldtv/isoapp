@@ -38,8 +38,11 @@
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name: UIDeviceOrientationDidChangeNotification
                                                object: nil];
+    [self.collectionView setScrollEnabled:NO];
     [self.collectionView reloadData];
 }
+
+
 
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
@@ -87,6 +90,7 @@
     int number = [YTOnWorldUtility collectionViewItemPerRow];
     CGRect frame = collectionView.frame;
     UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout*)collectionViewLayout;
+    
     CGFloat width = (frame.size.width - layout.sectionInset.left - layout.sectionInset.right - layout.minimumInteritemSpacing) / number;
     
     if(width > 0) {

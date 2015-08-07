@@ -116,17 +116,15 @@ static YTDataManager *m_instance;
                                                               YTGenre *genre = [YTGenre MR_findFirstByAttribute:@"genID" withValue:@([[item valueForKey:@"id"] intValue]) inContext:localContext];
                                                               if(genre == nil) {
                                                                   genre = [YTGenre MR_createEntityInContext:localContext];
-                                                              }else {
-                                                                  genre.content = nil;
-                                                              }
-                                                              genre.genID = @([[item valueForKey:@"id"] intValue]);
-                                                              genre.genName = [item valueForKey:@"name"];
-                                                              
-                                                              if(category){
-                                                                  [category removeGenreObject:genre];
-                                                                  [category addGenreObject:genre];
+                                                                  genre.genID = @([[item valueForKey:@"id"] intValue]);
+                                                                  genre.genName = [item valueForKey:@"name"];
                                                                   
+                                                                  if(category){
+                                                                      [category addGenreObject:genre];
+                                                                      
+                                                                  }
                                                               }
+                                                              
                                                               // save content
                                                               NSMutableSet *setContents = [[NSMutableSet alloc]init];
                                                               for(NSDictionary *contentDict in item[@"items"]) {
@@ -144,6 +142,7 @@ static YTDataManager *m_instance;
                                                                   [setContents addObject:content];
                                                               }
                                                               if(setContents.allObjects.count >0 && genre){
+                                                                  genre.content = nil;
                                                                   [genre addContent:setContents];
                                                               }
                                                           }

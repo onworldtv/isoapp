@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "YTPlayerView.h"
 @interface YTAudioPlayerController : UIViewController <ChromecastControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISlider *sliderSeek;
@@ -26,11 +26,22 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 @property (weak, nonatomic) IBOutlet UISlider *sliderVolume;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnSkip;
+
+@property (weak, nonatomic) IBOutlet UIView *topAdvView;
+@property (weak, nonatomic) IBOutlet UIView *advImageView;
+
+
+@property (weak, nonatomic) IBOutlet UILabel *lbAdvTime;
+@property (weak, nonatomic) IBOutlet UIImageView *imgAdv;
+
 - (id)initWithID:(NSNumber*)ID;
 
 - (IBAction)click_play:(id)sender;
 - (IBAction)click_next:(id)sender;
 - (IBAction)click_back:(id)sender;
+- (IBAction)click_cloase_imagAdv:(id)sender;
+- (IBAction)click_skip:(id)sender;
 
 - (IBAction)volumeChanged:(id)sender;
 

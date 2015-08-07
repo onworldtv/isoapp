@@ -69,6 +69,36 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self configureView];
+}
+
+
+- (void)didConnectToDevice:(GCKDevice *)device {
+    [rightBarItem setImage:[UIImage imageNamed:@"cast_on"] forState:UIControlStateNormal];
+}
+
+
+- (void)didDisconnect {
+    [rightBarItem setImage:[UIImage imageNamed:@"cast_off"] forState:UIControlStateNormal];
+}
+
+
+
+- (void)click_chromcast:(UIBarButtonItem *)sender {
+    
+    [self performSegueWithIdentifier:@"listDeviceCast" sender:self];
+    
+    [rightBarItem.imageView setAnimationDuration:10];
+    
+}
+
+- (void)reloadViewWithContentID:(NSNumber *)contentID {
+    _contentID = contentID;
+    [self configureView];
+}
+
+- (void)configureView {
+    
     [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
     contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:_contentID];
     BFTask *task = nil;
@@ -85,6 +115,8 @@
         }
         YTDetailViewController *detailViewCtrl = [[YTDetailViewController alloc]initWithContent:contentObj];
         [detailViewCtrl setDelegate:self];
+        
+        viewControllers = [NSMutableArray array];
         [viewControllers addObject:detailViewCtrl];
         
         if(contentObj.detail.timeline.allObjects.count >0 || contentObj.detail.episode.allObjects.count >0) {
@@ -113,30 +145,7 @@
     }];
 }
 
-
-- (void)didConnectToDevice:(GCKDevice *)device {
-    [rightBarItem setImage:[UIImage imageNamed:@"cast_on"] forState:UIControlStateNormal];
-}
-
-
-- (void)didDisconnect {
-    [rightBarItem setImage:[UIImage imageNamed:@"cast_off"] forState:UIControlStateNormal];
-}
-
-
-
-- (void)click_chromcast:(UIBarButtonItem *)sender {
-    
-    [self performSegueWithIdentifier:@"listDeviceCast" sender:self];
-    
-    [rightBarItem.imageView setAnimationDuration:10];
-    
-}
-
-
 - (void)setContentID:(NSNumber *)ID {
-
-     viewControllers = [NSMutableArray array];
     _contentID = ID;
 }
 
@@ -203,7 +212,7 @@
 }
 
 - (void)delegatePlayItemWithID:(NSNumber *)itemID {
-    
+
     if(contentObj.detail.mode.intValue == ModeView) {
         
         YTPlayerViewController *playerViewCtrl = [[YTPlayerViewController alloc]initWithID:itemID];
@@ -259,7 +268,7 @@
 }
 
 - (void)delegateSelectedItem:(NSNumber *)itemID {
-    [self setContentID:itemID];
+    [self reloadViewWithContentID:itemID];
 }
             
 @end

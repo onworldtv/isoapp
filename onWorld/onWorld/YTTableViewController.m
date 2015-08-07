@@ -109,7 +109,7 @@
     }
     
     if(_numberItems == 0) {
-        _numberItems = defaultNumberItems = 2;
+        _numberItems = defaultNumberItems = [YTOnWorldUtility collectionViewItemPerRow];
     }
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
@@ -174,7 +174,7 @@
     
     return 1;
 }
-static int i = 0;
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"CellIdentifier";
@@ -217,8 +217,8 @@ static int i = 0;
         }
         
         NSArray *subItems = [itemsDict valueForKey:@"content"];
-        if(_enableMoreButton && subItems.count >6) {
-            return (3 * height) + 10;
+        if(_enableMoreButton && subItems.count > [YTOnWorldUtility numberItemPerTableCell]) {
+            return (([YTOnWorldUtility numberItemPerTableCell]/[YTOnWorldUtility collectionViewItemPerRow]) * height) + 10;
         }
         if(subItems.count < _numberItems &&_contentItems.count > 1)
             return height + 30 ;
@@ -277,7 +277,7 @@ static int i = 0;
 
 - (void)click_showMore:(UIButton *)sender{
     if([_delegate respondsToSelector:@selector(showAllContentInsideGenre:flag:)]) {
-        int tag = sender.tag;
+        int tag = (int)sender.tag;
         if(!m_providerID && m_categoryID)
             [_delegate showAllContentInsideGenre:tag flag:YES];
         else
@@ -294,9 +294,9 @@ static int i = 0;
     NSDictionary *itemsAtPath = _contentItems[[(YTIndexedCollectionView *)collectionView indexPath].section];
     
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
-    if(subItems.count > 6 && _enableMoreButton && _contentItems.count >1) {
+    if(subItems.count > [YTOnWorldUtility numberItemPerTableCell] && _enableMoreButton && _contentItems.count >1) {
         collectionView.scrollEnabled = NO;
-        return 6;
+        return [YTOnWorldUtility numberItemPerTableCell];
     }
     return subItems.count;
 }
@@ -304,7 +304,7 @@ static int i = 0;
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {    
     YTGirdItemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
-    int section = [(YTIndexedCollectionView *)collectionView indexPath].section;
+    NSInteger section = [(YTIndexedCollectionView *)collectionView indexPath].section;
     NSDictionary *itemsAtPath = _contentItems[section];
     NSArray *subItems = [itemsAtPath valueForKey:@"content"];
     NSDictionary * item = subItems[indexPath.item];

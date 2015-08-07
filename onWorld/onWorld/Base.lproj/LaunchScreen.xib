@@ -17,7 +17,7 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LauchImage" translatesAutoresizingMaskIntoConstraints="NO" id="4tS-Xx-HhG">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LauchImage" translatesAutoresizingMaskIntoConstraints="NO" id="4tS-Xx-HhG">
                     <rect key="frame" x="0.0" y="124" width="320" height="320"/>
                 </imageView>
             </subviews>

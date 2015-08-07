@@ -77,9 +77,7 @@
         _btnPopular.layer.borderWidth = 0;
         _btnRecent.layer.borderWidth = 0;
     }else if(selectedIndex == 1) {
-
-        
-        
+      
         [_btnRecomemdation setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
         [_btnPopular setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
         [_btnRecent setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
@@ -230,7 +228,6 @@
     else
         return nil;
 }
-
 
 
 - (IBAction)click_recommendation:(id)sender {
