@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="SourceSansPro-Bold.otf">
+            <string>SourceSansPro-Bold</string>
+            <string>SourceSansPro-Bold</string>
+            <string>SourceSansPro-Bold</string>
+            <string>SourceSansPro-Bold</string>
+            <string>SourceSansPro-Bold</string>
+        </mutableArray>
+        <mutableArray key="SourceSansPro-Regular.otf">
+            <string>SourceSansPro-Regular</string>
+            <string>SourceSansPro-Regular</string>
+            <string>SourceSansPro-Regular</string>
+            <string>SourceSansPro-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YTDetailViewController">
+            <connections>
+                <outlet property="imgBanner" destination="tIv-05-rxS" id="CSq-p4-vzk"/>
+                <outlet property="timelineView" destination="gKa-R6-32C" id="06I-rp-YSh"/>
+                <outlet property="txtContentName" destination="XoP-4o-e25" id="WAn-gk-cHR"/>
+                <outlet property="txtDuration" destination="9Zq-NF-tg2" id="QCf-Y6-0L0"/>
+                <outlet property="txtGenre" destination="vdZ-YC-zm0" id="t3G-lv-HtA"/>
+                <outlet property="txtNational" destination="YdB-17-rCc" id="kpN-ip-UJd"/>
+                <outlet property="txtYear" destination="cjd-pW-ZKI" id="gzF-ps-Ecf"/>
+                <outlet property="view" destination="iN0-l3-epB" id="Rjz-li-Kz7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="768" height="410"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iVH-s7-MLB" userLabel="detail">
+                    <rect key="frame" x="0.0" y="0.0" width="383" height="410"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yob-5F-Xl9" userLabel="top">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="230"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tIv-05-rxS">
+                                    <rect key="frame" x="0.0" y="0.0" width="382" height="222"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OQ0-gC-uGx">
+                                    <rect key="frame" x="153" y="76" width="77" height="77"/>
+                                    <state key="normal" image="play_content">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="click_player:" destination="-1" eventType="touchUpInside" id="VqM-4E-McL"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="230" id="4xA-yo-nmQ"/>
+                                <constraint firstItem="tIv-05-rxS" firstAttribute="leading" secondItem="Yob-5F-Xl9" secondAttribute="leading" id="B0a-MQ-AV1"/>
+                                <constraint firstItem="tIv-05-rxS" firstAttribute="top" secondItem="Yob-5F-Xl9" secondAttribute="top" id="D3i-zu-cS9"/>
+                                <constraint firstAttribute="trailing" secondItem="tIv-05-rxS" secondAttribute="trailing" id="F62-eV-vBh"/>
+                                <constraint firstAttribute="centerX" secondItem="OQ0-gC-uGx" secondAttribute="centerX" id="NYg-EH-RcJ"/>
+                                <constraint firstAttribute="bottom" secondItem="tIv-05-rxS" secondAttribute="bottom" constant="8" id="S5B-d3-2RF"/>
+                                <constraint firstAttribute="centerY" secondItem="OQ0-gC-uGx" secondAttribute="centerY" id="YEv-0P-1tR"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLF-dm-PG5" userLabel="mid">
+                            <rect key="frame" x="0.0" y="230" width="382" height="180"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GENRE:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xvm-CZ-PxO">
+                                    <rect key="frame" x="16" y="44" width="50" height="19"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="15"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NATIONAL:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJj-Jb-ssB">
+                                    <rect key="frame" x="16" y="67" width="72" height="19"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="15"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DURATION:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zyf-Ie-Dvj">
+                                    <rect key="frame" x="16" y="95" width="75" height="19"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="15"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vdZ-YC-zm0">
+                                    <rect key="frame" x="73" y="43" width="288" height="21"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YdB-17-rCc">
+                                    <rect key="frame" x="93" y="64" width="282" height="21"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zq-NF-tg2">
+                                    <rect key="frame" x="93" y="93" width="282" height="21"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="RELEASE YEAR:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LtU-Wa-FvI">
+                                    <rect key="frame" x="16" y="122" width="100" height="19"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="15"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjd-pW-ZKI">
+                                    <rect key="frame" x="121" y="120" width="254" height="21"/>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dsfsdfsdfsdf" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XoP-4o-e25">
+                                    <rect key="frame" x="16" y="8" width="351" height="33"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="33" id="rxI-7x-SeL"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="SourceSansPro-Bold" family="Source Sans Pro" pointSize="25"/>
+                                    <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="XoP-4o-e25" firstAttribute="top" secondItem="cLF-dm-PG5" secondAttribute="top" constant="8" id="12Q-ai-fZT"/>
+                                <constraint firstAttribute="trailing" secondItem="XoP-4o-e25" secondAttribute="trailing" constant="15" id="WBH-p4-WM9"/>
+                                <constraint firstItem="XoP-4o-e25" firstAttribute="leading" secondItem="cLF-dm-PG5" secondAttribute="leading" constant="16" id="pao-At-6Cg"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="cLF-dm-PG5" secondAttribute="trailing" constant="1" id="24c-Rt-9Vx"/>
+                        <constraint firstAttribute="bottom" secondItem="cLF-dm-PG5" secondAttribute="bottom" id="IrM-DD-9fa"/>
+                        <constraint firstAttribute="trailing" secondItem="Yob-5F-Xl9" secondAttribute="trailing" constant="1" id="Jcr-ci-sS1"/>
+                        <constraint firstItem="cLF-dm-PG5" firstAttribute="top" secondItem="Yob-5F-Xl9" secondAttribute="bottom" id="Ncw-Gc-TWq"/>
+                        <constraint firstItem="Yob-5F-Xl9" firstAttribute="leading" secondItem="iVH-s7-MLB" secondAttribute="leading" id="RaS-V2-Rbc"/>
+                        <constraint firstItem="Yob-5F-Xl9" firstAttribute="top" secondItem="iVH-s7-MLB" secondAttribute="top" id="u9q-5L-ZfI"/>
+                        <constraint firstItem="cLF-dm-PG5" firstAttribute="leading" secondItem="iVH-s7-MLB" secondAttribute="leading" id="ydc-dN-etb"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gKa-R6-32C" userLabel="timeline">
+                    <rect key="frame" x="385" y="0.0" width="383" height="410"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="gKa-R6-32C" firstAttribute="width" secondItem="iVH-s7-MLB" secondAttribute="width" id="C4K-aF-yO6"/>
+                <constraint firstItem="iVH-s7-MLB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VvI-TR-eKR"/>
+                <constraint firstAttribute="bottom" secondItem="iVH-s7-MLB" secondAttribute="bottom" id="YVt-iA-Fox"/>
+                <constraint firstItem="gKa-R6-32C" firstAttribute="leading" secondItem="iVH-s7-MLB" secondAttribute="trailing" constant="2" id="Z70-zj-87K"/>
+                <constraint firstItem="gKa-R6-32C" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bPB-eI-8CL"/>
+                <constraint firstAttribute="bottom" secondItem="gKa-R6-32C" secondAttribute="bottom" id="lJz-cg-OgX"/>
+                <constraint firstItem="iVH-s7-MLB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qaz-GV-xlu"/>
+                <constraint firstAttribute="trailing" secondItem="gKa-R6-32C" secondAttribute="trailing" id="yDJ-el-bg4"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="492" y="54"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="play_content" width="58" height="58"/>
+    </resources>
+</document>

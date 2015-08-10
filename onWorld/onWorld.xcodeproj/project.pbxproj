@@ -19,7 +19,9 @@
 		041CDD7B1B60F71D00B066A9 /* ChromecastDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7A1B60F71D00B066A9 /* ChromecastDeviceController.m */; };
 		041CDD7E1B60F8F000B066A9 /* VolumeChangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */; };
 		041CDD821B60F93700B066A9 /* YTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD801B60F93700B066A9 /* YTDeviceViewController.m */; };
+		04240CC41B7845FF00A2CD8C /* YTDetailViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04240CC31B7845FF00A2CD8C /* YTDetailViewController_ipad.xib */; };
 		04417EDE1B5CF1140068BEFC /* YTNavigationBarCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */; };
+		04510AA21B788BC9006AB156 /* YTDetailViewController_ipad_2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04510AA11B788BC9006AB156 /* YTDetailViewController_ipad_2.xib */; };
 		049E54D01B5FB38A0019BB66 /* YTDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */; };
 		04BCF0C61B60CD9C00E03D8A /* YTHomeItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BCF0C41B60CD9C00E03D8A /* YTHomeItemController.m */; };
 		04BCF0C71B60CD9C00E03D8A /* YTHomeItemController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BCF0C51B60CD9C00E03D8A /* YTHomeItemController.xib */; };
@@ -159,9 +161,11 @@
 		041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeChangeController.m; sourceTree = "<group>"; };
 		041CDD7F1B60F93700B066A9 /* YTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTDeviceViewController.h; path = onWorld/YTDeviceViewController.h; sourceTree = SOURCE_ROOT; };
 		041CDD801B60F93700B066A9 /* YTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTDeviceViewController.m; path = onWorld/YTDeviceViewController.m; sourceTree = SOURCE_ROOT; };
+		04240CC31B7845FF00A2CD8C /* YTDetailViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTDetailViewController_ipad.xib; path = onWorld/YTDetailViewController_ipad.xib; sourceTree = SOURCE_ROOT; };
 		042632BA1B68DFC1001C162F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		04417EDC1B5CF1140068BEFC /* YTNavigationBarCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTNavigationBarCustom.h; path = onWorld/YTNavigationBarCustom.h; sourceTree = SOURCE_ROOT; };
 		04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTNavigationBarCustom.m; path = onWorld/YTNavigationBarCustom.m; sourceTree = SOURCE_ROOT; };
+		04510AA11B788BC9006AB156 /* YTDetailViewController_ipad_2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTDetailViewController_ipad_2.xib; path = onWorld/YTDetailViewController_ipad_2.xib; sourceTree = SOURCE_ROOT; };
 		049E54CE1B5FB38A0019BB66 /* YTDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTDetailViewCell.h; path = onWorld/YTDetailViewCell.h; sourceTree = SOURCE_ROOT; };
 		049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTDetailViewCell.m; path = onWorld/YTDetailViewCell.m; sourceTree = SOURCE_ROOT; };
 		04BCF0C31B60CD9C00E03D8A /* YTHomeItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTHomeItemController.h; path = onWorld/YTHomeItemController.h; sourceTree = SOURCE_ROOT; };
@@ -352,6 +356,7 @@
 		040232551B380FF20093E85C /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				04240CC21B7845C800A2CD8C /* Detail Ipad */,
 				04E16E1C1B43F3CC0075F75E /* Player */,
 				04EE62C21B427A4000AB6FCD /* Category */,
 				04EE62BE1B4278F800AB6FCD /* More Category */,
@@ -392,6 +397,15 @@
 				041CDD801B60F93700B066A9 /* YTDeviceViewController.m */,
 			);
 			name = ChromCast;
+			sourceTree = "<group>";
+		};
+		04240CC21B7845C800A2CD8C /* Detail Ipad */ = {
+			isa = PBXGroup;
+			children = (
+				04240CC31B7845FF00A2CD8C /* YTDetailViewController_ipad.xib */,
+				04510AA11B788BC9006AB156 /* YTDetailViewController_ipad_2.xib */,
+			);
+			name = "Detail Ipad";
 			sourceTree = "<group>";
 		};
 		047EE36E1B60E96600B83AAF /* Main View */ = {
@@ -856,9 +870,11 @@
 				04E1FA271B3A4DB700D68AF4 /* SourceSansPro-Bold.otf in Resources */,
 				04E1FA251B3A4DB300D68AF4 /* SourceSansPro-BlackIt.otf in Resources */,
 				04E1FA371B3A4DD500D68AF4 /* SourceSansPro-Semibold.otf in Resources */,
+				04240CC41B7845FF00A2CD8C /* YTDetailViewController_ipad.xib in Resources */,
 				04E1FA311B3A4DCA00D68AF4 /* SourceSansPro-Light.otf in Resources */,
 				04EE8A871B44D0D0004133A5 /* YTTimelineViewController.xib in Resources */,
 				04E1FA351B3A4DD200D68AF4 /* SourceSansPro-Regular.otf in Resources */,
+				04510AA21B788BC9006AB156 /* YTDetailViewController_ipad_2.xib in Resources */,
 				04E1FA2F1B3A4DC600D68AF4 /* SourceSansPro-It.otf in Resources */,
 				04F0AEC61B3BF51300615D90 /* YTHomeViewController.xib in Resources */,
 				04BCF0C71B60CD9C00E03D8A /* YTHomeItemController.xib in Resources */,

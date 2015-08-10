@@ -11,6 +11,7 @@
 @interface YTDetailViewController ()
 {
     YTContent *contentDetail;
+    UIViewController * m_timelineViewCtrl;
 }
 @end
 
@@ -25,11 +26,34 @@
     return self;
 }
 
+- (id)initWithContent:(YTContent *)content timelineView:(UIViewController *)timelineCtrl {
+    if(![YTOnWorldUtility isIdiomIphone]) { // is ipad
+        if(timelineCtrl) {
+            self = [super initWithNibName:@"YTDetailViewController_ipad" bundle:nil];
+        }else {
+            self = [super initWithNibName:@"YTDetailViewController_ipad_2" bundle:nil];
+        }
+    }else {
+        self  = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    }
+    
+    if(self) {
+        contentDetail = content;
+        m_timelineViewCtrl = timelineCtrl;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     if(contentDetail > 0) {
         [self performSelectorOnMainThread:@selector(bindingData) withObject:nil waitUntilDone:NO];
+    }
+    if(m_timelineViewCtrl) {
+        m_timelineViewCtrl.view.frame = self.timelineView.bounds;
+        [m_timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+        [self.timelineView addSubview:m_timelineViewCtrl.view];
     }
 }
 

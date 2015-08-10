@@ -113,23 +113,50 @@
         if(contentObj.detail == nil) {
             contentObj = [YTContent MR_findFirstByAttribute:@"contentID" withValue:_contentID];
         }
-        YTDetailViewController *detailViewCtrl = [[YTDetailViewController alloc]initWithContent:contentObj];
-        [detailViewCtrl setDelegate:self];
         
         viewControllers = [NSMutableArray array];
-        [viewControllers addObject:detailViewCtrl];
         
-        if(contentObj.detail.timeline.allObjects.count >0 || contentObj.detail.episode.allObjects.count >0) {
-            if(contentObj.detail.type.intValue == TypeSingle && contentObj.detail.isLive.intValue == 1 && contentObj.gen.category.cateID.intValue == 4) {
-                YTScheduleViewController *scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:contentObj.detail.timeline.allObjects
-                                                                                                   delegate:self];
-                [viewControllers addObject:scheduleViewCtrl];
-            }else {
+        
+       
+        
+        
+        if([YTOnWorldUtility isIdiomIphone]) {
+            
+            YTDetailViewController *detailViewCtrl = [[YTDetailViewController alloc]initWithContent:contentObj];
+            [detailViewCtrl setDelegate:self];
+            [viewControllers addObject:detailViewCtrl];
+            
+            
+            
+            if(contentObj.detail.isLive.intValue == 1) {
+                if(contentObj.detail.timeline.allObjects.count > 0) {
+                    YTScheduleViewController *scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:contentObj.detail.timeline.allObjects
+                                                                                                       delegate:self];
+                    [viewControllers addObject:scheduleViewCtrl];
+                }
+            }else if(contentObj.detail.timeline.count >0 || contentObj.detail.episode.allObjects.count >0){
                 YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self];
                 [viewControllers addObject:timelineCtrl];
             }
+        }else {
+            
+            UIViewController *viewCtrl = nil;
+            if(contentObj.detail.isLive.intValue == 1) {
+                if(contentObj.detail.timeline.allObjects.count > 0) {
+                    viewCtrl = [[YTScheduleViewController alloc]initWithArray:contentObj.detail.timeline.allObjects
+                                                                     delegate:self];
+                }
+            }else if(contentObj.detail.timeline.count >0 || contentObj.detail.episode.allObjects.count >0){
+                 viewCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self];
+            }
+            YTDetailViewController *detailViewCtrl = [[YTDetailViewController alloc]initWithContent:contentObj timelineView:viewCtrl];
+            [detailViewCtrl setDelegate:self];
+            [viewControllers addObject:detailViewCtrl];
+
+            
         }
         
+
         if(contentObj.gen){
             NSArray *relatives = contentObj.gen.content.allObjects;
             if(relatives.count >1) {
@@ -165,7 +192,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
-    
     UITableViewCell *cell=[self.tableView cellForRowAtIndexPath:indexPath];
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
@@ -181,8 +207,15 @@
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-     UIViewController *viewCtrl = viewControllers[indexPath.row];
-    return viewCtrl.view.frame.size.height;
+    if([YTOnWorldUtility isIdiomIphone]) {
+        UIViewController *viewCtrl = viewControllers[indexPath.row];
+        return viewCtrl.view.frame.size.height;
+    }else {
+        if(indexPath.row == 0) {
+            return 410;
+        }
+       return self.tableView.frame.size.height - 410;
+    }
 }
 
 

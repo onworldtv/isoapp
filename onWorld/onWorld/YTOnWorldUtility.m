@@ -48,6 +48,16 @@
     return 2;
 }
 
+
+
++ (BOOL)isIdiomIphone {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return YES;
+    }
+    return NO;
+}
+
+
 + (int)numberItemPerTableCell {
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         return 6;

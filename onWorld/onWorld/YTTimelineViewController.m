@@ -68,7 +68,6 @@
     }else {
         self.btnTimeLine.enabled = NO;
     }
-    
     if(viewControllers.count > 0) {
         [self addScheduleButton];
         [self setup];
@@ -77,6 +76,22 @@
 
 
 
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+
+    NSArray *subViews = [self.tabViewContainer subviews];
+    int i= 0;
+    int delta = self.tabViewContainer.frame.size.width / subViews.count;
+    for(UIButton *tabItem in subViews) {
+        
+        CGRect frame = CGRectMake(i*delta,0, delta, 35);
+        [tabItem setFrame:frame];
+        i++;
+    }
+}
 - (void)addScheduleButton {
 
     if(viewControllers.count >0) {
@@ -84,30 +99,41 @@
         listButton = [NSMutableArray array];
         int width = self.tabView.frame.size.width;
         int delta = width/viewControllers.count;
-        for(int i=0;i<viewControllers.count;i++) {
-            
+        
+        
+        if(viewControllers.count == 1) {
+            [self.tabView setBackgroundColor:[UIColor colorWithHexString:@"#5EA2FD"]];
+            self.tabView.layer.borderWidth= 0.0f;
             UIButton *btnTimeline = [UIButton buttonWithType:UIButtonTypeSystem];
-            [btnTimeline setTitle:tabItemTitle[i] forState:UIControlStateNormal];
-            
-            [btnTimeline setFrame:CGRectMake(delta * i + 1, 0, delta, 35)];
-            [btnTimeline setTag:i];
-            if(viewControllers.count > 0) {
-                [btnTimeline addTarget:self
-                                action:@selector(click_tabView:)
-                      forControlEvents:UIControlEventTouchDown];
-            }
-            if(i== index) {
-                [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:17]];
-                [btnTimeline setTitleColor:[UIColor colorWithHexString:@"#5EA2FD"] forState:UIControlStateNormal];
-                btnTimeline.layer.borderWidth = 0.5f;
-                btnTimeline.layer.borderColor = [UIColor colorWithHexString:@"5ea2fd"].CGColor;
-                
-            }else {
-                [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:17]];
-                [btnTimeline setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
-            }
-            [listButton addObject:btnTimeline];
+            [btnTimeline setTitle:tabItemTitle[0] forState:UIControlStateNormal];
+//            btnTimeline.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:21]];
+            [btnTimeline setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [self.tabViewContainer addSubview:btnTimeline];
+        }else {
+            for(int i=0;i<viewControllers.count;i++) {
+                UIButton *btnTimeline = [UIButton buttonWithType:UIButtonTypeSystem];
+                [btnTimeline setTitle:tabItemTitle[i] forState:UIControlStateNormal];
+                [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:21]];
+                [btnTimeline setFrame:CGRectMake(delta * i, 0, delta, 35)];
+                [btnTimeline setTag:i];
+                if(viewControllers.count > 0) {
+                    [btnTimeline addTarget:self
+                                    action:@selector(click_tabView:)
+                          forControlEvents:UIControlEventTouchDown];
+                }
+                if(i== index) {
+                  
+                    [btnTimeline setTitleColor:[UIColor colorWithHexString:@"#5EA2FD"] forState:UIControlStateNormal];
+                    btnTimeline.layer.borderWidth = 0.5f;
+                    btnTimeline.layer.borderColor = [UIColor colorWithHexString:@"5ea2fd"].CGColor;
+                    
+                }else {
+                    [btnTimeline setTitleColor:[UIColor yellowColor] forState:UIControlStateNormal];
+                }
+                [listButton addObject:btnTimeline];
+                [self.tabViewContainer addSubview:btnTimeline];
+            }
         }
     }
 }
@@ -120,7 +146,7 @@
     int delta = self.tabViewContainer.frame.size.width / subViews.count;
     for(UIButton *tabItem in subViews) {
         
-        CGRect frame = CGRectMake(i*delta+1,0, delta, 35);
+        CGRect frame = CGRectMake(i*delta,0, delta, 35);
         [tabItem setFrame:frame];
         i++;
     }
@@ -134,7 +160,7 @@
     [sender setTitleColor: [UIColor colorWithHexString:@"#5EA2FD"] forState:UIControlStateNormal];
     sender.layer.borderWidth = 0.5f;
     sender.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
-    index = sender.tag;
+    index = (int)sender.tag;
     
     [self setSelectedIndex:sender.tag animated:YES];
     
