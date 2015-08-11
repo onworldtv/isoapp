@@ -19,7 +19,7 @@
     NSMutableArray *listButton;
     int index;
     NSMutableArray *tabItemTitle;
-    
+    NSInteger m_tag;
     id<YTSelectedItemProtocol> m_delegate;
 }
 @end
@@ -27,11 +27,12 @@
 @implementation YTTimelineViewController
 
 
-- (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate {
+- (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate tableTag:(NSInteger)tag{
     self =[super initWithNibName:NSStringFromClass(self.class) bundle:nil]; {
         contentObj = content;
         index = 0;
         m_delegate = delegate;
+        m_tag = tag;
     }
     return self;
 }
@@ -39,34 +40,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     tabItemTitle = [NSMutableArray array];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector:@selector(deviceOrientationDidChange:)
-                                                 name: UIDeviceOrientationDidChangeNotification
-                                               object: nil];
+    
+    self.tabView.backgroundColor = [UIColor clearColor];
     
     viewControllers = [NSMutableArray array];
     _tabView.layer.borderWidth = 0.5f;
     _tabView.layer.borderColor = [UIColor darkGrayColor].CGColor;
     
-    _btnTimeLine.layer.borderColor = [UIColor blueColor].CGColor;
-    _btnEpisodes.layer.borderWidth = 0.5f;
-    [_btnTimeLine setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    
     
     if(contentObj.detail.timeline.allObjects.count >0) {
-        m_timelineViewController = [[YTTimelineTableview alloc]initWithContent:contentObj.detail.timeline.allObjects delegate:m_delegate];
+        m_timelineViewController = [[YTTimelineTableview alloc]initWithContent:contentObj.detail.timeline.allObjects delegate:m_delegate tag:m_tag];
         [viewControllers addObject:m_timelineViewController];
         [tabItemTitle addObject:@"TIMELINE"];
-    }else {
-        [self.btnTimeLine setEnabled:NO];
     }
     if(contentObj.detail.episode.allObjects.count >0) {
-        m_episodesViewController = [[YTEpisodesViewController alloc]initWithContent:contentObj.detail.episode.allObjects detailID:contentObj.contentID delegate:m_delegate];
-        [m_episodesViewController setCellViewTag:1];
+        m_episodesViewController = [[YTEpisodesViewController alloc]initWithContent:contentObj.detail.episode.allObjects
+                                                                           detailID:contentObj.contentID
+                                                                           delegate:m_delegate
+                                                                           tableTag:m_tag];
         [viewControllers addObject:m_episodesViewController];
         [tabItemTitle addObject:@"EPISODES"];
-    }else {
-        self.btnTimeLine.enabled = NO;
     }
     if(viewControllers.count > 0) {
         [self addScheduleButton];
@@ -75,13 +68,19 @@
 }
 
 
-
-
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
 
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector:@selector(deviceOrientationDidChange:)
+                                                 name: UIDeviceOrientationDidChangeNotification
+                                               object: nil];
+    
     NSArray *subViews = [self.tabViewContainer subviews];
     int i= 0;
     int delta = self.tabViewContainer.frame.size.width / subViews.count;
@@ -91,6 +90,7 @@
         [tabItem setFrame:frame];
         i++;
     }
+
 }
 - (void)addScheduleButton {
 
@@ -100,15 +100,20 @@
         int width = self.tabView.frame.size.width;
         int delta = width/viewControllers.count;
         
-        
         if(viewControllers.count == 1) {
-            [self.tabView setBackgroundColor:[UIColor colorWithHexString:@"#5EA2FD"]];
-            self.tabView.layer.borderWidth= 0.0f;
+            if(m_tag == 1) {
+                [self.tabView setBackgroundColor:[UIColor clearColor]];
+                self.tabView.layer.borderWidth= 0.5f;
+                self.tabView.layer.borderColor = [UIColor whiteColor].CGColor;
+            }else {
+                [self.tabView setBackgroundColor:[UIColor colorWithHexString:@"#5EA2FD"]];
+                self.tabView.layer.borderWidth= 0.0f;
+            }
             UIButton *btnTimeline = [UIButton buttonWithType:UIButtonTypeSystem];
             [btnTimeline setTitle:tabItemTitle[0] forState:UIControlStateNormal];
-//            btnTimeline.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [btnTimeline.titleLabel setFont:[UIFont fontWithName:@"UTM BEBAS" size:21]];
             [btnTimeline setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btnTimeline setFrame:CGRectMake(0, 0, delta, 35)];
             [self.tabViewContainer addSubview:btnTimeline];
         }else {
             for(int i=0;i<viewControllers.count;i++) {
@@ -123,7 +128,6 @@
                           forControlEvents:UIControlEventTouchDown];
                 }
                 if(i== index) {
-                  
                     [btnTimeline setTitleColor:[UIColor colorWithHexString:@"#5EA2FD"] forState:UIControlStateNormal];
                     btnTimeline.layer.borderWidth = 0.5f;
                     btnTimeline.layer.borderColor = [UIColor colorWithHexString:@"5ea2fd"].CGColor;
@@ -145,7 +149,6 @@
     int i= 0;
     int delta = self.tabViewContainer.frame.size.width / subViews.count;
     for(UIButton *tabItem in subViews) {
-        
         CGRect frame = CGRectMake(i*delta,0, delta, 35);
         [tabItem setFrame:frame];
         i++;
@@ -179,32 +182,9 @@
 - (void)setup {
     NSUInteger lastIndex = selectedIndex;
     selectedIndex = NSNotFound;
-    [self buttonSellected];
     [self setSelectedIndex:lastIndex];
     
 }
-- (void)buttonSellected {
-    
-    
-    if(selectedIndex == 0) {
-        
-        _btnTimeLine.layer.borderWidth = 1.0f;
-        _btnEpisodes.layer.borderColor = [UIColor colorWithHexString:@"#5EA2FD"].CGColor;
-        
-        [_btnTimeLine setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
-        [_btnEpisodes setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
-        _btnEpisodes.layer.borderWidth = 0;
-        
-    }else if(selectedIndex == 1) {
-        
-        [_btnTimeLine setTitleColor:[UIColor colorWithHexString:@"dfdfdf"] forState:UIControlStateNormal];
-        [_btnEpisodes setTitleColor:[UIColor colorWithHexString:@"5EA2FD"] forState:UIControlStateNormal];
-        
-        _btnTimeLine.layer.borderWidth = 0;
-        _btnEpisodes.layer.borderWidth = 1.0f;
-    }
-}
-
 
 - (void)setSelectedIndex:(NSUInteger)newSelectedIndex animated:(BOOL)animated
 {

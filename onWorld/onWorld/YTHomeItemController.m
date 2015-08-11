@@ -34,16 +34,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
      [self.collectionView registerClass:[YTGirdItemCell class] forCellWithReuseIdentifier:@"itemCell"];
-    [[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector:@selector(deviceOrientationDidChange:)
-                                                 name: UIDeviceOrientationDidChangeNotification
-                                               object: nil];
+  
     [self.collectionView setScrollEnabled:NO];
     [self.collectionView reloadData];
 }
 
 
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+//}
 
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector:@selector(deviceOrientationDidChange:)
+                                                 name: UIDeviceOrientationDidChangeNotification
+                                               object: nil];
+}
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
     

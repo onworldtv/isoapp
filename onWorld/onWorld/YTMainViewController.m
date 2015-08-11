@@ -96,7 +96,10 @@
     }];
 }
 
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -136,6 +139,7 @@
     UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
     [navCtrll pushViewController:moreCategoriesViewController animated:YES];
 }
+
 
 
 #pragma mark - tableview delegate

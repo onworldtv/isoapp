@@ -10,16 +10,14 @@
 
 @interface YTTimelineViewController : UIViewController
 @property (assign,nonatomic)int contentID;
-@property (weak, nonatomic) IBOutlet UIButton *btnTimeLine;
 @property (weak, nonatomic) IBOutlet UIButton *btnEpisodes;
 @property (weak, nonatomic) IBOutlet UIView *tabView;
 @property (weak, nonatomic) IBOutlet UIView *tabViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (nonatomic, weak) UIViewController *selectedViewController;
-@property (nonatomic, assign) int  tag;
 - (void)setViewControllers:(NSArray *)newViewControllers;
 
-- (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate;
+- (id)initWithContent:(YTContent*)content delegate:(id<YTSelectedItemProtocol>)delegate tableTag:(NSInteger)tag;
 
 
 

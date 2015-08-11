@@ -13,7 +13,7 @@
     int defaultNumber;
     NSArray *arrayRelatives;
     int mode;
-
+    UIInterfaceOrientation deviceCurrentOrientation;
 }
 @end
 
@@ -32,6 +32,7 @@
     return self;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if(mode == 0){
@@ -39,14 +40,21 @@
     }else {
         _m_title.text = @"VIEW RELATED";
     }
+    
+    [self.collectionView registerClass:[YTGirdItemCell class] forCellWithReuseIdentifier:@"itemCell"];
+    
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name: UIDeviceOrientationDidChangeNotification
                                                object: nil];
-    [self.collectionView registerClass:[YTGirdItemCell class] forCellWithReuseIdentifier:@"itemCell"];
-    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -59,13 +67,15 @@
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
     
-    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-        _numberOfItem = defaultNumber + 1;
-    }else {
-        _numberOfItem = defaultNumber;
+    if(deviceCurrentOrientation != [[UIApplication sharedApplication] statusBarOrientation]){
+        [self.collectionView reloadData];
     }
-    [self.collectionView reloadData];
+    deviceCurrentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 }
+
+
+
+
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;

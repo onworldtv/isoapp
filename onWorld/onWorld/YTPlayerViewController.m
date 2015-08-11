@@ -53,6 +53,9 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     
     NSMutableArray * arrayButtonSchedule;
     
+    
+    YTScheduleViewController *m_scheduleViewCtrl;
+    YTTimelineViewController * m_timelineViewCtrl;
     int showTimeline;
     
     NSTimer *scheduleDisplayAdv;
@@ -119,9 +122,12 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     return self;
 }
 
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
     [self initScrubberTimer];
     [self setUpGesture];
     
@@ -140,16 +146,17 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     [super viewDidAppear:animated];
     chromecastController.delegate = self;
     [self hiddenNavigator];
-    [self.scheduleView setHidden:YES];
-    if(m_arrayEpisodes.count >0) {
-        [self.tbvTableView setHidden:YES];
-        [self.contentLiveView setHidden:YES];
-    }else {
-        [self.tbvEpisodes setHidden:YES];
-    }
+    
 }
 
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+}
 
 
 #pragma mark - setup view
@@ -224,6 +231,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 
 #pragma mark - UI
+
+- (void)playerLoadAssetFailure {
+    [self.btnPlay setEnabled:NO];
+    [self.sliderTrackView setEnabled:NO];
+}
 
 -(void)showStopButton{
     [_btnPlay setImage:[UIImage imageNamed:@"pause_iphone"] forState:UIControlStateNormal];
@@ -385,11 +397,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         }
         [self.topView setHidden:!flag];
         [self.bottomView setHidden:!flag];
-        if((listSchedule.count >0 || m_arrayEpisodes.count >0) && flag) {
-            [self.scheduleView setHidden:NO];
-        }else{
-            [self.scheduleView setHidden:YES];
-        }
+//        if((listSchedule.count >0 || m_arrayEpisodes.count >0) && flag) {
+//            [self.scheduleView setHidden:NO];
+//        }else{
+//            [self.scheduleView setHidden:YES];
+//        }
     }];
     
 }
@@ -398,8 +410,20 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
 - (void)loadScheduleTimeline {
     
-    [self timelineAndEpisodes];
+//    [self timelineAndEpisodes];
+
     
+    if(detail.isLive.intValue == 1 && detail.timeline.allObjects.count >0) {
+        m_scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:detail.timeline.allObjects delegate:nil tag:1];
+        m_scheduleViewCtrl.view.frame = self.scheduleView.bounds;
+        [m_scheduleViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+        [self.scheduleView addSubview:m_scheduleViewCtrl.view];
+    }else if(detail.timeline.allObjects || detail.episode.allObjects.count >0) {
+        m_timelineViewCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:nil tableTag:1];
+        m_timelineViewCtrl.view.frame = self.scheduleView.bounds;
+        [m_timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+        [self.scheduleView addSubview:m_timelineViewCtrl.view];
+    }
     
 }
 
@@ -434,7 +458,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
             YTTimeline *timeline = listSchedule[i];
             UIButton *btnTimeline = [UIButton buttonWithType:UIButtonTypeSystem];
             [btnTimeline setTitle:timeline.title forState:UIControlStateNormal];
-            [btnTimeline setFrame:CGRectMake(54 * i + 10, 3, 54, 30)];
+            [btnTimeline setFrame:CGRectMake(54 * i, 3, 54, 30)];
             [btnTimeline setTag:i];
             [btnTimeline addTarget:self
                             action:@selector(click_scheduleButton:)
@@ -547,7 +571,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     [[self loadUrlAdv] continueWithBlock:^id(BFTask *task) {
         if(!task.error) {
             if(currentAdvObject.start.intValue == 0 && currentAdvObject.type.intValue == TypeVideo){ //play adv right now
-                [self startPlayerAdv];
+//                [self startPlayerAdv];
+                [self didFinishAdvPlayer];
             }else {
                 [self startPlayer];
             }
@@ -833,6 +858,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                 
             case AVPlayerItemStatusReadyToPlay:
             {
+                [self.btnPlay setEnabled:YES];
+                [self.sliderTrackView setEnabled:YES];
                 NSLog(@"AVPlayerItemStatusReadyToPlay");
                 [self.loadingView stopAnimating];
                 [self.loadingView setHidden:YES];
@@ -847,6 +874,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
                 NSLog(@"AVPlayerItemStatusFailed");
                 AVPlayerItem *playerItem = (AVPlayerItem *)object;
                 [self assetFailedToPrepareForPlayback:playerItem.error];
+                [self playerLoadAssetFailure];
             }
             break;
         }
@@ -854,6 +882,8 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     /* AVPlayer "rate" property value observer. */
     else if (context == YTPlayerViewControllerRateObserverContext)
     {
+        [self.btnPlay setEnabled:YES];
+        [self.sliderTrackView setEnabled:YES];
         NSLog(@"AVPlayerDemoPlaybackViewControllerRateObservationContext");
         [self syncPlayPauseButtons];
     }
@@ -960,11 +990,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     
     [self.btnCast.imageView setAnimationDuration:8];
     isSeeking = NO;
-    if(listSchedule.count >0 || m_arrayEpisodes.count>0) {
-        [self.scheduleView setHidden:NO];
-    }else {
-        [self.scheduleView setHidden:YES];
-    }
+//    if(listSchedule.count >0 || m_arrayEpisodes.count>0) {
+//        [self.scheduleView setHidden:NO];
+//    }else {
+//        [self.scheduleView setHidden:YES];
+//    }
     if(detail.isLive.intValue == 1) {
         [self.liveView setHidden:NO];
         [self.liveView setAlpha:1];
@@ -1228,8 +1258,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     [navigatorCtrl.navigationBar setHidden:NO];
     
     [self stopCurrentPlayer];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)clickLiveViewTV:(UISwipeGestureRecognizer *)gestureRecognizer {

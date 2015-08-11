@@ -18,22 +18,30 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
+
     
-    if([self.superview.superview isKindOfClass:[UITableView class]]) {
-        UITableView *tableView = (UITableView *)self.superview.superview;
-        if(tableView.tag == 0)
-            return ;
-    }
     if(selected) {
-        [self.contentView setBackgroundColor:[UIColor whiteColor]];
-        [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
-        [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"6597de"]];
+        if(self.tag == 1) {
+        
+            [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
+            [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"6597de"]];
+        }else {
+            [self.contentView setBackgroundColor:[UIColor colorWithHexString:@"6597de"]];
+             [self setBackgroundColor:[UIColor colorWithHexString:@"6597de"]];
+            [_txtContentName setTextColor:[UIColor whiteColor]];
+            [_txtEpisodes setTextColor:[UIColor whiteColor]];
+        }
     }else {
-        [self.contentView setBackgroundColor:[UIColor colorWithHexString:@"6597de"]];
-        [_txtContentName setTextColor:[UIColor whiteColor]];
-        [_txtEpisodes setTextColor:[UIColor whiteColor]];
+        [self.contentView setBackgroundColor:[UIColor clearColor]];
+        [self setBackgroundColor:[UIColor clearColor]];
+        if(self.tag == 1) {
+            [_txtContentName setTextColor:[UIColor whiteColor]];
+            [_txtEpisodes setTextColor:[UIColor whiteColor]];
+        }else {
+            [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
+            [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"6597de"]];
+        }
     }
-    
 }
 
 @end

@@ -12,16 +12,18 @@
 @interface YTTimelineTableview ()
 {
     id<YTSelectedItemProtocol>m_delegate;
+    NSInteger cellViewTag;
 }
 @end
 
 @implementation YTTimelineTableview
 
-- (id)initWithContent:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate  {
+- (id)initWithContent:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate  tag:(NSInteger)cellTag{
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         _contentItems = [[NSMutableArray alloc]initWithArray:array];
         m_delegate = delegate;
+        cellViewTag = cellTag;
     }
     return self;
 }
@@ -30,7 +32,8 @@
     UINib *nib = [UINib nibWithNibName:@"YTTimelineViewCell" bundle:nil];
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"cellIdentify"];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-   
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    [self.tableView setBackgroundView:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,6 +85,7 @@
     cell.txtTimeline.text = [NSString stringWithFormat:@"%f - %f",[[item valueForKey:@"start"] floatValue],[[item valueForKey:@"end"] floatValue]];
     
     [cell setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+    [cell setTag:cellViewTag];
     return cell;
 }
 

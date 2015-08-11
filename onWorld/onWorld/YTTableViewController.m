@@ -59,6 +59,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [DejalBezelActivityView removeViewAnimated:YES];
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIDeviceOrientationDidChangeNotification
+                                                 object:nil];
 }
 
 
@@ -97,14 +101,20 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.edgesForExtendedLayout=UIRectEdgeNone;
+
+- (void)viewDidAppear:(BOOL)animated {
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector:@selector(deviceOrientationDidChange:)
                                                  name: UIDeviceOrientationDidChangeNotification
                                                object: nil];
-    if(_contentItems.count ==0) {
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+        if(_contentItems.count ==0) {
         [DejalBezelActivityView activityViewForView:[[UIApplication sharedApplication]keyWindow] withLabel:nil];
     }
     

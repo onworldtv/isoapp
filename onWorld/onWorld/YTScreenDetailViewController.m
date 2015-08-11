@@ -131,11 +131,12 @@
             if(contentObj.detail.isLive.intValue == 1) {
                 if(contentObj.detail.timeline.allObjects.count > 0) {
                     YTScheduleViewController *scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:contentObj.detail.timeline.allObjects
-                                                                                                       delegate:self];
+                                                                                                       delegate:self
+                                                                                                            tag:0];
                     [viewControllers addObject:scheduleViewCtrl];
                 }
             }else if(contentObj.detail.timeline.count >0 || contentObj.detail.episode.allObjects.count >0){
-                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self];
+                YTTimelineViewController *timelineCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self tableTag:0];
                 [viewControllers addObject:timelineCtrl];
             }
         }else {
@@ -144,10 +145,11 @@
             if(contentObj.detail.isLive.intValue == 1) {
                 if(contentObj.detail.timeline.allObjects.count > 0) {
                     viewCtrl = [[YTScheduleViewController alloc]initWithArray:contentObj.detail.timeline.allObjects
-                                                                     delegate:self];
+                                                                     delegate:self
+                                                                          tag:0];
                 }
             }else if(contentObj.detail.timeline.count >0 || contentObj.detail.episode.allObjects.count >0){
-                 viewCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self];
+                 viewCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:self tableTag:0];
             }
             YTDetailViewController *detailViewCtrl = [[YTDetailViewController alloc]initWithContent:contentObj timelineView:viewCtrl];
             [detailViewCtrl setDelegate:self];

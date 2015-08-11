@@ -11,6 +11,7 @@
 @interface YTEpisodesViewController () {
     NSNumber *m_detailID;
     id<YTSelectedItemProtocol>m_delegate;
+    NSInteger cellViewTag;
 }
 
 @end
@@ -19,12 +20,13 @@
 
 
 
-- (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID delegate:(id<YTSelectedItemProtocol>)delegate {
+- (id)initWithContent:(NSArray *)array detailID:(NSNumber *)detailID delegate:(id<YTSelectedItemProtocol>)delegate tableTag:(NSInteger)tag {
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         _contentItems = [[NSMutableArray alloc]initWithArray:array];
         m_detailID = detailID;
         m_delegate = delegate;
+        cellViewTag = tag;
         
     }
     return self;
@@ -47,9 +49,9 @@
     UINib *nib = [UINib nibWithNibName:@"YTEpisodesViewCell" bundle:nil];
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"cellIdentify"];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
     [self.tableView setBackgroundView:nil];
-    self.tableView.backgroundColor = [UIColor clearColor];
-     [self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,9 +96,7 @@
     
     cell.txtContentName.text = item.desc;
     cell.txtEpisodes.text = item.name;
-    cell.tag = _cellViewTag;
-    
-    
+    cell.tag = cellViewTag;
     return cell;
 }
 

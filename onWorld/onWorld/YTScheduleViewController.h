@@ -16,6 +16,9 @@
 @interface YTScheduleViewController : UIViewController
 @property (weak,nonatomic)IBOutlet UITableView *tableView;
 @property (weak,nonatomic)IBOutlet UIView *topView;
+@property (weak,nonatomic)IBOutlet UIView *titleView;
 @property (weak,nonatomic)IBOutlet UIView *backEndView;
-- (id)initWithArray:(NSArray *)array delegate:(id<DelegateSelectedScheduleItem>)delegate;
+@property (weak,nonatomic)IBOutlet NSLayoutConstraint *heightContraint;
+- (id)initWithArray:(NSArray *)array delegate:(id<DelegateSelectedScheduleItem>)delegate tag:(NSInteger)tagView;
+
 @end

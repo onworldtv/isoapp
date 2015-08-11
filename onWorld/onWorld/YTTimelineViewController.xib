@@ -31,13 +31,13 @@
                     </constraints>
                 </view>
                 <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pN-dK-r3Z" userLabel="containView">
-                    <rect key="frame" x="0.0" y="39" width="320" height="261"/>
+                    <rect key="frame" x="0.0" y="35" width="320" height="265"/>
                 </view>
             </subviews>
             <constraints>
                 <constraint firstItem="8pN-dK-r3Z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1Yh-2d-5RU"/>
                 <constraint firstItem="tkw-cs-PNW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4Us-io-fAv"/>
-                <constraint firstItem="8pN-dK-r3Z" firstAttribute="top" secondItem="tkw-cs-PNW" secondAttribute="bottom" constant="4" id="Jzn-H1-FX2"/>
+                <constraint firstItem="8pN-dK-r3Z" firstAttribute="top" secondItem="tkw-cs-PNW" secondAttribute="bottom" id="Jzn-H1-FX2"/>
                 <constraint firstAttribute="bottom" secondItem="8pN-dK-r3Z" secondAttribute="bottom" id="TrU-IC-EF6"/>
                 <constraint firstAttribute="trailing" secondItem="UY0-JM-w9B" secondAttribute="trailing" id="Y4v-6H-GFy"/>
                 <constraint firstAttribute="trailing" secondItem="8pN-dK-r3Z" secondAttribute="trailing" id="aJi-Tu-xYZ"/>

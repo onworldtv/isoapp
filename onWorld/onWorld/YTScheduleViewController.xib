@@ -13,7 +13,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YTScheduleViewController">
             <connections>
                 <outlet property="backEndView" destination="EKg-jV-8Cn" id="yfM-DM-qRW"/>
+                <outlet property="heightContraint" destination="NHm-b5-QgI" id="ZsJ-5L-83V"/>
                 <outlet property="tableView" destination="TG1-YP-VZZ" id="ZmS-1q-VB7"/>
+                <outlet property="titleView" destination="THD-0r-21Y" id="FvF-vp-sWi"/>
                 <outlet property="topView" destination="P99-wH-ebb" id="syZ-oB-bLo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -30,8 +32,9 @@
                             <rect key="frame" x="8" y="7" width="115" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="115" id="07e-zO-CWV"/>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="21" id="Bo3-X9-w6Z"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="UTM-Bebas" family="UTM Bebas" pointSize="24"/>
+                            <fontDescription key="fontDescription" name="UTM-Bebas" family="UTM Bebas" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -40,7 +43,6 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="NHm-b5-QgI"/>
                         <constraint firstAttribute="bottom" secondItem="67U-TM-toc" secondAttribute="bottom" constant="7" id="Uvf-8m-U5M"/>
-                        <constraint firstItem="67U-TM-toc" firstAttribute="top" secondItem="THD-0r-21Y" secondAttribute="top" constant="7" id="fo9-j8-4uM"/>
                         <constraint firstItem="67U-TM-toc" firstAttribute="leading" secondItem="THD-0r-21Y" secondAttribute="leading" constant="8" id="rhU-t8-72H"/>
                     </constraints>
                 </view>
@@ -71,7 +73,6 @@
                     </variation>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="EKg-jV-8Cn" firstAttribute="top" secondItem="THD-0r-21Y" secondAttribute="bottom" id="1Qg-KO-yiH"/>
                 <constraint firstAttribute="trailing" secondItem="THD-0r-21Y" secondAttribute="trailing" id="8Xm-bb-QJH"/>

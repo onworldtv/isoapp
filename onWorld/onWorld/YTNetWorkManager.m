@@ -10,6 +10,8 @@
 
 static const NSString *kServerBaseURL = @"http://api.onworldtv.com";
 
+//static const NSString *kServerBaseURL = @"http://test.apiownworldtv.com";
+
 @implementation YTNetWorkManager
 
 static YTNetWorkManager *m_instance;
