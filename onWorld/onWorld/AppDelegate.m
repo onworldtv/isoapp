@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "YTAudioPlayerController.h"
 #import "YTPlayerViewController.h"
+#import "UIWindow+Utility.h"
 @interface AppDelegate ()
 
 @end
@@ -82,9 +83,10 @@
 
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     
-    SWRevealViewController *revealViewController = (SWRevealViewController*) window.rootViewController;
-    if(revealViewController) {
-        UINavigationController *rootNavigationCtrl = (UINavigationController*)[revealViewController frontViewController];
+    UIViewController *viewController = [window visibleViewController];
+    if([viewController isKindOfClass:[SWRevealViewController class]]) {
+        SWRevealViewController *revealViewCtrl = (SWRevealViewController *)viewController;
+        UINavigationController *rootNavigationCtrl = (UINavigationController*)[revealViewCtrl frontViewController];
         UIViewController *topViewCtrl =  rootNavigationCtrl.topViewController;
         if([topViewCtrl isKindOfClass:[YTAudioPlayerController class]]) {
             return UIInterfaceOrientationMaskPortrait;

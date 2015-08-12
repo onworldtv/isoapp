@@ -14,6 +14,16 @@
 
 @implementation YTLoginViewController
 
+
+- (id)init {
+    self =[super initWithNibName:@"YTLoginViewController_ipad" bundle:nil];
+    if(self) {
+        
+    }
+    return self;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

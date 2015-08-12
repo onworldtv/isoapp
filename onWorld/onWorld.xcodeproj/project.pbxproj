@@ -20,6 +20,9 @@
 		041CDD7E1B60F8F000B066A9 /* VolumeChangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD7D1B60F8F000B066A9 /* VolumeChangeController.m */; };
 		041CDD821B60F93700B066A9 /* YTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CDD801B60F93700B066A9 /* YTDeviceViewController.m */; };
 		04240CC41B7845FF00A2CD8C /* YTDetailViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04240CC31B7845FF00A2CD8C /* YTDetailViewController_ipad.xib */; };
+		0426D0D21B7B3DF0008AEA9B /* UIWindow+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426D0D11B7B3DF0008AEA9B /* UIWindow+Utility.m */; };
+		0426D0D41B7B46A5008AEA9B /* YTLoginViewController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0426D0D31B7B46A5008AEA9B /* YTLoginViewController_ipad.xib */; };
+		0426D0D61B7B53C0008AEA9B /* YTAudioPlayerController_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0426D0D51B7B53C0008AEA9B /* YTAudioPlayerController_ipad.xib */; };
 		04417EDE1B5CF1140068BEFC /* YTNavigationBarCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */; };
 		04510AA21B788BC9006AB156 /* YTDetailViewController_ipad_2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04510AA11B788BC9006AB156 /* YTDetailViewController_ipad_2.xib */; };
 		049E54D01B5FB38A0019BB66 /* YTDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 049E54CF1B5FB38A0019BB66 /* YTDetailViewCell.m */; };
@@ -163,6 +166,10 @@
 		041CDD801B60F93700B066A9 /* YTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTDeviceViewController.m; path = onWorld/YTDeviceViewController.m; sourceTree = SOURCE_ROOT; };
 		04240CC31B7845FF00A2CD8C /* YTDetailViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTDetailViewController_ipad.xib; path = onWorld/YTDetailViewController_ipad.xib; sourceTree = SOURCE_ROOT; };
 		042632BA1B68DFC1001C162F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		0426D0D01B7B3DF0008AEA9B /* UIWindow+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+Utility.h"; path = "onWorld/UIWindow+Utility.h"; sourceTree = SOURCE_ROOT; };
+		0426D0D11B7B3DF0008AEA9B /* UIWindow+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+Utility.m"; path = "onWorld/UIWindow+Utility.m"; sourceTree = SOURCE_ROOT; };
+		0426D0D31B7B46A5008AEA9B /* YTLoginViewController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTLoginViewController_ipad.xib; path = onWorld/YTLoginViewController_ipad.xib; sourceTree = SOURCE_ROOT; };
+		0426D0D51B7B53C0008AEA9B /* YTAudioPlayerController_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTAudioPlayerController_ipad.xib; path = onWorld/YTAudioPlayerController_ipad.xib; sourceTree = SOURCE_ROOT; };
 		04417EDC1B5CF1140068BEFC /* YTNavigationBarCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTNavigationBarCustom.h; path = onWorld/YTNavigationBarCustom.h; sourceTree = SOURCE_ROOT; };
 		04417EDD1B5CF1140068BEFC /* YTNavigationBarCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTNavigationBarCustom.m; path = onWorld/YTNavigationBarCustom.m; sourceTree = SOURCE_ROOT; };
 		04510AA11B788BC9006AB156 /* YTDetailViewController_ipad_2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YTDetailViewController_ipad_2.xib; path = onWorld/YTDetailViewController_ipad_2.xib; sourceTree = SOURCE_ROOT; };
@@ -431,6 +438,7 @@
 				04E4243E1B57BDC1003EFF92 /* YTAudioPlayerController.h */,
 				04E4243F1B57BDC1003EFF92 /* YTAudioPlayerController.m */,
 				04E424401B57BDC1003EFF92 /* YTAudioPlayerController.xib */,
+				0426D0D51B7B53C0008AEA9B /* YTAudioPlayerController_ipad.xib */,
 				04E07F791B589FC9009597F1 /* YTMusicPlayer.h */,
 				04E07F7A1B589FC9009597F1 /* YTMusicPlayer.m */,
 			);
@@ -470,6 +478,7 @@
 				04EE31A81B61DFD300692DD0 /* logo-banner-default_1.png */,
 				04E110011B393279001958C3 /* YTLoginViewController.h */,
 				04E110021B393279001958C3 /* YTLoginViewController.m */,
+				0426D0D31B7B46A5008AEA9B /* YTLoginViewController_ipad.xib */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -538,6 +547,8 @@
 				04E23C1E1B4F732900186B52 /* YTSlider.h */,
 				04E23C1F1B4F732900186B52 /* YTSlider.m */,
 				041CDD781B60F71000B066A9 /* ChromCast */,
+				0426D0D01B7B3DF0008AEA9B /* UIWindow+Utility.h */,
+				0426D0D11B7B3DF0008AEA9B /* UIWindow+Utility.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -862,6 +873,7 @@
 				04E1FA271B3A4DB700D68AF4 /* SourceSansPro-Bold.otf in Resources */,
 				04E1FA251B3A4DB300D68AF4 /* SourceSansPro-BlackIt.otf in Resources */,
 				04E1FA371B3A4DD500D68AF4 /* SourceSansPro-Semibold.otf in Resources */,
+				0426D0D41B7B46A5008AEA9B /* YTLoginViewController_ipad.xib in Resources */,
 				04240CC41B7845FF00A2CD8C /* YTDetailViewController_ipad.xib in Resources */,
 				04E1FA311B3A4DCA00D68AF4 /* SourceSansPro-Light.otf in Resources */,
 				04EE8A871B44D0D0004133A5 /* YTTimelineViewController.xib in Resources */,
@@ -877,6 +889,7 @@
 				04E1FA2B1B3A4DBF00D68AF4 /* SourceSansPro-ExtraLight.otf in Resources */,
 				04E0CEE31B5F80A80041B926 /* YTScheduleViewController.xib in Resources */,
 				04E10FFF1B390776001958C3 /* YTSideHeaderViewCell.xib in Resources */,
+				0426D0D61B7B53C0008AEA9B /* YTAudioPlayerController_ipad.xib in Resources */,
 				04E1FA331B3A4DCE00D68AF4 /* SourceSansPro-LightIt.otf in Resources */,
 				04E23B8F1B37C08F0097A2D5 /* LaunchScreen.xib in Resources */,
 				04E23B8C1B37C08F0097A2D5 /* Images.xcassets in Resources */,
@@ -963,6 +976,7 @@
 				04DF3AC01B56198900BE79B7 /* YTDirector.m in Sources */,
 				04DDB4C11B53A02200083F41 /* XMLDictionary.m in Sources */,
 				04E23B811B37C08F0097A2D5 /* AppDelegate.m in Sources */,
+				0426D0D21B7B3DF0008AEA9B /* UIWindow+Utility.m in Sources */,
 				04DDB4B21B53770800083F41 /* YTAdvInfo.m in Sources */,
 				04E10FFE1B390776001958C3 /* YTSideHeaderViewCell.m in Sources */,
 				04E110031B393279001958C3 /* YTLoginViewController.m in Sources */,

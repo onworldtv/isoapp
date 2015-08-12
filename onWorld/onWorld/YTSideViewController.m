@@ -220,7 +220,12 @@ static const NSString * kYTSearch = @"SEARCH";
         if([menus[indexPath.row] isEqualToString:MENU_LOGIN]) {
             
             [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
-            YTLoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+            YTLoginViewController *loginViewController = nil;
+            if([YTOnWorldUtility isIdiomIphone]){
+                loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+            }else {
+                loginViewController = [[YTLoginViewController alloc]init];
+            }
             UINavigationController *navCtrll =(UINavigationController*) [self.revealViewController frontViewController];
             [navCtrll pushViewController:loginViewController animated:YES];
             

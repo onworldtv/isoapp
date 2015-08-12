@@ -51,7 +51,11 @@ static void *itemAdvContext = &itemAdvContext;
 @implementation YTAudioPlayerController
 
 - (id)initWithID:(NSNumber*)ID {
-    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if([YTOnWorldUtility isIdiomIphone]){
+        self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    }else {
+        self = [super initWithNibName:@"YTAudioPlayerController_ipad" bundle:nil];
+    }
     if(self) {
         contentID = ID;
     }
