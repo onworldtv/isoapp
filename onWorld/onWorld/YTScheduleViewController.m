@@ -10,12 +10,13 @@
 #import "YTTimelineViewCell.h"
 @interface YTScheduleViewController () <UITableViewDelegate,UITableViewDataSource>
 {
-    int index;
+    NSInteger index;
     NSArray *listTimeline;
     NSArray *arraySchedule;
     NSMutableArray *buttons;
-    id<DelegateSelectedScheduleItem>m_delegate;
+    id<YTSelectedItemProtocol>m_delegate;
     NSInteger cellViewTag;
+    NSNumber *m_contentID;
 }
 @end
 
@@ -23,7 +24,7 @@
 
 
 
-- (id)initWithArray:(NSArray *)array delegate:(id<DelegateSelectedScheduleItem>)delegate tag:(NSInteger)tagView {
+- (id)initWithArray:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate tag:(NSInteger)tagView content:(NSNumber *)contentID{
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
     if(self) {
         arraySchedule = array;
@@ -31,6 +32,8 @@
         index = 0;
         m_delegate = delegate;
         cellViewTag = tagView;
+        m_contentID = contentID;
+        
     }
     return self;
 }
@@ -218,9 +221,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if([m_delegate respondsToSelector:@selector(delegateSelectedScheduleItemWithIndexSchedule:indexTimeline:)]) {
-         NSDictionary *timeDic = listTimeline[indexPath.row];
-        [m_delegate delegateSelectedScheduleItemWithIndexSchedule:index indexTimeline:@([timeDic[@"id"] intValue])];
+    if([m_delegate respondsToSelector:@selector(delegatePlayContentId:scheduleIndex:timelineID:)]) {
+         NSDictionary *timelineDict = listTimeline[indexPath.row];
+        [m_delegate delegatePlayContentId:m_contentID scheduleIndex:(int)index timelineID:@([timelineDict[@"id"] intValue])];
+
     }
 }
 

@@ -339,7 +339,7 @@ EFNraXA
                     <rect key="frame" x="265" y="142" width="37" height="37"/>
                     <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </activityIndicatorView>
-                <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duw-56-xMq" userLabel="timeline">
+                <view hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Duw-56-xMq" userLabel="timeline">
                     <rect key="frame" x="268" y="40" width="300" height="240"/>
                     <color key="backgroundColor" red="0.36078431372549019" green="0.56862745098039214" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>

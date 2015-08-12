@@ -109,7 +109,7 @@
 
 
 
-- (void)didSelectItemWithCategoryID:(NSNumber*)contentID {
+- (void)delegateShowDetailContentID:(NSNumber*)contentID {
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
     
@@ -120,7 +120,7 @@
 }
 
 
-- (void)delegateDisplayMoreCategoryMode:(int)mode {
+- (void)delegateShowMoreCategoryByMode:(int)mode {
     
     [self.revealViewController setFrontViewPosition:FrontViewPositionLeft animated:YES];
     YTTableViewController *moreViewController  = [[YTTableViewController alloc]initWithMode:mode showInMain:NO];

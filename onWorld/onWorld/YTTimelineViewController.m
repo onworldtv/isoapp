@@ -49,7 +49,7 @@
     
     
     if(contentObj.detail.timeline.allObjects.count >0) {
-        m_timelineViewController = [[YTTimelineTableview alloc]initWithContent:contentObj.detail.timeline.allObjects delegate:m_delegate tag:m_tag];
+        m_timelineViewController = [[YTTimelineTableview alloc]initWithContent:contentObj.detail.timeline.allObjects delegate:m_delegate tag:m_tag contentID:contentObj.contentID];
         [viewControllers addObject:m_timelineViewController];
         [tabItemTitle addObject:@"TIMELINE"];
     }

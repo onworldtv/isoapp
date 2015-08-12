@@ -2,7 +2,7 @@
 //  YTDetail.m
 //  OnWorld
 //
-//  Created by yestech1 on 7/15/15.
+//  Created by yestech1 on 8/12/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
@@ -19,7 +19,6 @@
 @implementation YTDetail
 
 @dynamic duration;
-@dynamic episodes;
 @dynamic imdb;
 @dynamic isLive;
 @dynamic link;
@@ -31,6 +30,7 @@
 @dynamic rating;
 @dynamic type;
 @dynamic year;
+@dynamic today;
 @dynamic actor;
 @dynamic adv;
 @dynamic country;

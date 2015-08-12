@@ -468,11 +468,11 @@ static YTDataManager *m_instance;
                               detail.imdb = @([[response valueForKeyPath:@"content.imdb"] intValue]);
                               detail.mode = @([[response valueForKeyPath:@"content.mode"] intValue]);
                               detail.type = @([[response valueForKeyPath:@"content.type"] intValue]);
-                              detail.episodes = @([[response valueForKeyPath:@"content.episodes"] intValue]);
                               detail.isLive = @([[response valueForKeyPath:@"content.isLive"] intValue]);
                               detail.package = @([[response valueForKeyPath:@"content.package_type"] intValue]);
                               detail.permission = @([[response valueForKeyPath:@"permission"] intValue]);
                               detail.providerID = @([[response valueForKeyPath:@"content.pro_id"] intValue]);
+                              detail.today = [NSDate date];
                               
                               if([response valueForKeyPath:@"timelines"]) {
 
@@ -489,8 +489,10 @@ static YTDataManager *m_instance;
                                       }
                                       timelineObject.title = [timeline valueForKey:@"title"];
                                       NSArray *arrayTimeline = [timeline valueForKey:@"timeline"];
-                                      NSData *arrayData = [NSKeyedArchiver archivedDataWithRootObject:arrayTimeline];
-                                      timelineObject.arrayTimeline = arrayData;
+                                      if(arrayTimeline.count >0) {
+                                          NSData *binaryData = [NSKeyedArchiver archivedDataWithRootObject:arrayTimeline];
+                                          timelineObject.arrayTimeline = binaryData;
+                                      }
                                       [detail addTimelineObject:timelineObject];
                                   }
                               }
@@ -501,19 +503,24 @@ static YTDataManager *m_instance;
                                       [episodes MR_deleteEntityInContext:localContext];
                                   }
 
-                                  NSArray *epiArr = [response valueForKey:@"episodes"];
-                                  for (NSDictionary *episo in epiArr) {
+                                  NSArray *array = [response valueForKey:@"episodes"];
+                                  for (NSDictionary *dict in array) {
                                       YTEpisodes *episodes = [YTEpisodes MR_findFirstByAttribute:@"episodesID"
-                                                                                       withValue: @([[episo valueForKeyPath:@"id"] intValue])
+                                                                                       withValue: @([[dict valueForKeyPath:@"id"] intValue])
                                                                                        inContext:localContext];
                                       if(!episodes) {
                                           episodes = [YTEpisodes MR_createEntityInContext:localContext];
                                       }
-                                      episodes.name = [episo valueForKeyPath:@"name"];
-                                      episodes.image = [episo valueForKeyPath:@"image"];
-                                      episodes.desc = [episo valueForKeyPath:@"description"];
-                                      episodes.episodesID = @([[episo valueForKeyPath:@"id"] intValue]);
-                                      episodes.link = episo[@"link"];
+                                      episodes.name = [dict valueForKeyPath:@"name"];
+                                      episodes.image = [dict valueForKeyPath:@"image"];
+                                      episodes.desc = [dict valueForKeyPath:@"description"];
+                                      episodes.episodesID = @([[dict valueForKeyPath:@"id"] intValue]);
+                                      episodes.link = dict[@"link"];
+                                      NSArray *advs = dict[@"adv"];
+                                      if(advs.count >0) {
+                                          NSData *binaryData = [NSKeyedArchiver archivedDataWithRootObject:advs];
+                                          episodes.advs = binaryData;
+                                      }
                                       [detail addEpisodeObject:episodes];
                                   }
                               }
@@ -559,7 +566,6 @@ static YTDataManager *m_instance;
                               if(detail) {
                                   [contentItem setDetail:detail];
                               }
-                              
                           } completion:^(BOOL contextDidSave, NSError *error) {
                               [completionSource setResult:nil];
                           }];

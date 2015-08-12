@@ -82,16 +82,16 @@
 
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     
-//    SWRevealViewController *revealViewController = (SWRevealViewController*) window.rootViewController;
-//    if(revealViewController) {
-//        UINavigationController *rootNavigationCtrl = (UINavigationController*)[revealViewController frontViewController];
-//        UIViewController *topViewCtrl =  rootNavigationCtrl.topViewController;
-//        if([topViewCtrl isKindOfClass:[YTAudioPlayerController class]]) {
-//            return UIInterfaceOrientationMaskPortrait;
-//        }else if ([topViewCtrl isKindOfClass:[YTPlayerViewController class]]) {
-//            return UIInterfaceOrientationMaskLandscape;
-//        }
-//    }
+    SWRevealViewController *revealViewController = (SWRevealViewController*) window.rootViewController;
+    if(revealViewController) {
+        UINavigationController *rootNavigationCtrl = (UINavigationController*)[revealViewController frontViewController];
+        UIViewController *topViewCtrl =  rootNavigationCtrl.topViewController;
+        if([topViewCtrl isKindOfClass:[YTAudioPlayerController class]]) {
+            return UIInterfaceOrientationMaskPortrait;
+        }else if ([topViewCtrl isKindOfClass:[YTPlayerViewController class]]) {
+            return UIInterfaceOrientationMaskLandscape;
+        }
+    }
     return UIInterfaceOrientationMaskAll;
 }
 

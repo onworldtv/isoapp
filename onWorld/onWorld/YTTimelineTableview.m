@@ -13,17 +13,19 @@
 {
     id<YTSelectedItemProtocol>m_delegate;
     NSInteger cellViewTag;
+    NSNumber *m_contentID;
 }
 @end
 
 @implementation YTTimelineTableview
 
-- (id)initWithContent:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate  tag:(NSInteger)cellTag{
+- (id)initWithContent:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate  tag:(NSInteger)cellTag contentID:(NSNumber *)contentID{
     self = [super initWithStyle:UITableViewStylePlain];
     if(self) {
         _contentItems = [[NSMutableArray alloc]initWithArray:array];
         m_delegate = delegate;
         cellViewTag = cellTag;
+        m_contentID = contentID;
     }
     return self;
 }
@@ -90,9 +92,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if([m_delegate respondsToSelector:@selector(playItemWithCategoryId:scheduleInded:timelineIndex:)]) {
+    if([m_delegate respondsToSelector:@selector(delegatePlayContentId:scheduleIndex:timelineID:)]) {
         NSDictionary *item = _contentItems[indexPath.row];
-        [m_delegate playItemWithCategoryId:nil scheduleInded:0 timelineIndex:@([item[@"id"] intValue])];
+        [m_delegate delegatePlayContentId:m_contentID scheduleIndex:0 timelineID:@([item[@"id"] intValue])];
     }
    
 }

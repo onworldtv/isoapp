@@ -119,8 +119,8 @@
   
     NSDictionary *item = contentItems[indexPath.row];
     if(item) {
-        if([m_delegate respondsToSelector:@selector(didSelectItemWithCategoryID:)]) {
-            [m_delegate didSelectItemWithCategoryID:@([[item valueForKey:@"id"] integerValue])];
+        if([m_delegate respondsToSelector:@selector(delegateShowDetailContentID:)]) {
+            [m_delegate delegateShowDetailContentID:@([[item valueForKey:@"id"] integerValue])];
         }
     }
 }

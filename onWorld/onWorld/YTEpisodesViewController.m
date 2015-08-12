@@ -12,6 +12,7 @@
     NSNumber *m_detailID;
     id<YTSelectedItemProtocol>m_delegate;
     NSInteger cellViewTag;
+
 }
 
 @end

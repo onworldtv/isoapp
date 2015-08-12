@@ -8,17 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol DelegateSelectedScheduleItem <NSObject>
-
-- (void)delegateSelectedScheduleItemWithIndexSchedule:(int)index_schedule indexTimeline:(NSNumber *)timelineID;
-
-@end
 @interface YTScheduleViewController : UIViewController
 @property (weak,nonatomic)IBOutlet UITableView *tableView;
 @property (weak,nonatomic)IBOutlet UIView *topView;
 @property (weak,nonatomic)IBOutlet UIView *titleView;
 @property (weak,nonatomic)IBOutlet UIView *backEndView;
 @property (weak,nonatomic)IBOutlet NSLayoutConstraint *heightContraint;
-- (id)initWithArray:(NSArray *)array delegate:(id<DelegateSelectedScheduleItem>)delegate tag:(NSInteger)tagView;
+- (id)initWithArray:(NSArray *)array delegate:(id<YTSelectedItemProtocol>)delegate tag:(NSInteger)tagView content:(NSNumber *)contentID;
 
 @end

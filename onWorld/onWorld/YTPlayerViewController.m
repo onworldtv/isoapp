@@ -397,11 +397,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
         }
         [self.topView setHidden:!flag];
         [self.bottomView setHidden:!flag];
-//        if((listSchedule.count >0 || m_arrayEpisodes.count >0) && flag) {
-//            [self.scheduleView setHidden:NO];
-//        }else{
-//            [self.scheduleView setHidden:YES];
-//        }
+        if((detail.timeline.allObjects.count >0 || detail.episode.allObjects.count >0) && flag) {
+            [self.scheduleView setHidden:NO];
+        }else{
+            [self.scheduleView setHidden:YES];
+        }
     }];
     
 }
@@ -414,18 +414,27 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 
     
     if(detail.isLive.intValue == 1 && detail.timeline.allObjects.count >0) {
-        m_scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:detail.timeline.allObjects delegate:nil tag:1];
+        m_scheduleViewCtrl = [[YTScheduleViewController alloc]initWithArray:detail.timeline.allObjects
+                                                                   delegate:self
+                                                                        tag:1
+                                                                    content:playItemID];
         m_scheduleViewCtrl.view.frame = self.scheduleView.bounds;
         [m_scheduleViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
         [self.scheduleView addSubview:m_scheduleViewCtrl.view];
+        
     }else if(detail.timeline.allObjects || detail.episode.allObjects.count >0) {
-        m_timelineViewCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj delegate:nil tableTag:1];
+        
+        m_timelineViewCtrl = [[YTTimelineViewController alloc]initWithContent:contentObj
+                                                                     delegate:self
+                                                                     tableTag:1];
         m_timelineViewCtrl.view.frame = self.scheduleView.bounds;
         [m_timelineViewCtrl.view setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
         [self.scheduleView addSubview:m_timelineViewCtrl.view];
     }
-    
 }
+
+
+#pragma mark -- todo remove later
 
 - (void)timelineAndEpisodes {
     
@@ -501,6 +510,9 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     }
 }
 
+
+
+
 - (void)loadDataForPlayer {
     
     [self.loadingView setHidden:NO];
@@ -571,8 +583,7 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     [[self loadUrlAdv] continueWithBlock:^id(BFTask *task) {
         if(!task.error) {
             if(currentAdvObject.start.intValue == 0 && currentAdvObject.type.intValue == TypeVideo){ //play adv right now
-//                [self startPlayerAdv];
-                [self didFinishAdvPlayer];
+                [self startPlayerAdv];
             }else {
                 [self startPlayer];
             }
@@ -990,11 +1001,11 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
     
     [self.btnCast.imageView setAnimationDuration:8];
     isSeeking = NO;
-//    if(listSchedule.count >0 || m_arrayEpisodes.count>0) {
-//        [self.scheduleView setHidden:NO];
-//    }else {
-//        [self.scheduleView setHidden:YES];
-//    }
+    if(detail.timeline.allObjects.count >0 || detail.episode.allObjects.count>0) {
+        [self.scheduleView setHidden:NO];
+    }else {
+        [self.scheduleView setHidden:YES];
+    }
     if(detail.isLive.intValue == 1) {
         [self.liveView setHidden:NO];
         [self.liveView setAlpha:1];
@@ -1626,8 +1637,83 @@ static void *YTPlayerAdPlayerItemStatusObservationContext = &YTPlayerAdPlayerIte
 }
 
 
+- (void)delegatePlayContentId:(NSNumber *)contentID scheduleIndex:(int)index timelineID:(NSNumber *)timelineID {
+    
+    if(detail.timeline.allObjects.count >0) {
+        if(detail.isLive.intValue == 1) {// timeline of livetv
+            YTTimeline *timelineObj = detail.timeline.allObjects[index];
+            if(timelineObj.arrayTimeline) {
+                NSArray *timelines = [NSKeyedUnarchiver unarchiveObjectWithData:timelineObj.arrayTimeline];
+                for (NSDictionary *dictionary in timelines) {
+                    if(timelineID.intValue == [dictionary[@"id"] intValue]) {
+                        playItemName = dictionary[@"name"];
+                        playItemUrl = dictionary[@"link"];
+                        m_timelineID = @([dictionary[@"id"]intValue]);
+                        if(dictionary[@"adv"]) {
+                            NSArray *advs = [dictionary valueForKey:@"adv"];
+                            queueAdvItems = [NSMutableArray array];
+                            for(NSDictionary *advDict in advs) {
+                                YTAdv *adv = [YTAdv MR_createEntity];
+                                adv.link = [advDict valueForKey:@"link"];
+                                adv.type = @([[advDict valueForKey:@"type"] intValue]);
+                                adv.start = @([[advDict valueForKey:@"start"] intValue]);
+                                adv.duration = @([[advDict valueForKey:@"duration"] intValue]);
+                                adv.skip = @([[advDict valueForKey:@"skip"] intValue]);
+                                adv.skipeTime = @([[advDict valueForKey:@"skippable_time"] intValue]);
+                                if(adv) {
+                                    [queueAdvItems addObject:adv];
+                                }
+                            }
+                        }
+                        if(queueAdvItems.count >0) {
+                            [self nextAdv];
+                            [self prepareForPlayerView];
+                        }else {
+                            [self playNewVideo];
+                        }
+                        return ;
+                    }
+                }
+            }
 
+        }else { // play via interval
+#warning todo
+        }
+    }
+}
 
+// play episode'item
+- (void)delegatePlayitem:(int)episodeID {
+    NSArray *episodes = [contentObj.detail.episode allObjects];
+    for (YTEpisodes *object in episodes) {
+        if(object.episodesID.intValue == episodeID) {
+            
+            playItemName = object.name;
+            playItemUrl = object.link;
+            if(object.advs) {
+                NSArray *advs = [NSKeyedUnarchiver unarchiveObjectWithData:object.advs];
+                for (NSDictionary *dictionary in advs) {
+                    YTAdv *adv = [YTAdv MR_createEntity];
+                    adv.link = [dictionary valueForKey:@"link"];
+                    adv.type = @([[dictionary valueForKey:@"type"] intValue]);
+                    adv.start = @([[dictionary valueForKey:@"start"] intValue]);
+                    adv.duration = @([[dictionary valueForKey:@"duration"] intValue]);
+                    adv.skip = @([[dictionary valueForKey:@"skip"] intValue]);
+                    adv.skipeTime = @([[dictionary valueForKey:@"skippable_time"] intValue]);
+                    [queueAdvItems addObject:advs];
+                }
+            }
+            [self stopCurrentPlayer];
+            if(queueAdvItems.count >0) {
+                [self nextAdv];
+                [self prepareForPlayerView];
+            }else {
+                [self playNewVideo];
+            }
+            return ;
+        }
+    }
+}
 
 
 #pragma mark - Chromcast

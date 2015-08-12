@@ -2,7 +2,7 @@
 //  YTEpisodes.m
 //  OnWorld
 //
-//  Created by yestech1 on 7/15/15.
+//  Created by yestech1 on 8/12/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
@@ -15,8 +15,9 @@
 @dynamic desc;
 @dynamic episodesID;
 @dynamic image;
-@dynamic name;
 @dynamic link;
+@dynamic name;
+@dynamic advs;
 @dynamic detail;
 
 @end

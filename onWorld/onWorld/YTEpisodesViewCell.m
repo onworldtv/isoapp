@@ -38,8 +38,8 @@
             [_txtContentName setTextColor:[UIColor whiteColor]];
             [_txtEpisodes setTextColor:[UIColor whiteColor]];
         }else {
-            [_txtContentName setTextColor:[UIColor colorWithHexString:@"6597de"]];
-            [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"6597de"]];
+            [_txtContentName setTextColor:[UIColor colorWithHexString:@"8A8A8A"]];
+            [_txtEpisodes setTextColor:[UIColor colorWithHexString:@"8A8A8A"]];
         }
     }
 }

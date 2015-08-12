@@ -12,14 +12,15 @@
 
 
 @optional
-- (void)didSelectItemWithCategoryID:(NSNumber *)contentID;
+
+- (void)delegateShowDetailContentID:(NSNumber *)contentID;
 
 - (void)delegatePlayitem:(int)itemID;
-- (void)delegateDisplayMoreCategoryMode:(int)mode;
 
-- (void)playItemWithCategoryId:(NSNumber *)contentID scheduleInded:(int)schedule_index timelineIndex:(NSNumber *)tiemlineID;
+- (void)delegateShowMoreCategoryByMode:(int)mode;
 
-- (void)didSelectCategory:(int)categoryID ;
+- (void)delegatePlayContentId:(NSNumber *)contentID scheduleIndex:(int)schedule_index timelineID:(NSNumber *)timelineID;
+
 
 - (void)showAllContentInsideGenre:(int)genreID flag:(BOOL)flag;
 

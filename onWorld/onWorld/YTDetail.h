@@ -2,7 +2,7 @@
 //  YTDetail.h
 //  OnWorld
 //
-//  Created by yestech1 on 7/15/15.
+//  Created by yestech1 on 8/12/15.
 //  Copyright (c) 2015 OnWorld. All rights reserved.
 //
 
@@ -14,7 +14,6 @@
 @interface YTDetail : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * duration;
-@property (nonatomic, retain) NSNumber * episodes;
 @property (nonatomic, retain) NSNumber * imdb;
 @property (nonatomic, retain) NSNumber * isLive;
 @property (nonatomic, retain) NSString * link;
@@ -26,6 +25,7 @@
 @property (nonatomic, retain) NSNumber * rating;
 @property (nonatomic, retain) NSNumber * type;
 @property (nonatomic, retain) NSNumber * year;
+@property (nonatomic, retain) NSDate * today;
 @property (nonatomic, retain) YTActor *actor;
 @property (nonatomic, retain) NSSet *adv;
 @property (nonatomic, retain) YTCountry *country;

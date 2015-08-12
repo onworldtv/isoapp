@@ -62,8 +62,6 @@
 
 }
 
-
-
 - (void)handleSelectedButton {
     if(selectedIndex == 0) {
         
@@ -247,8 +245,8 @@
 
 
 - (IBAction)click_showMore:(id)sender {
-    if([_delegate respondsToSelector:@selector(delegateDisplayMoreCategoryMode:)]) {
-        [_delegate delegateDisplayMoreCategoryMode:_mode];
+    if([_delegate respondsToSelector:@selector(delegateShowMoreCategoryByMode:)]) {
+        [_delegate delegateShowMoreCategoryByMode:_mode];
     }
 }
 @end
